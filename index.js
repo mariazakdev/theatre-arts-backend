@@ -8,6 +8,8 @@ const port = process.env.PORT || 3000;
 
 const app = express();
 
+
+app.use(express.static('public'));
 const UploadRoute = require('./routes/uploadRoutes');
 app.use(cors());
 app.use(bodyParser.json());
