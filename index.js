@@ -7,7 +7,6 @@ const knex = require('knex')(require('./knexfile'));
 const port = process.env.PORT || 3000; 
 
 const app = express();
-const port = 8000;
 
 const UploadRoute = require('./routes/uploadRoutes');
 app.use(cors());
