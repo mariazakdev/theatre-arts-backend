@@ -5,20 +5,29 @@ const bodyParser = require('body-parser');
 const knex = require('knex')(require('./knexfile'));
 
 const port = process.env.PORT || 3000; 
-
+const URL = process.env.CORS_ORIGIN;
 const app = express();
 
 
 app.use(express.static('public'));
-const UploadRoute = require('./routes/uploadRoutes');
-app.use(cors());
+const uploadRoute = require('./routes/uploadRoutes');
+const paymentRoutes = require('./routes/handlePaymentRoutes');
+app.use(
+  cors({
+    origin: URL,
+    methods: "GET, POST, PUT, DELETE",
+    credentials: true,
+  })
+);
+
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
 
-app.use('/api/upload', UploadRoute);
+app.use('/upload', uploadRoute);
+app.use('/payment', paymentRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
