@@ -1,8 +1,15 @@
 const knex = require('knex')(require('../knexfile'));
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const upload = require('../s3Config');
 
 exports.uploadData = async (req, res) => {
     try {
+
+        // Multer middleware
+        upload.single('file')(req, res, async (err) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
         const { firebaseId, photoUrl, videoUrl, description, name } = req.body;
         const [user] = await knex('users').where({ firebase_auth_id: firebaseId });
         
@@ -34,6 +41,9 @@ exports.uploadData = async (req, res) => {
             customer: customer.id,
             collection_method: "send_invoice"
         });
+
+
+    });
 
     } catch (error) {
         res.status(500).json({ error: 'Failed to upload' });
