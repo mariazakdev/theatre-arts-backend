@@ -10,8 +10,12 @@ const app = express();
 
 
 app.use(express.static('public'));
-const uploadRoute = require('./routes/uploadRoutes');
+
+const uploadRoutes = require('./routes/uploadRoutes');
 const paymentRoutes = require('./routes/handlePaymentRoutes');
+const usersFBRoutes = require('./routes/usersFirabaseRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+
 app.use(
   cors({
     origin: URL,
@@ -26,8 +30,10 @@ app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
 
-app.use('/upload', uploadRoute);
+app.use('/users', usersFBRoutes);
+app.use('/upload', uploadRoutes);
 app.use('/payment', paymentRoutes);
+app.use('/dashboard', dashboardRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

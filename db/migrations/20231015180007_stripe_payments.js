@@ -13,4 +13,13 @@ exports.up = function(knex) {
   exports.down = function(knex) {
     return knex.schema.dropTable('stripe_payments');
   };
-  
+//   mysql> desc stripe_payments;
+// +-------------------+---------------+------+-----+-------------------+-------------------+
+// | Field             | Type          | Null | Key | Default           | Extra             |
+// +-------------------+---------------+------+-----+-------------------+-------------------+
+// | id                | int unsigned  | NO   | PRI | NULL              | auto_increment    |
+// | user_id           | int unsigned  | YES  | MUL | NULL              |                   |
+// | payment_intent_id | varchar(255)  | NO   |     | NULL              |                   |
+// | amount            | decimal(10,2) | YES  |     | NULL              |                   |
+// | created_at        | timestamp     | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+// +-------------------+---------------+------+-----+-------------------+-------------------+

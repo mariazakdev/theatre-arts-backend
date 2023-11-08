@@ -1,8 +1,12 @@
-// s3Config.js
-require("dotenv").config();
 const { S3Client } = require("@aws-sdk/client-s3");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
+
+console.log("Access Key:", process.env.ACCESS_KEY_ID); // Do not leave this in production!
+console.log("Secret Key:", process.env.SECRET_ACCESS_KEY);
+console.log("Secret Key:", process.env.REGION);
+
+require('dotenv').config({ path: './.env' });
 
 const s3 = new S3Client({
   region: process.env.REGION,
