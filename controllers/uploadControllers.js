@@ -14,7 +14,7 @@ const s3Client = new S3Client({ region: process.env.REGION });
 const BUCKET_NAME = process.env.S3_BUCKET_NAME; 
 
 // Handle contestant creation with URLs for photo and video already uploaded to S3
-exports.uploadData = async (req, res) => {
+exports.newContestant = async (req, res) => {
     try {
         upload.single('file')(req, res, async (err) => {
             if (err) {
@@ -22,7 +22,7 @@ exports.uploadData = async (req, res) => {
             }
 
             // Extract data from the request body
-            const { firebaseId, photoUrl, videoUrl, description, name } = req.body;
+            const { firebaseId, photoUrl, videoUrl, description, name, stripeToken } = req.body;
             const [user] = await knex('users').where({ firebase_auth_id: firebaseId });
 
             if (!user) {
@@ -33,8 +33,22 @@ exports.uploadData = async (req, res) => {
                 return res.status(403).json({ error: 'User is not a contestant' });
             }
 
+            // Process the payment first
+            const charge = await stripe.charges.create({
+                amount: 25000, // 250.00 CAD in cents
+                currency: "cad",
+                description: "Contest Entry Fee",
+                source: stripeToken,
+                receipt_email: user.email
+            });
+
+            // Verify if the charge was successful
+            if (charge.status !== 'succeeded') {
+                return res.status(402).json({ error: 'Payment failed' });
+            }
+
             // Proceed to insert contestant information into the database
-            await knex('contestants').insert({
+            const [insertedId] = await knex('contestants').insert({
                 user_id: user.id,
                 name,
                 url_photo: photoUrl,
@@ -43,43 +57,17 @@ exports.uploadData = async (req, res) => {
                 votes: 0
             });
 
-            // Retrieve the inserted contestant data
-            const insertedContestant = await knex('contestants')
-                .where({ user_id: user.id, name: name })
-                .first();
-
-            if (!insertedContestant) {
-                return res.status(404).json({ error: 'Failed to retrieve inserted contestant' });
-            }
-   
-
-        // Create a Stripe customer and invoice after successfully adding a contestant
-        const customer = await stripe.customers.create({
-            email: user.email
+            // Respond with the contestant ID, payment receipt, and success message
+            res.status(201).json({
+                contestantId: insertedId,
+                receiptUrl: charge.receipt_url,
+                message: 'Payment successful and contestant created'
+            });
         });
-
-        // Create invoice item for the entry fee
-        await stripe.invoiceItems.create({
-            customer: customer.id,
-            amount: 25000, // 250.00 CAD in cents
-            currency: "cad",
-            description: "Contest Entry Fee"
-        });
-
-        // Create an invoice with the invoice items
-        await stripe.invoices.create({
-            customer: customer.id,
-            collection_method: "send_invoice",
-            auto_advance: true // Automatically finalize the invoice
-        });
-
-        // Respond with the contestant ID and success message
-        res.status(201).json({ contestantId: insertedContestant.id, message: 'Contestant created and invoice sent successfully' });
-    });
-} catch (error) {
-    console.error('Error in uploadData: ', error);
-    res.status(500).json({ error: 'Failed to upload contestant data' });
-}
+    } catch (error) {
+        console.error('Error in uploadData: ', error);
+        res.status(500).json({ error: 'Failed to upload contestant data' });
+    }
 };
 
 
