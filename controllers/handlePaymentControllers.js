@@ -1,7 +1,7 @@
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY; 
 const stripe = require("stripe")(stripeSecretKey);
 
-exports.handlePayment = async (req, res) => {
+exports.payment = async (req, res) => {
     try {
         const { stripeToken, email } = req.body;
 

@@ -8,7 +8,10 @@ const s3Client = new S3Client({ region: process.env.REGION });
 const BUCKET_NAME = process.env.S3_BUCKET_NAME;
 
 // Handle contestant creation with URLs for photo and video already uploaded to S3
-exports.uploadData = async (req, res) => {
+exports.newContestant = async (req, res) => {
+
+  let charge;  // Declare charge variable at the top of the try block
+
   try {
     upload.single("file")(req, res, async (err) => {
       if (err) {
@@ -31,8 +34,8 @@ exports.uploadData = async (req, res) => {
       }
 
       // Process the payment first
-      const charge = await stripe.charges.create({
-        amount: 25000, // 250.00 CAD in cents
+      charge = await stripe.charges.create({
+        amount: 250, 
         currency: "cad",
         description: "Contest Entry Fee",
         source: stripeToken,

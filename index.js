@@ -12,7 +12,7 @@ const app = express();
 app.use(express.static('public'));
 
 const uploadRoutes = require('./routes/uploadRoutes');
-const paymentRoutes = require('./routes/handlePaymentRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 const usersFBRoutes = require('./routes/usersFirabaseRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 

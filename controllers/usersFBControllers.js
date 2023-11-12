@@ -2,12 +2,10 @@ const knex = require('knex')(require('../knexfile'));
 
 exports.createUser = async (req, res) => {
     try {
-      const { email, firstName, lastName, firebaseAuthId, isContestant } = req.body;
+      const { email, firebaseAuthId, isContestant } = req.body;
       const newUser = {
         firebase_auth_id: firebaseAuthId,
         email: email,
-        first_name: firstName,
-        last_name: lastName,
         is_contestant: isContestant // Assuming this comes from the front end
       };
   
