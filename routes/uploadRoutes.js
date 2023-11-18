@@ -10,5 +10,8 @@ const upload = multer({ storage: storage });
 // Routes
 router.post('/', upload.single('file'), uploadController.newContestant); 
 router.get('/', uploadController.getAllContestants);
+router.post('/vote/:actorId', uploadController.recordVote); 
+router.get('/:actorId', uploadController.getContestantById);
+
 
 module.exports = router;

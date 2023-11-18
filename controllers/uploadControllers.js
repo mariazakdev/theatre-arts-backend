@@ -2,6 +2,7 @@ const knex = require('knex')(require('../knexfile'));
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+const { Router } = require('express');
 
 // Configure the S3 client with your AWS credentials and set up earlier in your code
 const s3Client = new S3Client({ region: process.env.REGION }); 
@@ -60,4 +61,44 @@ exports.getAllContestants = async (req, res) => {
     }
 };
 
+exports.recordVote = async (req, res) => {
+    const actorId = req.params.actorId;
+
+    try {
+        // Increment the vote count for the contestant
+        await knex('contestants')
+            .where({ id: actorId })
+            .increment('votes', 1);
+
+        res.status(200).json({ message: 'Vote recorded successfully' });
+    } catch (error) {
+        console.error('Error in voting:', error);
+        res.status(500).json({ error: 'Failed to record vote' });
+    }
+
+};
    
+// Assuming you're using Knex for database operations
+// ...
+
+exports.getContestantById = async (req, res) => {
+    try {
+        const actorId = req.params.actorId;
+
+        // Fetch the contestant from the database using the provided ID
+        const contestant = await knex('contestants')
+            .where({ id: actorId })
+            .first();
+
+        if (!contestant) {
+            return res.status(404).json({ error: 'Contestant not found' });
+        }
+
+       
+
+        res.json(contestant);
+    } catch (error) {
+        console.error('Error retrieving contestant:', error);
+        res.status(500).json({ error: 'Failed to retrieve contestant' });
+    }
+};
