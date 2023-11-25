@@ -13,10 +13,21 @@ exports.newContestant = async (req, res) => {
     try {
         const { firebaseId, photoUrl, videoUrl, description, name } = req.body;
 
+        // Input Validation
+        if (!firebaseId || !photoUrl || !videoUrl || !description || !name) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
         // Retrieve the user from the database
         const [user] = await knex('users').where({ firebase_auth_id: firebaseId });
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Check if a contestant with the same user_id already exists
+        const existingContestant = await knex('contestants').where({ user_id: user.id }).first();
+        if (existingContestant) {
+            return res.status(409).json({ error: 'Contestant already exists for this user' });
         }
 
         // Insert contestant information into the database
@@ -44,7 +55,7 @@ exports.newContestant = async (req, res) => {
 exports.getAllContestants = async (req, res) => {
     try {
         const contestants = await knex('contestants').select('*');
-        console.log('Contestants:', contestants); // Check what you get from the DB
+        // console.log('Contestants:', contestants); 
 
         for (const contestant of contestants) {
             const command = new GetObjectCommand({
@@ -61,31 +72,60 @@ exports.getAllContestants = async (req, res) => {
     }
 };
 
+// exports.recordVote = async (req, res) => {
+//     const actorId = req.params.actorId;
+//     const { votes } = req.body;
+//     try {
+//         const rowsAffected = await knex('contestants')
+//             .where({ id: actorId })
+//             .increment('votes', votes)
+//         if (rowsAffected === 0) {
+//             return res.status(404).json({ error: 'Contestant not found' });
+//         }
+//         if (!actorId) {
+//             return res.status(400).json({ error: 'No actorId provided' });
+//         }
+       
+//         res.status(200).json({ message: `Vote recorded successfully. This many votes: ${votes}` });
+//     } catch (error) {
+//         console.error('Error in voting:', error);
+//         res.status(500).json({ error: 'Failed to record vote' });
+//     }
+// };
+   
 exports.recordVote = async (req, res) => {
     const actorId = req.params.actorId;
+    if (!actorId) {
+        return res.status(400).json({ error: 'No actorId provided' });
+    }
+
+    const { votes } = req.body;
+    const votesToIncrement = parseInt(votes, 10); // Ensure 'votes' is an integer
+
+    if (isNaN(votesToIncrement)) {
+        return res.status(400).json({ error: 'Invalid number of votes' });
+    }
 
     try {
-        // Increment the vote count for the contestant
-        await knex('contestants')
+        const rowsAffected = await knex('contestants')
             .where({ id: actorId })
-            .increment('votes', 1);
+            .increment('votes', votesToIncrement);
 
-        res.status(200).json({ message: 'Vote recorded successfully' });
+        if (rowsAffected === 0) {
+            return res.status(404).json({ error: 'Contestant not found' });
+        }
+
+        res.status(200).json({ message: `Vote recorded successfully. This many votes: ${votesToIncrement}` });
     } catch (error) {
         console.error('Error in voting:', error);
         res.status(500).json({ error: 'Failed to record vote' });
     }
-
 };
-   
-// Assuming you're using Knex for database operations
-// ...
 
 exports.getContestantById = async (req, res) => {
     try {
         const actorId = req.params.actorId;
 
-        // Fetch the contestant from the database using the provided ID
         const contestant = await knex('contestants')
             .where({ id: actorId })
             .first();
@@ -94,11 +134,27 @@ exports.getContestantById = async (req, res) => {
             return res.status(404).json({ error: 'Contestant not found' });
         }
 
-       
-
         res.json(contestant);
     } catch (error) {
         console.error('Error retrieving contestant:', error);
         res.status(500).json({ error: 'Failed to retrieve contestant' });
+    }
+};
+exports.deleteContestant = async (req, res) => {
+    const actorId = req.params.actorId;
+
+    try {
+        const rowsAffected = await knex('contestants')
+            .where({ id: actorId })
+            .del();
+
+        if (rowsAffected === 0) {
+            return res.status(404).json({ error: 'Contestant not found' });
+        }
+
+        res.status(200).json({ message: 'Contestant deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting contestant:', error);
+        res.status(500).json({ error: 'Failed to delete contestant' });
     }
 };

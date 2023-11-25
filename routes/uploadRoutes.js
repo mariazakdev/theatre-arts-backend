@@ -12,6 +12,7 @@ router.post('/', upload.single('file'), uploadController.newContestant);
 router.get('/', uploadController.getAllContestants);
 router.post('/vote/:actorId', uploadController.recordVote); 
 router.get('/:actorId', uploadController.getContestantById);
+router.delete('/:actorId', uploadController.deleteContestant);
 
 
 module.exports = router;

@@ -2,7 +2,6 @@ const knex = require('knex')(require('../knexfile'));
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY; 
 const stripe = require("stripe")(stripeSecretKey);
 
-// ...existing imports and initialization
 
 exports.payment = async (req, res) => {
     try {

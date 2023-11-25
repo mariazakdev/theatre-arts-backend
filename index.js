@@ -15,6 +15,7 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const usersFBRoutes = require('./routes/usersFirabaseRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
+const paymentVotes = require('./routes/paymentVotesRoutes');
 
 app.use(
   cors({
@@ -34,7 +35,8 @@ app.use('/users', usersFBRoutes);
 app.use('/upload', uploadRoutes);
 app.use('/payment', paymentRoutes);
 app.use('/dashboard', dashboardRoutes);
+app.use('/votes', paymentVotes);
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port http://localhost:${port}`);
 });
