@@ -72,26 +72,7 @@ exports.getAllContestants = async (req, res) => {
     }
 };
 
-// exports.recordVote = async (req, res) => {
-//     const actorId = req.params.actorId;
-//     const { votes } = req.body;
-//     try {
-//         const rowsAffected = await knex('contestants')
-//             .where({ id: actorId })
-//             .increment('votes', votes)
-//         if (rowsAffected === 0) {
-//             return res.status(404).json({ error: 'Contestant not found' });
-//         }
-//         if (!actorId) {
-//             return res.status(400).json({ error: 'No actorId provided' });
-//         }
-       
-//         res.status(200).json({ message: `Vote recorded successfully. This many votes: ${votes}` });
-//     } catch (error) {
-//         console.error('Error in voting:', error);
-//         res.status(500).json({ error: 'Failed to record vote' });
-//     }
-// };
+
    
 exports.recordVote = async (req, res) => {
     const actorId = req.params.actorId;

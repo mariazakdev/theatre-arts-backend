@@ -41,3 +41,29 @@ exports.createUser = async (req, res) => {
       });
     }
   }
+
+  exports.checkUserExistence = async (req, res) => {
+    try {
+        const email = req.query.email;
+        if (!email) {
+            return res.status(400).json({ error: "Email is required" });
+        }
+
+        const user = await knex('users').where({ email: email }).first();
+        const exists = !!user;
+        res.status(200).json({ exists: exists });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: "Server error while checking user existence"
+        });
+    }
+};
+exports.sendErrorResponse = (res) => {
+  const statusCode = 500;
+  const errorImageUrl = `https://http.cat/${statusCode}`;
+  res.status(statusCode).json({
+      error: "Server Issues. Message from backend 'Users'",
+      errorUrl: errorImageUrl
+  });
+};
