@@ -1,49 +1,79 @@
-const knex = require('knex')(require('../knexfile'));
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY; 
 const stripe = require("stripe")(stripeSecretKey);
 
-exports.payment = async (req, res) => {
-  try {
-    const { stripeToken, email, userId } = req.body;
-    const customer = await stripe.customers.create({
-      email: email,
-      source: stripeToken
-    });
 
-    // Create a charge for the customer
-    const charge = await stripe.charges.create({
-      amount: 250, // Amount in cents
-      currency: "cad",
-      customer: customer.id,
-      description: "Contest Entry Fee"
-    });
 
-    if (charge.paid) {
-      // Record the successful payment
-      await insertPaymentIntoDatabase(userId, charge.id, charge.amount / 100);
-
-      res.json({ success: true, message: 'Payment successful and recorded' });
-    } else {
-      res.status(402).json({ error: 'Payment required' });
-    }
-  } catch (error) {
-    console.error('Stripe error:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
-
-async function insertPaymentIntoDatabase(userId, paymentIntentId, amount) {
-  try {
-    // Use transactions for atomicity if necessary
-    await knex.transaction(async (trx) => {
-      await trx('stripe_payments').insert({
-        user_id: userId,
-        payment_intent_id: paymentIntentId,
-        amount: amount
+exports.payment = async (req, res, next) => {
+    try {
+      const { paymentMethod, email } = req.body;
+  
+      // Create a PaymentIntent with the order amount and currency
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: 250,
+        currency: 'cad',
+        payment_method: paymentMethod,
+        // confirmation_method: 'manual',
+        // confirm: true,
+        description: 'Contest Entry Fee',
+        customer_email: email,
+        // return_url: 'http://localhost:3000/contestant/payment-success',
+        automatic_payment_methods: {
+          enabled: true,
+        },
       });
-    });
-  } catch (error) {
-    console.error('Error inserting into database:', error);
-    throw new Error('Error inserting into the database');
-  }
-}
+  
+      // If successful, you can customize the response as needed
+      res.json({ success: true, clientSecret: paymentIntent.client_secret });
+    } catch (error) {
+     next(error);
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// exports.payment = async (req, res) => {
+//     try {
+//         const { stripeToken, email } = req.body;
+
+//         const customer = await stripe.customers.create({
+//             email,
+//             source: stripeToken
+//         });
+
+//         const charge = await stripe.charges.create({
+//             amount: 250, // in cents
+//             currency: "cad",
+//             customer: customer.id,
+//             description: "Contest Entry Fee"
+//         });
+
+//         if (charge.paid) {
+//             res.json({ success: true });
+//         } else {
+//             res.status(500).json({ error: 'Charge failed' });
+//         }
+
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// };

@@ -25,7 +25,8 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.6.2",
     "node": "^20.7.0",
-    "stripe": "^14.1.0"
+    "stripe": "^14.1.0",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

@@ -4,12 +4,13 @@ const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 const { Router } = require('express');
 
+
 // Configure the S3 client with your AWS credentials and set up earlier in your code
 const s3Client = new S3Client({ region: process.env.REGION }); 
 const BUCKET_NAME = process.env.S3_BUCKET_NAME; 
 
 
-exports.newContestant = async (req, res) => {
+exports.newContestant = async (req, res, next) => {
     try {
         const { firebaseId, photoUrl, videoUrl, description, name } = req.body;
 
@@ -45,14 +46,13 @@ exports.newContestant = async (req, res) => {
             message: 'Contestant created successfully'
         });
     } catch (error) {
-        console.error('Error in newContestant:', error);
-        res.status(500).json({ error: 'Failed to create contestant' });
+        next(error);
     }
 };
 
 
 // Retrieve all contestants with their signed photo URLs
-exports.getAllContestants = async (req, res) => {
+exports.getAllContestants = async (req, res, next) => {
     try {
         const contestants = await knex('contestants').select('*');
         // console.log('Contestants:', contestants); 
@@ -67,14 +67,14 @@ exports.getAllContestants = async (req, res) => {
         
         res.json(contestants);
     } catch (error) {
-        console.error('Error retrieving contestants: ', error);
-        res.status(500).json({ error: 'Failed to retrieve contestants' });
+        next(error);
+
     }
 };
 
 
    
-exports.recordVote = async (req, res) => {
+exports.recordVote = async (req, res, next) => {
     const actorId = req.params.actorId;
     if (!actorId) {
         return res.status(400).json({ error: 'No actorId provided' });
@@ -98,12 +98,12 @@ exports.recordVote = async (req, res) => {
 
         res.status(200).json({ message: `Vote recorded successfully. This many votes: ${votesToIncrement}` });
     } catch (error) {
-        console.error('Error in voting:', error);
-        res.status(500).json({ error: 'Failed to record vote' });
+        next(error);
+
     }
 };
 
-exports.getContestantById = async (req, res) => {
+exports.getContestantById = async (req, res, next) => {
     try {
         const actorId = req.params.actorId;
 
@@ -117,11 +117,10 @@ exports.getContestantById = async (req, res) => {
 
         res.json(contestant);
     } catch (error) {
-        console.error('Error retrieving contestant:', error);
-        res.status(500).json({ error: 'Failed to retrieve contestant' });
+        next(error);
     }
 };
-exports.deleteContestant = async (req, res) => {
+exports.deleteContestant = async (req, res, next) => {
     const actorId = req.params.actorId;
 
     try {
@@ -135,7 +134,7 @@ exports.deleteContestant = async (req, res) => {
 
         res.status(200).json({ message: 'Contestant deleted successfully' });
     } catch (error) {
-        console.error('Error deleting contestant:', error);
-        res.status(500).json({ error: 'Failed to delete contestant' });
+        next(error);
+
     }
 };

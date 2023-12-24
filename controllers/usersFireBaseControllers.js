@@ -1,6 +1,6 @@
 const knex = require('knex')(require('../knexfile'));
 
-exports.createUser = async (req, res) => {
+exports.createUser = async (req, res, next) => {
     try {
       const { email, firebaseAuthId, isContestant } = req.body;
       const newUser = {
@@ -14,35 +14,27 @@ exports.createUser = async (req, res) => {
   
       // Status 201 is more appropriate for a successful creation of a resource
       res.status(201).json({ userId: userId, message: "User created successfully" });
+
+
     } catch (error) {
-      console.error(error); // Log the error for debugging purposes
-      const statusCode = 500; // Server error status code
-      const errorImageUrl = `https://http.cat/${statusCode}`;
-      res.status(statusCode).json({
-        error: "Server Issues. Message from backend 'Users'",
-        errorUrl: errorImageUrl 
-      });
+   console.error(error); // Log the error for debugging purposes
+        next(error);
     }
   }
   
 
 
-  exports.getAllUsers = async (req, res) => {
+  exports.getAllUsers = async (req, res, next) => {
     try {
       const users = await knex('users').select("*");
       res.status(200).json(users); 
     } catch (error) {
-      console.error(error); // It's good practice to log the actual error for debugging purposes
-      const statusCode = 500; // Server error status code
-      const errorImageUrl = `https://http.cat/${statusCode}`;
-      res.status(statusCode).json({
-        error: "Server Issues. Message from backend 'Users'",
-        errorUrl: errorImageUrl 
-      });
+      console.error(error);
+      next(error);
     }
   }
 
-  exports.checkUserExistence = async (req, res) => {
+  exports.checkUserExistence = async (req, res, next) => {
     try {
         const email = req.query.email;
         if (!email) {
@@ -53,10 +45,8 @@ exports.createUser = async (req, res) => {
         const exists = !!user;
         res.status(200).json({ exists: exists });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            error: "Server error while checking user existence"
-        });
+      console.error(error);
+      next(error);
     }
 };
 exports.sendErrorResponse = (res) => {

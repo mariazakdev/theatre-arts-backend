@@ -2,26 +2,15 @@ const knex = require('knex')(require('../knexfile'));
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY; 
 const stripe = require("stripe")(stripeSecretKey);
 
-// // Create a function to update votes
-// const updateVotes = async (actorId, voteCount) => {
-//     try {
-//       await knex('contestants')
-//         .where({ id: actorId })
-//         .increment('votes', voteCount);
+
   
-//       console.log(`Actor ID: ${actorId}, Vote Count: ${voteCount}`);
-//     } catch (error) {
-//       console.error('Error updating votes:', error);
-//       throw new Error('Error updating votes');
-//     }
-//   };
-  
-  exports.paidVotes = async (req, res) => {
+  exports.paidVotes = async (req, res, next) => {
     const actorId = req.params.actorId;
   
     try {
       const { stripeToken, email, userId, voteCount } = req.body;
       const votePrice = 100; // Example: each vote costs $1
+      
       const customer = await stripe.customers.create({
         email: email,
         source: stripeToken
@@ -54,8 +43,7 @@ const stripe = require("stripe")(stripeSecretKey);
         res.status(402).json({ error: 'Payment required' });
       }
     } catch (error) {
-      console.error('Stripe error:', error);
-      res.status(500).json({ error: 'Internal server error' });
+     next(error);
     }
   };
   
