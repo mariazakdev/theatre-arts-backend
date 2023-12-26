@@ -3,12 +3,9 @@ const logger = require('../logger');
 const errorHandlingMiddleware = (error, req, res, next) => {
   logger.error(error.stack);
 
-
-  if(res.headersSent){
-    return next(error);
+  if (!res.headersSent) {
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-
-  res.status(500).send('Something broke!');
 };
 
 module.exports = errorHandlingMiddleware;

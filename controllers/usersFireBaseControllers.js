@@ -6,7 +6,7 @@ exports.createUser = async (req, res, next) => {
       const newUser = {
         firebase_auth_id: firebaseAuthId,
         email: email,
-        is_contestant: isContestant // Assuming this comes from the front end
+        is_contestant: isContestant 
       };
   
       // The 'newUser' object should not be a string
@@ -17,11 +17,11 @@ exports.createUser = async (req, res, next) => {
 
 
     } catch (error) {
-   console.error(error); // Log the error for debugging purposes
+      logger.error(`Error in createUser: ${error.message}`, { stack: error.stack, requestId: req.id });
+
         next(error);
     }
   }
-  
 
 
   exports.getAllUsers = async (req, res, next) => {
@@ -29,10 +29,12 @@ exports.createUser = async (req, res, next) => {
       const users = await knex('users').select("*");
       res.status(200).json(users); 
     } catch (error) {
-      console.error(error);
+      logger.error(`Error in getAllUsers: ${error.message}`, { stack: error.stack, requestId: req.id });
       next(error);
     }
   }
+
+
 
   exports.checkUserExistence = async (req, res, next) => {
     try {
@@ -45,7 +47,8 @@ exports.createUser = async (req, res, next) => {
         const exists = !!user;
         res.status(200).json({ exists: exists });
     } catch (error) {
-      console.error(error);
+      logger.error(`Error in checkUserExistence: ${error.message}`, { stack: error.stack, requestId: req.id });
+      
       next(error);
     }
 };

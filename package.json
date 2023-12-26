@@ -26,6 +26,7 @@
     "mysql2": "^3.6.2",
     "node": "^20.7.0",
     "stripe": "^14.1.0",
+    "uuid": "^9.0.1",
     "winston": "^3.11.0"
   },
   "devDependencies": {

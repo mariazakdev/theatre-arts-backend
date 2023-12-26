@@ -1,8 +1,6 @@
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY; 
 const stripe = require("stripe")(stripeSecretKey);
 
-
-
 exports.payment = async (req, res, next) => {
     try {
       const { paymentMethod, email } = req.body;
@@ -25,55 +23,28 @@ exports.payment = async (req, res, next) => {
       // If successful, you can customize the response as needed
       res.json({ success: true, clientSecret: paymentIntent.client_secret });
     } catch (error) {
-     next(error);
+      if (error.type === "StripeCardError") {
+        logger.error(`StripeCardError: ${error.message}`, { stack: error.stack });
+        return res.status(400).json({ error: error.message });
+      } else if (error.type === "StripeInvalidRequestError") {
+        logger.error(`StripeInvalidRequestError: ${error.message}`, { stack: error.stack });
+        return res.status(400).json({ error: error.message });
+      } else if (error.type === "StripeAPIError") {
+        logger.error(`StripeAPIError: ${error.message}`, { stack: error.stack });
+        return res.status(400).json({ error: error.message });
+      } else if (error.type === "StripeConnectionError") {
+        logger.error(`StripeConnectionError: ${error.message}`, { stack: error.stack });
+        return res.status(400).json({ error: error.message });
+      } else if (error.type === "StripeAuthenticationError") {
+        logger.error(`StripeAuthenticationError: ${error.message}`, { stack: error.stack });
+        return res.status(400).json({ error: error.message });
+      } else if (error.type === "StripeRateLimitError") {
+        logger.error(`StripeRateLimitError: ${error.message}`, { stack: error.stack });
+        return res.status(400).json({ error: error.message });
+      } else {
+        logger.error(`Unhandled error processing payment: ${error.message}`, { stack: error.stack });
+        res.status(500).json({ error: "Internal Server Error" });
+        next(error);
+      }
     }
-  };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// exports.payment = async (req, res) => {
-//     try {
-//         const { stripeToken, email } = req.body;
-
-//         const customer = await stripe.customers.create({
-//             email,
-//             source: stripeToken
-//         });
-
-//         const charge = await stripe.charges.create({
-//             amount: 250, // in cents
-//             currency: "cad",
-//             customer: customer.id,
-//             description: "Contest Entry Fee"
-//         });
-
-//         if (charge.paid) {
-//             res.json({ success: true });
-//         } else {
-//             res.status(500).json({ error: 'Charge failed' });
-//         }
-
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// };
+  }
