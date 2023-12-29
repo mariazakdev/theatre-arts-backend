@@ -22,7 +22,28 @@
     <p>Here are the available routes:</p>
     
     <a href="/">Home</a>
-    <a href="/api/upload">Upload Route</a>
+    <a href="/upload">Upload Route</a>
+
+    <script>
+        // Fetch routes dynamically
+        const routes = [
+            '/users',
+            '/upload',
+            '/upload/39',
+            '/payment',
+            '/dashboard',
+            '/votes'
+        ];
+
+        // Update HTML content with routes
+        const body = document.body;
+        routes.forEach(route => {
+            const link = document.createElement('a');
+            link.href = route;
+            link.textContent = route;
+            body.appendChild(link);
+        });
+    </script>
 
     <footer>
         <p>Backend built using Express and Knex.</p>

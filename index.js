@@ -6,7 +6,7 @@ const knex = require('knex')(require('./knexfile'));
 const errorMiddleware = require('./middlewares/errorHandlingMiddleware');
 const requestIdMiddleware = require('./middlewares/requestIdMiddleware');
 
-const port = process.env.PORT || 3000; 
+const port = process.env.PORT || 5000; 
 const URL = process.env.CORS_ORIGIN;
 const app = express();
 app.use(errorMiddleware);
@@ -40,6 +40,8 @@ app.use('/payment', paymentRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/votes', paymentVotes);
 
-app.listen(port, () => {
-  console.log(`Server is running on port http://localhost:${port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Server is running on port http://localhost:${port}`);
+  });
+}
