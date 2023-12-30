@@ -30,7 +30,7 @@ exports.newContestant = async (req, res, next) => {
         const existingContestant = await knex("contestants")
             .where({ user_id: user.id })
             .first();
-        console.log("Existing contestant:", existingContestant);
+        console.log("A contestant was added. Good luck");
         if (existingContestant) {
             return res
                 .status(409)
@@ -65,7 +65,7 @@ exports.newContestant = async (req, res, next) => {
 exports.getAllContestants = async (req, res, next) => {
     try {
         const contestants = await knex("contestants").select("*");
-        console.log("Contestants:", contestants);
+        console.log("Contestants are here 🤸‍♀️");
 
         for (const contestant of contestants) {
             const command = new GetObjectCommand({

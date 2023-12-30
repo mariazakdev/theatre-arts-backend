@@ -1,0 +1,8 @@
+error: ReferenceError: logger is not defined
+    at Object.logger [as getContestantById] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\uploadControllers.js:139:5)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\uploadRoutes.js:67:5
+error: ReferenceError: logger is not defined
+    at Object.logger [as getAllContestants] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\uploadControllers.js:82:9)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\uploadRoutes.js:47:5
