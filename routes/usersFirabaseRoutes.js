@@ -49,24 +49,6 @@ router.get('/check-user', async (req, res, next) => {
   }
 });
 
-// router.get('/:id', async (req, res, next) => {
-//   try {
-//     // Get the user ID from the URL parameters
-//     const userId = req.params.id;
-//     // Your route logic here
-//     // await usersController.getUserById(userId, req, res);
-//     // await usersController.getUserById( req, res);
-//     const userData = await usersController.getUserById(userId, req.body.firebaseId);
-
-//     res.status(200).json(userData);
-
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Internal server error.' });
-    
-//   }
-// });
-
 // Error handling middleware
 router.use(errorHandlingMiddleware);
 

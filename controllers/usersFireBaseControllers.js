@@ -20,6 +20,7 @@ if (user) {      // Respond with a 200 status and user ID on successful login
   }
 };
 
+
 // exports.getUserById = async (req, res, next) => {
 //   try {
 //     const userId = req.params.userId;
@@ -27,13 +28,24 @@ if (user) {      // Respond with a 200 status and user ID on successful login
 //     // Use the provided user ID to find the user in the database
 //     const user = await knex('users').where({ id: userId }).first();
 
-//     if (user) {
-//       // Respond with a 200 status and user details on success
-//       return res.status(200).json({ user });
-//     } else {
+//     if (!user) {
 //       // Respond with a 404 status if the user is not found
 //       return res.status(404).json({ error: "User not found" });
 //     }
+
+//     // Find matching user_id in contestants table
+//     const contestant = await knex('contestants').where({ user_id: userId }).first();
+
+//     if (!contestant) {
+//       return res.status(404).json({ error: "Contestant not found" });
+//     }
+
+//     const responseData = {
+//       contestant,
+//     };
+
+//     // Respond with a 200 status and user details along with the associated contestant on success
+//     return res.status(200).json(responseData);
 //   } catch (error) {
 //     console.error(error);
 //     // Respond with a 500 status for internal server error
@@ -42,10 +54,10 @@ if (user) {      // Respond with a 200 status and user ID on successful login
 // };
 exports.getUserById = async (req, res, next) => {
   try {
-    const userId = req.params.userId;
+    const firebaseUid = req.params.userId;
 
-    // Use the provided user ID to find the user in the database
-    const user = await knex('users').where({ id: userId }).first();
+    // Use the provided Firebase UID to find the user in the database
+    const user = await knex('users').where({ firebase_auth_id: firebaseUid }).first();
 
     if (!user) {
       // Respond with a 404 status if the user is not found
@@ -53,14 +65,13 @@ exports.getUserById = async (req, res, next) => {
     }
 
     // Find matching user_id in contestants table
-    const contestant = await knex('contestants').where({ user_id: userId }).first();
+    const contestant = await knex('contestants').where({ user_id: user.id }).first();
 
     if (!contestant) {
       return res.status(404).json({ error: "Contestant not found" });
     }
 
     const responseData = {
-      user,
       contestant,
     };
 
@@ -72,6 +83,7 @@ exports.getUserById = async (req, res, next) => {
     return res.status(500).json({ message: 'Internal server error.' });
   }
 };
+
 
 exports.createUser = async (req, res, next) => {
     try {
