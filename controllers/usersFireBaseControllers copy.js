@@ -3,10 +3,10 @@ const knex = require('knex')(require('../knexfile'));
 
 exports.loginUser = async (req, res, next) => {
   try {
-    const { email, firebaseId } = req.body;
+    const { email } = req.body;
 
     // Use the provided email to find the user in the database
-    const user = await knex('users').where({ email, firebase_auth_id: firebaseId }).first();
+    const user = await knex('users').where({ email }).first();
 
     if (user) {
       // Respond with a 200 status and user ID on successful login

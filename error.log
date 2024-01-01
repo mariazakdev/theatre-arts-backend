@@ -6,3 +6,238 @@ error: ReferenceError: logger is not defined
     at Object.logger [as getAllContestants] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\uploadControllers.js:82:9)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)
     at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\uploadRoutes.js:47:5
+error: TypeError: Cannot read properties of undefined (reading 'express-validator#contexts')
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express-validator\src\validation-result.js:78:29
+    at exports.getUserDashboard (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\dashboardControllers.js:5:18)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:22:44
+    at Layer.handle [as handle_request] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\route.js:144:13)
+    at authenticateFirebaseUser (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\middlewares\authenticateFirebaseUser.js:13:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Cannot read properties of undefined (reading 'express-validator#contexts')
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express-validator\src\validation-result.js:78:29
+    at exports.getUserDashboard (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\dashboardControllers.js:5:18)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:22:44
+    at Layer.handle [as handle_request] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\route.js:144:13)
+    at authenticateFirebaseUser (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\middlewares\authenticateFirebaseUser.js:13:5)
+error: TypeError: Cannot read properties of undefined (reading 'express-validator#contexts')
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express-validator\src\validation-result.js:78:29
+    at exports.getUserDashboard (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\dashboardControllers.js:5:18)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:22:44
+    at Layer.handle [as handle_request] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\route.js:144:13)
+    at authenticateFirebaseUser (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\middlewares\authenticateFirebaseUser.js:13:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Cannot read properties of undefined (reading 'express-validator#contexts')
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express-validator\src\validation-result.js:78:29
+    at exports.getUserDashboard (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\dashboardControllers.js:5:18)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:22:44
+    at Layer.handle [as handle_request] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\route.js:144:13)
+    at authenticateFirebaseUser (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\middlewares\authenticateFirebaseUser.js:13:5)
+error: TypeError: Cannot read properties of undefined (reading 'express-validator#contexts')
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express-validator\src\validation-result.js:78:29
+    at exports.getUserDashboard (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\dashboardControllers.js:5:18)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:24:44
+    at Layer.handle [as handle_request] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\route.js:144:13)
+    at authenticateFirebaseUser (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\middlewares\authenticateFirebaseUser.js:13:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Cannot read properties of undefined (reading 'express-validator#contexts')
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express-validator\src\validation-result.js:78:29
+    at exports.getUserDashboard (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\dashboardControllers.js:5:18)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:24:44
+    at Layer.handle [as handle_request] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\route.js:144:13)
+    at authenticateFirebaseUser (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\middlewares\authenticateFirebaseUser.js:13:5)
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:24:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:24:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:24:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:24:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:23:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:23:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:23:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:23:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:23:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:23:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle {"headers":{"access-control-allow-credentials":"true","access-control-allow-origin":"http://localhost:3000","content-length":"26","content-type":"application/json; charset=utf-8","etag":"W/\"1a-hq/hT0ORGTkTfyRpVCZ/JB/r8Eg\"","vary":"Origin","x-powered-by":"Express"},"stack":"TypeError: Converting circular structure to JSON\n    --> starting at object with constructor 'Socket'\n    |     property '_writableState' -> object with constructor 'WritableState'\n    |     property 'afterWriteTickInfo' -> object with constructor 'Object'\n    --- property 'stream' closes the circle\n    at JSON.stringify (<anonymous>)\n    at stringify (C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\node_modules\\express\\lib\\response.js:1150:12)\n    at ServerResponse.json (C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\node_modules\\express\\lib\\response.js:271:14)\n    at C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\routes\\dashboardRoutes.js:23:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","status":404}
+error: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle {"headers":{"access-control-allow-credentials":"true","access-control-allow-origin":"http://localhost:3000","content-length":"26","content-type":"application/json; charset=utf-8","etag":"W/\"1a-hq/hT0ORGTkTfyRpVCZ/JB/r8Eg\"","vary":"Origin","x-powered-by":"Express"},"stack":"TypeError: Converting circular structure to JSON\n    --> starting at object with constructor 'Socket'\n    |     property '_writableState' -> object with constructor 'WritableState'\n    |     property 'afterWriteTickInfo' -> object with constructor 'Object'\n    --- property 'stream' closes the circle\n    at JSON.stringify (<anonymous>)\n    at stringify (C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\node_modules\\express\\lib\\response.js:1150:12)\n    at ServerResponse.json (C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\node_modules\\express\\lib\\response.js:271:14)\n    at C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\routes\\dashboardRoutes.js:23:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","status":404}
+error: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle {"headers":{"access-control-allow-credentials":"true","access-control-allow-origin":"http://localhost:3000","content-length":"26"},"stack":"TypeError: Converting circular structure to JSON\n    --> starting at object with constructor 'Socket'\n    |     property '_writableState' -> object with constructor 'WritableState'\n    |     property 'afterWriteTickInfo' -> object with constructor 'Object'\n    --- property 'stream' closes the circle\n    at JSON.stringify (<anonymous>)\n    at stringify (C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\node_modules\\express\\lib\\response.js:1150:12)\n    at ServerResponse.json (C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\node_modules\\express\\lib\\response.js:271:14)\n    at C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\routes\\dashboardRoutes.js:23:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","status":404}
+error: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle {"headers":{"access-control-allow-credentials":"true","access-control-allow-origin":"http://localhost:3000","content-length":"26"},"stack":"TypeError: Converting circular structure to JSON\n    --> starting at object with constructor 'Socket'\n    |     property '_writableState' -> object with constructor 'WritableState'\n    |     property 'afterWriteTickInfo' -> object with constructor 'Object'\n    --- property 'stream' closes the circle\n    at JSON.stringify (<anonymous>)\n    at stringify (C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\node_modules\\express\\lib\\response.js:1150:12)\n    at ServerResponse.json (C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\node_modules\\express\\lib\\response.js:271:14)\n    at C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\routes\\dashboardRoutes.js:23:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","status":404}
+error: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle {"headers":{"access-control-allow-credentials":"true","access-control-allow-origin":"http://localhost:3000","content-length":"26"},"stack":"TypeError: Converting circular structure to JSON\n    --> starting at object with constructor 'Socket'\n    |     property '_writableState' -> object with constructor 'WritableState'\n    |     property 'afterWriteTickInfo' -> object with constructor 'Object'\n    --- property 'stream' closes the circle\n    at JSON.stringify (<anonymous>)\n    at stringify (C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\node_modules\\express\\lib\\response.js:1150:12)\n    at ServerResponse.json (C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\node_modules\\express\\lib\\response.js:271:14)\n    at C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\routes\\dashboardRoutes.js:23:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","status":404}
+error: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle {"headers":{"access-control-allow-credentials":"true","access-control-allow-origin":"http://localhost:3000","content-length":"26"},"stack":"TypeError: Converting circular structure to JSON\n    --> starting at object with constructor 'Socket'\n    |     property '_writableState' -> object with constructor 'WritableState'\n    |     property 'afterWriteTickInfo' -> object with constructor 'Object'\n    --- property 'stream' closes the circle\n    at JSON.stringify (<anonymous>)\n    at stringify (C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\node_modules\\express\\lib\\response.js:1150:12)\n    at ServerResponse.json (C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\node_modules\\express\\lib\\response.js:271:14)\n    at C:\\Users\\mzaka\\Documents\\TIM_SITE\\monologue-backend\\routes\\dashboardRoutes.js:23:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","status":404}
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:23:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:23:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: ReferenceError: errors is not defined
+    at exports.getUserDashboard (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\dashboardControllers.js:8:3)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:22:44
+    at Layer.handle [as handle_request] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\route.js:144:13)
+    at authenticateFirebaseUser (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\middlewares\authenticateFirebaseUser.js:13:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: ReferenceError: errors is not defined
+    at exports.getUserDashboard (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\dashboardControllers.js:8:3)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:22:44
+    at Layer.handle [as handle_request] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\router\route.js:144:13)
+    at authenticateFirebaseUser (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\middlewares\authenticateFirebaseUser.js:13:5)
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:23:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:1150:12)
+    at ServerResponse.json (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\express\lib\response.js:271:14)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\dashboardRoutes.js:23:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+error: ReferenceError: logger is not defined
+    at exports.getUserById (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\usersFireBaseControllers.js:23:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\usersFirabaseRoutes.js:50:5
+error: ReferenceError: logger is not defined
+    at exports.getUserById (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\usersFireBaseControllers.js:23:5)
+    at async C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\usersFirabaseRoutes.js:50:5
