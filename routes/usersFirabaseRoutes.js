@@ -1,18 +1,11 @@
-// const express = require('express');
-// const router = express.Router();
-// const usersController = require('../controllers/usersFireBaseControllers');
-
-// router.get('/', usersController.getAllUsers); 
-// router.post('/', usersController.createUser);
-// router.get('/check-user', usersController.checkUserExistence);
-
-
-// module.exports = router; 
 
 const express = require('express');
 const router = express.Router();
+const knex = require('knex')(require('../knexfile'));
+
 const usersController = require('../controllers/usersFireBaseControllers');
 const errorHandlingMiddleware = require('../middlewares/errorHandlingMiddleware');
+const { getUserById } = require('../controllers/usersFireBaseControllers');
 
 router.post('/login', async (req, res, next) => {
   try {
@@ -23,6 +16,8 @@ router.post('/login', async (req, res, next) => {
     res.status(500).json({ message: 'Internal server error.' });
   }
 });
+
+router.get('/:userId', usersController.getUserById);
 
 router.get('/', async (req, res, next) => {
   try {
@@ -54,23 +49,23 @@ router.get('/check-user', async (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
-  try {
-    // Get the user ID from the URL parameters
-    const userId = req.params.id;
-    // Your route logic here
-    // await usersController.getUserById(userId, req, res);
-    // await usersController.getUserById( req, res);
-    const userData = await usersController.getUserById(userId);
+// router.get('/:id', async (req, res, next) => {
+//   try {
+//     // Get the user ID from the URL parameters
+//     const userId = req.params.id;
+//     // Your route logic here
+//     // await usersController.getUserById(userId, req, res);
+//     // await usersController.getUserById( req, res);
+//     const userData = await usersController.getUserById(userId, req.body.firebaseId);
 
-    res.status(200).json(userData);
+//     res.status(200).json(userData);
 
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error.' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Internal server error.' });
     
-  }
-});
+//   }
+// });
 
 // Error handling middleware
 router.use(errorHandlingMiddleware);

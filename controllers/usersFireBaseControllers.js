@@ -1,17 +1,15 @@
 const knex = require('knex')(require('../knexfile'));
 
-
 exports.loginUser = async (req, res, next) => {
   try {
     const { email, firebaseId } = req.body;
 
-    // Use the provided email to find the user in the database
-    const user = await knex('users').where({ email, firebase_auth_id: firebaseId }).first();
+    // // Use the provided email to find the user in the database
+ const user = await knex('users').where({ email, firebase_auth_id: firebaseId }).first();
 
-    if (user) {
-      // Respond with a 200 status and user ID on successful login
-      res.status(200).json({ userId: user.id, message: "User logged in successfully" });
-    } else {
+if (user) {      // Respond with a 200 status and user ID on successful login
+  res.status(200).json({ userId: user.id, message: "User logged in successfully" });
+} else {
       // Respond with a 404 status if the user is not found
       res.status(404).json({ error: "User not found" });
     }
@@ -22,64 +20,58 @@ exports.loginUser = async (req, res, next) => {
   }
 };
 
-exports.getUserById = async (userId) => {
+// exports.getUserById = async (req, res, next) => {
+//   try {
+//     const userId = req.params.userId;
+
+//     // Use the provided user ID to find the user in the database
+//     const user = await knex('users').where({ id: userId }).first();
+
+//     if (user) {
+//       // Respond with a 200 status and user details on success
+//       return res.status(200).json({ user });
+//     } else {
+//       // Respond with a 404 status if the user is not found
+//       return res.status(404).json({ error: "User not found" });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     // Respond with a 500 status for internal server error
+//     return res.status(500).json({ message: 'Internal server error.' });
+//   }
+// };
+exports.getUserById = async (req, res, next) => {
   try {
-    // Get the user from the logged-in firebase user table
+    const userId = req.params.userId;
+
+    // Use the provided user ID to find the user in the database
     const user = await knex('users').where({ id: userId }).first();
 
     if (!user) {
-      throw new Error("User not found");
+      // Respond with a 404 status if the user is not found
+      return res.status(404).json({ error: "User not found" });
     }
 
     // Find matching user_id in contestants table
     const contestant = await knex('contestants').where({ user_id: userId }).first();
 
     if (!contestant) {
-      throw new Error("Contestant not found");
+      return res.status(404).json({ error: "Contestant not found" });
     }
 
-    return { user, contestant };
+    const responseData = {
+      user,
+      contestant,
+    };
+
+    // Respond with a 200 status and user details along with the associated contestant on success
+    return res.status(200).json(responseData);
   } catch (error) {
-    console.error("Error in getUserById:", error);
-    throw error;
+    console.error(error);
+    // Respond with a 500 status for internal server error
+    return res.status(500).json({ message: 'Internal server error.' });
   }
 };
-
-// exports.getUserById = async (req, res, next) => {
-//   try {
-//       // Get the user ID from the request parameters
-//     const userId = req.params.id;
-
-//     // Get the user from the logged in firebase user table
-//     const user = await knex('users').where({ firebase_auth_id: 'fAuthId1' }).first();
-//     // const user = await knex('users').where({ id: userId }).first();
-
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
-
-//     // Find matching user_id in contestants table
-//     const contestant = await knex('contestants').where({ user_id: user.id }).first();
-
-//     if (!contestant) {
-//       return res.status(404).json({ error: "Contestant not found" });
-//     }
-
-//     res.status(200).json({ user, contestant });
-//   } catch (error) {
-//     console.error(error);
-
-//     // Check if next is a function before calling it
-//     if (typeof next === 'function') {
-//       next(error);
-//     } else {
-//       // If next is not a function, log the error and send a generic response
-//       console.error("Error in getUserById:", error);
-//       res.status(500).json({ error: "Internal server error" });
-//     }
-//   }
-// };
-
 
 exports.createUser = async (req, res, next) => {
     try {
