@@ -241,3 +241,47 @@ error: ReferenceError: logger is not defined
 error: ReferenceError: logger is not defined
     at exports.getUserById (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\usersFireBaseControllers.js:23:5)
     at async C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\usersFirabaseRoutes.js:50:5
+error: ReferenceError: transaction is not defined
+    at Object.<anonymous>.exports.paidVotes (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\paymentVotesControllers.js:60:5)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\paymentVotesRoutes.js:11:5
+error: ReferenceError: transaction is not defined
+    at Object.<anonymous>.exports.paidVotes (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\paymentVotesControllers.js:60:5)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\paymentVotesRoutes.js:11:5
+error: ReferenceError: transaction is not defined
+    at Object.<anonymous>.exports.paidVotes (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\paymentVotesControllers.js:60:5)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\paymentVotesRoutes.js:11:5
+error: ReferenceError: logger is not defined
+    at Object.logger [as paidVotes] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\paymentVotesControllers.js:65:5)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\paymentVotesRoutes.js:11:5
+error: ReferenceError: logger is not defined
+    at Object.logger [as paidVotes] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\paymentVotesControllers.js:65:5)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\paymentVotesRoutes.js:11:5
+error: ReferenceError: logger is not defined
+    at Object.logger [as paidVotes] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\paymentVotesControllers.js:65:5)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\paymentVotesRoutes.js:11:5
+error: ReferenceError: logger is not defined
+    at Object.logger [as paidVotes] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\paymentVotesControllers.js:65:5)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\paymentVotesRoutes.js:11:5
+error: ReferenceError: userId is not defined
+    at Object.userId [as paidVotes] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\paymentVotesControllers.js:68:7)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\paymentVotesRoutes.js:11:5
+error: ReferenceError: userId is not defined
+    at Object.userId [as paidVotes] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\paymentVotesControllers.js:68:7)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\paymentVotesRoutes.js:11:5
+error: ReferenceError: userId is not defined
+    at Object.userId [as paidVotes] (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\paymentVotesControllers.js:69:7)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\paymentVotesRoutes.js:11:5
+error: ReferenceError: logger is not defined
+    at exports.updateContestant (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\uploadControllers.js:114:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\uploadRoutes.js:35:5

@@ -65,7 +65,7 @@ exports.newContestant = async (req, res, next) => {
 exports.getAllContestants = async (req, res, next) => {
     try {
         const contestants = await knex("contestants").select("*");
-        console.log("Contestants are here 🤸‍♀️");
+        // console.log("Contestants are here 🤸‍♀️");
 
         for (const contestant of contestants) {
             const command = new GetObjectCommand({
@@ -84,6 +84,38 @@ exports.getAllContestants = async (req, res, next) => {
         });
         next(error);
     }
+};
+
+exports.updateContestant = async (req, res, next) => {
+  const actorId = req.params.actorId;
+  const { videoUrl, description } = req.body;
+
+  try {
+    // Input Validation
+    if (!actorId || (!videoUrl && !description)) {
+      return res.status(400).json({ error: "Invalid input data" });
+    }
+
+    // Check if the contestant exists
+    const contestant = await knex("contestants").where({ id: actorId }).first();
+    if (!contestant) {
+      return res.status(404).json({ error: "Contestant not found" });
+    }
+
+    // Update contestant data
+    const updatedContestant = {};
+    if (videoUrl) updatedContestant.url_video = videoUrl;
+    if (description) updatedContestant.description = description;
+
+    await knex("contestants").where({ id: actorId }).update(updatedContestant);
+
+    res.status(200).json({ message: "Contestant data updated successfully" });
+  } catch (error) {
+    logger.error(`Error in updateContestant controller: ${error.message}`, {
+      stack: error.stack,
+    });
+    next(error);
+  }
 };
 
 exports.recordVote = async (req, res, next) => {
