@@ -125,11 +125,12 @@ exports.recordVote = async (req, res, next) => {
     }
 
     const { votes } = req.body;
-    const votesToIncrement = parseInt(votes, 10); // Ensure 'votes' is an integer
+    const votesToIncrement = parseInt(votes, 10); 
 
-    if (isNaN(votesToIncrement)) {
-        return res.status(400).json({ error: "Invalid number of votes" });
-    }
+    if (isNaN(votesToIncrement) || votesToIncrement < 0) {
+      return res.status(400).json({ error: "Invalid number of votes" });
+  }
+
   const transaction = await knex.transaction();
   try {
     const rowsAffected = await knex("contestants")
@@ -155,6 +156,9 @@ exports.recordVote = async (req, res, next) => {
     next(error);
   }
 };
+
+
+
 
 exports.getContestantById = async (req, res, next) => {
   try {

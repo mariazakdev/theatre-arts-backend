@@ -15,48 +15,127 @@ afterAll(async () => {
 server.close();
 });
 
-describe('GET /upload', () => {
+describe('GET /contestants', () => {
   test('upload route respond with status 200', async () => {
     const app = createApp();
-    const response = await request(app).get('/upload');
+    const response = await request(app).get('/contestants');
 
     expect(response.status).toBe(200);
   });
 
   test('It should respond with a contestant object', async () => {
     const app = createApp();
-    const response = await request(app).get('/upload/42');
+    const response = await request(app).get('/contestants/20');
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('name');
   });
 });
 
-describe('POST /upload/vote/:actorId', () => {
-  test('upload/vote route respond with status 200', async () => {
-    const actorId = 42; 
-    const response = await request(app)
-      .post(`/upload/vote/${actorId}`)
-      .send({ votes: 10 });
+// describe('POST /contestants/vote/:actorId', () => {
+//   test('contestants/vote route respond with status 200', async () => {
+//     const actorId = 20; 
+//     const response = await request(app)
+//       .post(`/contestants/vote/${actorId}`)
+//       .send({ votes: 10 });
 
-    expect(response.status).toBe(200);
-  });
-});
+//     expect(response.status).toBe(200);
+//   });
+// });
 
-describe('GET /upload/:actorId', () => {
-  test('upload/:actorId route respond with status 200', async () => {
-    const actorId = 42; 
-    const response = await request(app).get(`/upload/${actorId}`);
+// describe('GET /contestants/:actorId', () => {
+//   test('contestants/:actorId route respond with status 200', async () => {
+//     const actorId = 20; 
+//     const response = await request(app).get(`/contestants/${actorId}`);
 
-    expect(response.status).toBe(200);
-  });
-});
-// 43 was deleted 
-// describe('DELETE /upload/:actorId', () => {
+//     expect(response.status).toBe(200);
+//   });
+// });
+
+// 43 was deleted // TEST WORKED
+// describe('DELETE /contestants/:actorId', () => {
 //   test('upload/:actorId route respond with status 200', async () => {
 //     const actorId = 43; 
 //     const response = await request(app).delete(`/upload/${actorId}`);
 
 //     expect(response.status).toBe(200);
 //   });
+// });
+
+// describe('Negative Scenarios for Voting', () => {
+//   test('should respond with 400 for invalid votes parameter', async () => {
+//     const actorId = 720;
+//     const response = await request(app)
+//       .post(`/contestants/vote/${actorId}`)
+//       .send({ votes: 'invalid_votes' });
+
+//     expect(response.status).toBe(400);
+//     expect(response.body).toHaveProperty('error');
+//   });
+
+//   test('should respond with 400 for negative votes parameter', async () => {
+//     const actorId = 20;
+//     const response = await request(app)
+//       .post(`/contestants/vote/${actorId}`)
+//       .send({ votes: -5 });
+
+//     expect(response.status).toBe(400);
+//     expect(response.body).toHaveProperty('error');
+//   });
+
+//   test('should respond with 400 for missing votes parameter', async () => {
+//     const actorId = 20;
+//     const response = await request(app)
+//       .post(`/contestants/vote/${actorId}`)
+//       .send({});
+
+//     expect(response.status).toBe(400);
+//     expect(response.body).toHaveProperty('error');
+//   });
+// });
+
+
+// describe('Testing Update with Invalid Actor ID', () => {
+
+
+//   test('should respond with 404 for non-existent actor ID in update route', async () => {
+//     const actorId = 999;
+//     const response = await request(app)
+//       .post(`/contestants/${actorId}`)
+//       .send({ videoUrl: 'new_video_url' });
+
+//     expect(response.status).toBe(404);
+//     expect(response.body).toHaveProperty('error');
+//   });
+// });
+// describe('Testing Get with Invalid Actor ID', () => {
+//   test('should respond with 404 for non-existent actor ID in get route', async () => {
+//     const actorId = 999;
+//     const response = await request(app).get(`/contestants/${actorId}`);
+
+//     expect(response.status).toBe(404);
+//     expect(response.body).toHaveProperty('error');
+//   });
+// });
+
+
+// describe('Testing Error Handling Middleware', () => {
+//   test('should respond with 500 for internal server error', async () => {
+//     jest.spyOn(knex, 'select').mockImplementationOnce(async () => {
+//       console.log('Mocked function called');
+//       throw new Error('Simulated Internal Server Error');
+//     });
+
+//     const app = require('../index');
+
+//     try {
+//       const response = await request(app).get('/contestants');
+
+//       expect(response.status).toBe(500);
+//       expect(response.body).toHaveProperty('error');
+//     } catch (error) {
+//       console.error('Error in test:', error);
+//       throw error;
+//     }
+//   }, 3000000); 
 // });

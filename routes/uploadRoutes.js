@@ -1,37 +1,31 @@
 const express = require('express');
 const router = express.Router();
 const uploadController = require('../controllers/uploadControllers');
-const multer = require('multer');
 const errorHandlingMiddleware = require('../middlewares/errorHandlingMiddleware');
+https://chat.openai.com/c/37d4aa76-cbef-4474-940d-7aefa75094a0#:~:text=const%20createCustomError%20%3D%20require(%27../middlewares/errorHandlingMiddleware%27).createCustomError%3B
+router.post('/', async (req, res, next) => {
+  try {  
+ 
 
-// Set up multer for file uploads
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
-// Routes
-router.post('/', upload.single('file'), async (req, res, next) => {
-  try {
-    // Your route logic here
     await uploadController.newContestant(req, res);
   } catch (error) {
-    // Call the error handling middleware
     next(error);
   }
 });
 
 router.get('/', async (req, res, next) => {
+
   try {
-    // Your route logic here
     await uploadController.getAllContestants(req, res);
   } catch (error) {
-    // Call the error handling middleware
     next(error);
   }
 });
 
+
+
 router.post('/:actorId', async (req, res, next) => {
   try {
-    // Your route logic here
     await uploadController.updateContestant(req, res);
   } catch (error) {
     next(error);
@@ -41,7 +35,6 @@ router.post('/:actorId', async (req, res, next) => {
 
 router.post('/vote/:actorId', async (req, res, next) => {
   try {
-    // Your route logic here
     await uploadController.recordVote(req, res);
   } catch (error) {
     next(error);
@@ -50,7 +43,6 @@ router.post('/vote/:actorId', async (req, res, next) => {
 
 router.get('/:actorId', async (req, res, next) => {
   try {
-    // Your route logic here
     await uploadController.getContestantById(req, res);
   } catch (error) {
     next(error);
@@ -64,6 +56,7 @@ router.delete('/:actorId', async (req, res, next) => {
     next(error);
   }
 });
+
 
 router.use(errorHandlingMiddleware);
 
