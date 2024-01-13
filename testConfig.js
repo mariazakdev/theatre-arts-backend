@@ -1,19 +1,15 @@
-// config.js
 
 require('dotenv').config();
 
 const config = {
   development: {
     port: process.env.PORT || 8000,
-    // Other development configuration options
   },
   test: {
-    port: 5000, // Use a different port for testing
-    // Other testing configuration options
+    port: 5000, 
   },
   production: {
     port: process.env.PORT || 8000,
-    // Other production configuration options
   },
 };
 
