@@ -9,7 +9,7 @@ module.exports = {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     charset: process.env.DB_CHARSET,
-    // port: process.env.DB_PORT,
+    port: process.env.DB_PORT,
   },
   migrations: {
     directory: './db/migrations',
