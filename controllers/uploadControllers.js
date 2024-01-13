@@ -3,6 +3,8 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { Router } = require("express");
+const logger = require('../logger');
+
 
 // Configure the S3 client with your AWS credentials and set up earlier in your code
 const s3Client = new S3Client({ region: process.env.REGION });
