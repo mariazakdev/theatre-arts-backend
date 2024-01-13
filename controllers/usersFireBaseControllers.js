@@ -49,8 +49,7 @@ exports.getUserById = async (req, res, next) => {
     // Respond with a 200 status and user details along with the associated contestant on success
     return res.status(200).json(responseData);
   } catch (error) {
-    console.error(error);
-    // Respond with a 500 status for internal server error
+    logger.error(`Error in loginUser controller: ${error.message}`, { stack: error.stack });
     return res.status(500).json({ message: 'Internal server error.' });
   }
 };
