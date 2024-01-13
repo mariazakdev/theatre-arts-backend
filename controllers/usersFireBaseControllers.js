@@ -37,7 +37,8 @@ exports.getUserById = async (req, res, next) => {
     const contestant = await knex('contestants').where({ user_id: user.id }).first();
 
     if (!contestant) {
-      return res.status(404).json({ error: "Contestant not found" });
+      // Respond with a 200 status and a message indicating no contestant found
+      return res.status(200).json({ message: "User is not a contestant", user });
     }
 
     const responseData = {
