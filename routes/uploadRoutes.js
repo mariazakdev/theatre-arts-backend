@@ -7,7 +7,7 @@ router.post('/', async (req, res, next) => {
   try {  
     await uploadController.newContestant(req, res);
   } catch (error) {
-    next(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
   try {
     await uploadController.getAllContestants(req, res);
   } catch (error) {
-    next(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -26,7 +26,7 @@ router.post('/:actorId', async (req, res, next) => {
   try {
     await uploadController.updateContestant(req, res);
   } catch (error) {
-    next(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -35,7 +35,7 @@ router.post('/vote/:actorId', async (req, res, next) => {
   try {
     await uploadController.recordVote(req, res);
   } catch (error) {
-    next(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -43,7 +43,7 @@ router.get('/:actorId', async (req, res, next) => {
   try {
     await uploadController.getContestantById(req, res);
   } catch (error) {
-    next(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -51,7 +51,7 @@ router.delete('/:actorId', async (req, res, next) => {
   try {
     await uploadController.deleteContestant(req, res);
   } catch (error) {
-    next(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

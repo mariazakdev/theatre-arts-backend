@@ -59,8 +59,8 @@ exports.newContestant = async (req, res, next) => {
         logger.error(`Error in newContestant controller: ${error.message}`, {
             stack: error.stack,
         });
-        next(error);
-    }
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
 };
 
 // Retrieve all contestants with their signed photo URLs
@@ -83,8 +83,8 @@ exports.getAllContestants = async (req, res, next) => {
         logger.error(`Error in getAllContestants controller: ${error.message}`, {
             stack: error.stack,
         });
-        next(error);
-    }
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
 };
 
 exports.updateContestant = async (req, res, next) => {
@@ -115,7 +115,7 @@ exports.updateContestant = async (req, res, next) => {
     logger.error(`Error in updateContestant controller: ${error.message}`, {
       stack: error.stack,
     });
-    next(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -154,7 +154,7 @@ exports.recordVote = async (req, res, next) => {
       stack: error.stack,
     });
 
-    next(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -198,6 +198,6 @@ const transaction = await knex.transaction();
     logger.error(`Error in deleteContestant controller: ${error.message}`, {
       stack: error.stack,
     });
-    next(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
