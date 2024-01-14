@@ -67,7 +67,6 @@ exports.newContestant = async (req, res, next) => {
 exports.getAllContestants = async (req, res, next) => {
     try {
         const contestants = await knex("contestants").select("*");
-        // console.log("Contestants are here 🤸‍♀️");
 
         for (const contestant of contestants) {
             const command = new GetObjectCommand({

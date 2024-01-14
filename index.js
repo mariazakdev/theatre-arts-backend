@@ -43,7 +43,7 @@ function createApp() {
   return app;
 }
 
-const port = process.env.PORT || 5000; 
+const port = process.env.PORT || 8000; 
 const URL = process.env.CORS_ORIGIN;
 const app = createApp();
 

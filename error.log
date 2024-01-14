@@ -642,3 +642,18 @@ error: Error: Simulated Internal Server Error
     at jestAdapter (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
     at runTestInternal (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\jest-runner\build\runTest.js:367:16)
     at runTest (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\node_modules\jest-runner\build\runTest.js:444:34)
+error: Error in getAllContestants controller: getaddrinfo ENOTFOUND mysql2 {"stack":"Error: getaddrinfo ENOTFOUND mysql2\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)"}
+error: TypeError: next is not a function
+    at exports.getAllContestants (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\uploadControllers.js:87:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\uploadRoutes.js:17:5
+error: Error in getAllContestants controller: getaddrinfo ENOTFOUND mysql2 {"stack":"Error: getaddrinfo ENOTFOUND mysql2\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)"}
+error: TypeError: next is not a function
+    at exports.getAllContestants (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\uploadControllers.js:87:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\uploadRoutes.js:17:5
+error: Error in getAllContestants controller: getaddrinfo ENOTFOUND mysql2 {"stack":"Error: getaddrinfo ENOTFOUND mysql2\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)"}
+error: TypeError: next is not a function
+    at exports.getAllContestants (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\uploadControllers.js:87:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\uploadRoutes.js:17:5
