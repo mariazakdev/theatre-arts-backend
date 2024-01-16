@@ -17,7 +17,6 @@ function createApp() {
   const paymentRoutes = require('./routes/paymentRoutes');
   const usersFBRoutes = require('./routes/usersFirabaseRoutes');
   const sunKingRoutes = require('./routes/sunKingRoutes');
-  // const paymentVotes = require('./routes/paymentVotesRoutes');
 
   app.use(
     cors({
