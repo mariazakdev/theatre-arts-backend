@@ -6,6 +6,9 @@ const knex = require("knex")(require("./knexfile"));
 const errorMiddleware = require("./middlewares/errorHandlingMiddleware");
 const requestIdMiddleware = require("./middlewares/requestIdMiddleware");
 
+
+const URL = process.env.CORS_ORIGIN;
+
 function createApp() {
   const app = express();
   app.use(errorMiddleware);
@@ -26,21 +29,7 @@ function createApp() {
     })
   );
 
-  // app.use(
-  //   cors({
-  //     origin: /https:\/\/([a-zA-Z0-9_-]+\.)?example\.com$/,
-  //     methods: "GET, POST, PUT, DELETE",
-  //     credentials: true,
-  //   })
-  // );
 
-  // app.use(
-  //   cors({
-  //     origin: "*",
-  //     methods: "GET, POST, PUT, DELETE",
-  //     credentials: true,
-  //   })
-  // );
 
   app.use(bodyParser.json());
 
@@ -57,7 +46,6 @@ function createApp() {
 }
 
 const port = process.env.PORT || 8000;
-const URL = process.env.CORS_ORIGIN;
 const app = createApp();
 
 if (process.env.NODE_ENV !== "test") {
