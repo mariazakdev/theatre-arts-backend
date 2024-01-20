@@ -8,6 +8,7 @@ const requestIdMiddleware = require("./middlewares/requestIdMiddleware");
 
 
 const URL = process.env.CORS_ORIGIN;
+console.log('CORS Origin:', URL);
 
 function createApp() {
   const app = express();
