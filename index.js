@@ -18,21 +18,21 @@ function createApp() {
   const usersFBRoutes = require("./routes/usersFirabaseRoutes");
   const sunKingRoutes = require("./routes/sunKingRoutes");
 
-  // app.use(
-  //   cors({
-  //     origin: URL,
-  //     methods: "GET, POST, PUT, DELETE",
-  //     credentials: true,
-  //   })
-  // );
-
   app.use(
     cors({
-      origin: /https:\/\/([a-zA-Z0-9_-]+\.)?example\.com$/,
+      origin: URL,
       methods: "GET, POST, PUT, DELETE",
       credentials: true,
     })
   );
+
+  // app.use(
+  //   cors({
+  //     origin: /https:\/\/([a-zA-Z0-9_-]+\.)?example\.com$/,
+  //     methods: "GET, POST, PUT, DELETE",
+  //     credentials: true,
+  //   })
+  // );
 
   // app.use(
   //   cors({
