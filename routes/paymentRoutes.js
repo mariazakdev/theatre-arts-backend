@@ -6,20 +6,16 @@ const errorHandlingMiddleware = require('../middlewares/errorHandlingMiddleware'
 
 router.post('/', async (req, res, next) => {
   try {
-    // Your route logic here
     await paymentController.payment(req, res);
   } catch (error) {
-    // Call the error handling middleware
     next(error);
   }
 });
 
 router.get('/', async (req, res, next) => {
   try {
-    // Your route logic here
     await paymentController.payment(req, res);
   } catch (error) {
-    // Call the error handling middleware
     next(error);
   }
 });

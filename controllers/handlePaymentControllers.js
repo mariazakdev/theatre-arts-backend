@@ -10,11 +10,8 @@ exports.payment = async (req, res, next) => {
         amount: 250,
         currency: 'cad',
         payment_method: paymentMethod,
-        // confirmation_method: 'manual',
-        // confirm: true,
         description: 'Contest Entry Fee',
         customer_email: email,
-        // return_url: 'http://localhost:3000/contestant/payment-success',
         automatic_payment_methods: {
           enabled: true,
         },

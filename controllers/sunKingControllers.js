@@ -12,15 +12,26 @@ const getSunKingData = async () => {
 };
 
 // Controller to update Sun King data
-const updateSunKingData = async (newData) => {
+const updateSunKingData = async (updatedData) => {
   try {
-    // Assuming your table is named 'sun_king_data'
-    await knex('sun_data').update(newData);
+    console.log('Received data:', updatedData);
+
+    // Ensure updatedData is an object with an 'id'
+    if (!updatedData || !updatedData.id) {
+      throw new Error("Invalid data structure");
+    }
+
+    await knex('sun_data')
+      .where({ id: updatedData.id }) 
+      .update(updatedData);
   } catch (error) {
     console.error('Error updating Sun King data:', error);
     throw error;
   }
 };
+
+
+
 
 module.exports = {
   getSunKingData,

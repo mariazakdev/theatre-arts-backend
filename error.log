@@ -657,3 +657,4 @@ error: TypeError: next is not a function
     at exports.getAllContestants (C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\controllers\uploadControllers.js:87:9)
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
     at async C:\Users\mzaka\Documents\TIM_SITE\monologue-backend\routes\uploadRoutes.js:17:5
+error: Error in getContestantById controller: select * from `contestants` where `id` = '10' limit 1 - read ECONNRESET {"stack":"Error: read ECONNRESET\n    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)"}

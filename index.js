@@ -8,8 +8,7 @@ const requestIdMiddleware = require("./middlewares/requestIdMiddleware");
 
 
 const URL = process.env.CORS_ORIGIN;
-console.log('CORS Origin:', URL);
-
+const HOST = process.env.CLIENT_URL_HOST;
 function createApp() {
   const app = express();
   app.use(errorMiddleware);
@@ -21,7 +20,7 @@ function createApp() {
   const paymentRoutes = require("./routes/paymentRoutes");
   const usersFBRoutes = require("./routes/usersFirabaseRoutes");
   const sunKingRoutes = require("./routes/sunKingRoutes");
-
+  const votesRoutes = require("./routes/votesRoutes");
   app.use(
     cors({
       origin: URL,
@@ -42,6 +41,7 @@ function createApp() {
   app.use("/contestants", uploadRoutes);
   app.use("/payment", paymentRoutes);
   app.use("/sun-king", sunKingRoutes);
+  app.use("/votes", votesRoutes);
 
   return app;
 }

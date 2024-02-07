@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
 router.put('/', async (req, res) => {
   try {
     const { newData } = req.body;
+    console.log('Received newData:', newData); 
     await sunKingController.updateSunKingData(newData);
     res.json({ success: true });
   } catch (error) {
@@ -24,5 +25,6 @@ router.put('/', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 module.exports = router;
