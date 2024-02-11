@@ -175,6 +175,36 @@ exports.getContestantById = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.updateContestantActiveStatus = async (req, res, next) => {
+  const actorId = req.params.actorId;
+  const { active } = req.body;
+
+  try {
+    // Input Validation
+    if (!actorId || active === undefined || (active !== 0 && active !== 1)) {
+      return res.status(400).json({ error: "Invalid input data" });
+    }
+
+    // Check if the contestant exists
+    const contestant = await knex("contestants").where({ id: actorId }).first();
+    if (!contestant) {
+      return res.status(404).json({ error: "Contestant not found" });
+    }
+
+    // Update active status
+    await knex("contestants").where({ id: actorId }).update({ active });
+
+    res.status(200).json({ message: "Contestant active status updated successfully" });
+  } catch (error) {
+    logger.error(`Error in updateContestantActiveStatus controller: ${error.message}`, {
+      stack: error.stack,
+    });
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
 exports.deleteContestant = async (req, res, next) => {
   const actorId = req.params.actorId;
   const transaction = await knex.transaction();

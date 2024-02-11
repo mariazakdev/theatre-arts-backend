@@ -47,6 +47,15 @@ router.get('/:actorId', async (req, res, next) => {
   }
 });
 
+// New route for updating active status
+router.put('/active/:actorId', async (req, res, next) => {
+  try {
+    await uploadController.updateContestantActiveStatus(req, res);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 router.delete('/:actorId', async (req, res, next) => {
   try {
     await uploadController.deleteContestant(req, res);
