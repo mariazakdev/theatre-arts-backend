@@ -133,29 +133,66 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
-exports.checkUserExistence = async (req, res, next) => {
+// Check if user already signed up
+// usersFireBaseControllers.js
+
+
+
+exports.getUserByEmail = async (req, res) => {
   try {
-    const email = req.query.email;
-    console.log("Checking existence for email:", email);
+    const { email } = req.params;
 
-    const user = await knex("users").where({ email: email }).first();
-    console.log("User found:", user);
+    // Query the database to find the user by email (case-insensitive and trimmed)
+    const user = await knex("users")
+      .whereRaw("LOWER(email) = LOWER(?)", email.trim())
+      .first();
 
-    const exists = !!user;
-    console.log("User exists:", exists);
+    if (!user) {
+      // If user not found, return 404 status and error message
+      return res.status(404).json({ error: "User not found" });
+    }
 
-    res.status(200).json({ exists: exists });
-    console.log("Received user existence check request for email:", email);
+    // If user found, return user details
+    res.status(200).json(user);
   } catch (error) {
-    logger.error(`Error in checkUserExistence: ${error.message}`, {
-      stack: error.stack,
-      requestId: req.id,
-    });
-
-    next(error);
+    console.error("Error retrieving user by email:", error);
+    // If an error occurs, return 500 status and error message
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
+// To update hasPaid field in users table
+exports.updateUserHasPaid = async (req, res, next) => {
+  try {
+    const firebaseId = req.params.firebaseId; // Assuming firebaseId is passed as a route parameter
+    // Update the hasPaid field for the user with the provided firebaseId
+    await knex("users")
+      .where({ firebase_auth_id: firebaseId })
+      .update({ hasPaid: 1 }); // Set hasPaid to 1 for the user
+    // Respond with a success message
+    res.status(200).json({ message: "User's hasPaid field updated successfully" });
+  } catch (error) {
+    console.error("Error updating user's hasPaid field:", error);
+    // Respond with an error message
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+exports.updateUserUploadStatus = async (req, res, next) => {
+  try {
+    const userId = req.params.userId; // Assuming userId is passed as a route parameter
+    // Update the uploadStatus field for the user with the provided userId
+    await knex("users")
+      .where({ id: userId })
+      .update({ uploadStatus: 1 }); // Set uploadStatus to 1 for the user
+    // Respond with a success message
+    res.status(200).json({ message: "User's upload status updated successfully" });
+  } catch (error) {
+    console.error("Error updating user's upload status:", error);
+    // Respond with an error message
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 exports.sendErrorResponse = (res) => {
   const statusCode = 500;

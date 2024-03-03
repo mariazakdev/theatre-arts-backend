@@ -10,6 +10,8 @@ exports.seed = async function(knex) {
       email: 'contestant1@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -18,6 +20,8 @@ exports.seed = async function(knex) {
       email: 'contestant2@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -26,6 +30,8 @@ exports.seed = async function(knex) {
       email: 'voter1@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -34,6 +40,8 @@ exports.seed = async function(knex) {
       email: 'voter2@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {id: 45,
@@ -41,6 +49,8 @@ exports.seed = async function(knex) {
       email: 'both1@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -49,6 +59,8 @@ exports.seed = async function(knex) {
       email: 'noncontestant@example.com',
       is_contestant: false, 
       is_admin: false,
+      hasPaid: false, // New: Set hasPaid to true
+      uploadStatus: false, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -57,6 +69,8 @@ exports.seed = async function(knex) {
       email: 'contestantrrerwer@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -65,6 +79,8 @@ exports.seed = async function(knex) {
       email: 'contestanttyty2@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -73,6 +89,8 @@ exports.seed = async function(knex) {
       email: 'voter1uyuy@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -81,6 +99,8 @@ exports.seed = async function(knex) {
       email: 'voteruyuyu2@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {id: 51,
@@ -88,6 +108,8 @@ exports.seed = async function(knex) {
       email: 'both1iiii@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -96,6 +118,8 @@ exports.seed = async function(knex) {
       email: 'noncontestantyuut@example.com',
       is_contestant: false, 
       is_admin: false,
+      hasPaid: false, // New: Set hasPaid to true
+      uploadStatus: false, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -104,6 +128,8 @@ exports.seed = async function(knex) {
       email: 'contestantyutyut1@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -112,6 +138,8 @@ exports.seed = async function(knex) {
       email: 'contestant2tyty@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -120,6 +148,8 @@ exports.seed = async function(knex) {
       email: 'voteytuytur1@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -128,6 +158,8 @@ exports.seed = async function(knex) {
       email: 'voter2iiiiiiii@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -136,6 +168,8 @@ exports.seed = async function(knex) {
       email: 'contestautuynt2@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -144,6 +178,8 @@ exports.seed = async function(knex) {
       email: 'vtutyoter1@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -152,6 +188,8 @@ exports.seed = async function(knex) {
       email: 'vottuytuytioer2@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     },
     {
@@ -160,6 +198,8 @@ exports.seed = async function(knex) {
       email: 'voteroiouo2@example.com',
       is_contestant: true,
       is_admin: false,
+      hasPaid: true, // New: Set hasPaid to true
+      uploadStatus: true, // New: Set uploadStatus to true
       created_at: new Date()
     }
   ]);

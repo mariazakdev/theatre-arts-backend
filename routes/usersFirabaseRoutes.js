@@ -36,16 +36,11 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.get("/check-user", async (req, res, next) => {
-  try {
-    await usersController.checkUserExistence(req, res);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error." });
-  }
-});
-
-router.delete("/users/:firebaseId", usersController.deleteUserByFirebaseId);
+// Route to get a user by email address
+router.get("/email/:email", usersController.getUserByEmail);
+router.delete("/:firebaseId", usersController.deleteUserByFirebaseId);
+router.post("/updateHasPaid/:firebaseId", usersController.updateUserHasPaid);
+router.put("/:userId/upload-status", usersController.updateUserUploadStatus);
 
 // Error handling middleware
 router.use(errorHandlingMiddleware);
