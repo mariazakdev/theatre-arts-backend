@@ -157,6 +157,27 @@ exports.recordVote = async (req, res, next) => {
   }
 };
 
+exports.resetVotes = async (req, res, next) => {
+  const actorId = req.params.actorId;
+
+  try {
+    // Check if actorId is provided
+    if (!actorId) {
+      return res.status(400).json({ error: "No actorId provided" });
+    }
+
+    // Reset votes for the contestant with the provided actorId
+    await knex("contestants").where({ id: actorId }).update({ votes: 0 });
+
+    res.status(200).json({ message: "Votes reset successfully" });
+  } catch (error) {
+    logger.error(`Error in resetVotes controller: ${error.message}`, {
+      stack: error.stack,
+    });
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 exports.getContestantById = async (req, res, next) => {
   try {
     const actorId = req.params.actorId;

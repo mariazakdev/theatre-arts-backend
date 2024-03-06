@@ -134,26 +134,43 @@ exports.getAllUsers = async (req, res, next) => {
 };
 
 // Check if user already signed up
-// usersFireBaseControllers.js
+// exports.getUserByEmail = async (req, res) => {
+//   try {
+//     const { email } = req.params;
 
+//     // Query the database to find the user by email
+//     const user = await knex("users").where("email", email).first();
 
+//     if (!user) {
+//       // If user not found, return 404 status and error message
+//       return res.status(404).json({ error: "User not found" });
+//     }
+
+//     // If user found, return user details
+//     res.status(200).json(user);
+//   } catch (error) {
+//     console.error("Error retrieving user by email:", error);
+//     // If an error occurs, return 500 status and error message
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
+
+// To update hasPaid field in users table
 
 exports.getUserByEmail = async (req, res) => {
   try {
     const { email } = req.params;
 
-    // Query the database to find the user by email (case-insensitive and trimmed)
-    const user = await knex("users")
-      .whereRaw("LOWER(email) = LOWER(?)", email.trim())
-      .first();
+    // Query the database to find the user by email
+    const user = await knex("users").where("email", email).first();
 
     if (!user) {
-      // If user not found, return 404 status and error message
-      return res.status(404).json({ error: "User not found" });
+      // If user not found, return 200 status with userExists flag set to false
+      return res.status(200).json({ userExists: false });
     }
 
-    // If user found, return user details
-    res.status(200).json(user);
+    // If user found, return 200 status with user details
+    res.status(200).json({ userExists: true, user });
   } catch (error) {
     console.error("Error retrieving user by email:", error);
     // If an error occurs, return 500 status and error message
@@ -161,7 +178,8 @@ exports.getUserByEmail = async (req, res) => {
   }
 };
 
-// To update hasPaid field in users table
+
+
 exports.updateUserHasPaid = async (req, res, next) => {
   try {
     const firebaseId = req.params.firebaseId; // Assuming firebaseId is passed as a route parameter
