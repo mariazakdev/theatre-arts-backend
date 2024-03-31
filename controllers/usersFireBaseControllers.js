@@ -133,29 +133,7 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
-// Check if user already signed up
-// exports.getUserByEmail = async (req, res) => {
-//   try {
-//     const { email } = req.params;
 
-//     // Query the database to find the user by email
-//     const user = await knex("users").where("email", email).first();
-
-//     if (!user) {
-//       // If user not found, return 404 status and error message
-//       return res.status(404).json({ error: "User not found" });
-//     }
-
-//     // If user found, return user details
-//     res.status(200).json(user);
-//   } catch (error) {
-//     console.error("Error retrieving user by email:", error);
-//     // If an error occurs, return 500 status and error message
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
-
-// To update hasPaid field in users table
 
 exports.getUserByEmail = async (req, res) => {
   try {

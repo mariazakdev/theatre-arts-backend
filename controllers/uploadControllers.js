@@ -248,3 +248,19 @@ exports.deleteContestant = async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+exports.activateAllContestants = async (req, res, next) => {
+  try {
+    // Update active status for all contestants to 1
+    await knex("contestants").update({ active: 1 });
+
+    // Send response
+    res.status(200).json({ message: "All contestants activated successfully" });
+  } catch (error) {
+    logger.error(`Error in activateAllContestants controller: ${error.message}`, {
+      stack: error.stack,
+    });
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+

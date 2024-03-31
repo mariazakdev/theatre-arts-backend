@@ -4,18 +4,15 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const knex = require("knex")(require("./knexfile"));
 const errorMiddleware = require("./middlewares/errorHandlingMiddleware");
+const requestIdMiddleware = require("./middlewares/requestIdMiddleware");
 
 
 const URL = process.env.CORS_ORIGIN;
 const HOST = process.env.CLIENT_URL_HOST;
-
-
-
 function createApp() {
   const app = express();
   app.use(errorMiddleware);
-
-
+  app.use(requestIdMiddleware);
 
   app.use(express.static("public"));
 
@@ -24,8 +21,6 @@ function createApp() {
   const usersFBRoutes = require("./routes/usersFirabaseRoutes");
   const sunKingRoutes = require("./routes/sunKingRoutes");
   const votesRoutes = require("./routes/votesRoutes");
-
-
   app.use(
     cors({
       origin: URL,
@@ -38,27 +33,15 @@ function createApp() {
 
   app.use(bodyParser.json());
 
-  // Middleware to check API key
-  const checkApiKey = (req, res, next) => {
-    const apiKey = req.headers["x-api-key"]; 
-    const validApiKey = process.env.API_KEY; 
-
-    if (apiKey && apiKey === validApiKey) {
-      next(); // API key is valid, proceed to the next middleware
-    } else {
-      res.status(401).json({ error: "Unauthorized" });
-    }
-  };
-  app.use("/users", checkApiKey, usersFBRoutes);
-  app.use("/contestants", checkApiKey, uploadRoutes);
-  app.use("/payment", checkApiKey, paymentRoutes);
-  app.use("/sun-king", checkApiKey, sunKingRoutes);
-  app.use("/votes", checkApiKey, votesRoutes);
-
   app.get("/", (req, res) => {
     res.send("Hello, World!");
   });
 
+  app.use("/users", usersFBRoutes);
+  app.use("/contestants", uploadRoutes);
+  app.use("/payment", paymentRoutes);
+  app.use("/sun-king", sunKingRoutes);
+  app.use("/votes", votesRoutes);
 
   return app;
 }

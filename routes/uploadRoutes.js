@@ -73,6 +73,17 @@ router.delete('/:actorId', async (req, res, next) => {
   }
 });
 
+// Route to set active status of all users to 1
+router.put('/activate-all', async (req, res, next) => {
+  try {
+    // Call the controller function to update active status
+    await uploadController.activateAllContestants(req, res);
+  } catch (error) {
+    // Handle errors
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 router.use(errorHandlingMiddleware);
 
