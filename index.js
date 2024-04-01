@@ -7,9 +7,11 @@ const errorMiddleware = require("./middlewares/errorHandlingMiddleware");
 
 
 const URL = process.env.CORS_ORIGIN;
-const HOST = process.env.CLIENT_URL_HOST;
+const HOST = process.env.CLIENT_URL;
 
-
+console.log("URL:", URL);
+console.log("HOST:", HOST);
+console.log("API_KEY:", process.env.API_KEY);
 
 function createApp() {
   const app = express();
@@ -40,9 +42,11 @@ function createApp() {
 
   // Middleware to check API key
   const checkApiKey = (req, res, next) => {
+    console.log("Request Headers:", req.headers);
+
     const apiKey = req.headers["x-api-key"]; 
     const validApiKey = process.env.API_KEY; 
-
+    console.log(apiKey, validApiKey); // Log apiKey and validApiKey
     if (apiKey && apiKey === validApiKey) {
       next(); // API key is valid, proceed to the next middleware
     } else {
@@ -52,7 +56,7 @@ function createApp() {
   app.use("/users", checkApiKey, usersFBRoutes);
   app.use("/contestants", checkApiKey, uploadRoutes);
   app.use("/payment", checkApiKey, paymentRoutes);
-  app.use("/sun-king", checkApiKey, sunKingRoutes);
+  app.use("/sun-king", sunKingRoutes);
   app.use("/votes", checkApiKey, votesRoutes);
 
   app.get("/", (req, res) => {
