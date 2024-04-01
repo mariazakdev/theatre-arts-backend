@@ -44,9 +44,9 @@ function createApp() {
   const checkApiKey = (req, res, next) => {
     console.log("Request Headers:", req.headers);
 
-    const apiKey = req.headers["x-api-key"]; 
+    const apiKey = req.headers.authorization; 
     const validApiKey = process.env.API_KEY; 
-    console.log(apiKey, validApiKey); // Log apiKey and validApiKey
+    console.log('api from front :',apiKey, 'local api', validApiKey); // Log apiKey and validApiKey
     if (apiKey && apiKey === validApiKey) {
       next(); // API key is valid, proceed to the next middleware
     } else {
