@@ -39,8 +39,8 @@ router.post("/", async (req, res, next) => {
 // Route to get a user by email address
 router.get("/email/:email", usersController.getUserByEmail);
 router.delete("/:firebaseId", usersController.deleteUserByFirebaseId);
-router.post("/updateHasPaid/:firebaseId", usersController.updateUserHasPaid);
-router.put("/:userId/upload-status", usersController.updateUserUploadStatus);
+router.put("/updateHasPaid/:firebaseId", usersController.updateUserHasPaid);
+router.put("/upload-status/:firebaseId", usersController.updateUserUploadStatus);
 
 // Error handling middleware
 router.use(errorHandlingMiddleware);

@@ -12,6 +12,17 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+
+router.post("/extra", async (req, res, next) => {
+  try {
+    await votesController.castExtraVote(req, res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+
 // Error handling middleware
 router.use(errorHandlingMiddleware);
 

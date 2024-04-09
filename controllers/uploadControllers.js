@@ -9,6 +9,7 @@ const logger = require("../logger");
 const s3Client = new S3Client({ region: process.env.REGION });
 const BUCKET_NAME = process.env.S3_BUCKET_NAME;
 
+// From upload form
 exports.newContestant = async (req, res, next) => {
   const transaction = await knex.transaction();
 
@@ -88,6 +89,7 @@ exports.getAllContestants = async (req, res, next) => {
   }
 };
 
+// From dashboard
 exports.updateContestant = async (req, res, next) => {
   const actorId = req.params.actorId;
   const { videoUrl, description } = req.body;
@@ -120,6 +122,7 @@ exports.updateContestant = async (req, res, next) => {
   }
 };
 
+// Vote buttons
 exports.recordVote = async (req, res, next) => {
   const actorId = req.params.actorId;
   if (!actorId) {
@@ -156,7 +159,7 @@ exports.recordVote = async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
+// Reset votes after rounds
 exports.resetVotes = async (req, res, next) => {
   const actorId = req.params.actorId;
 
@@ -216,15 +219,19 @@ exports.updateContestantActiveStatus = async (req, res, next) => {
     // Update active status
     await knex("contestants").where({ id: actorId }).update({ active });
 
-    res.status(200).json({ message: "Contestant active status updated successfully" });
+    res
+      .status(200)
+      .json({ message: "Contestant active status updated successfully" });
   } catch (error) {
-    logger.error(`Error in updateContestantActiveStatus controller: ${error.message}`, {
-      stack: error.stack,
-    });
+    logger.error(
+      `Error in updateContestantActiveStatus controller: ${error.message}`,
+      {
+        stack: error.stack,
+      }
+    );
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 
 exports.deleteContestant = async (req, res, next) => {
   const actorId = req.params.actorId;
@@ -256,11 +263,12 @@ exports.activateAllContestants = async (req, res, next) => {
     // Send response
     res.status(200).json({ message: "All contestants activated successfully" });
   } catch (error) {
-    logger.error(`Error in activateAllContestants controller: ${error.message}`, {
-      stack: error.stack,
-    });
+    logger.error(
+      `Error in activateAllContestants controller: ${error.message}`,
+      {
+        stack: error.stack,
+      }
+    );
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-

@@ -160,7 +160,7 @@ exports.getUserByEmail = async (req, res) => {
 
 exports.updateUserHasPaid = async (req, res, next) => {
   try {
-    const firebaseId = req.params.firebaseId; // Assuming firebaseId is passed as a route parameter
+    const firebaseId = req.params.firebaseId; 
     // Update the hasPaid field for the user with the provided firebaseId
     await knex("users")
       .where({ firebase_auth_id: firebaseId })
@@ -176,11 +176,11 @@ exports.updateUserHasPaid = async (req, res, next) => {
 
 exports.updateUserUploadStatus = async (req, res, next) => {
   try {
-    const userId = req.params.userId; // Assuming userId is passed as a route parameter
+    const firebaseId = req.params.firebaseId; 
     // Update the uploadStatus field for the user with the provided userId
     await knex("users")
-      .where({ id: userId })
-      .update({ uploadStatus: 1 }); // Set uploadStatus to 1 for the user
+    .where({ firebase_auth_id: firebaseId })
+    .update({ uploadStatus: 1 }); // Set uploadStatus to 1 for the user
     // Respond with a success message
     res.status(200).json({ message: "User's upload status updated successfully" });
   } catch (error) {

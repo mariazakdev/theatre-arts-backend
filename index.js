@@ -5,19 +5,14 @@ const bodyParser = require("body-parser");
 const knex = require("knex")(require("./knexfile"));
 const errorMiddleware = require("./middlewares/errorHandlingMiddleware");
 
-
 const URL = process.env.CORS_ORIGIN;
 const HOST = process.env.CLIENT_URL;
 
-console.log("URL:", URL);
-console.log("HOST:", HOST);
-console.log("API_KEY:", process.env.API_KEY);
+
 
 function createApp() {
   const app = express();
   app.use(errorMiddleware);
-
-
 
   app.use(express.static("public"));
 
@@ -27,7 +22,6 @@ function createApp() {
   const sunKingRoutes = require("./routes/sunKingRoutes");
   const votesRoutes = require("./routes/votesRoutes");
 
-
   app.use(
     cors({
       origin: URL,
@@ -36,17 +30,13 @@ function createApp() {
     })
   );
 
-
-
   app.use(bodyParser.json());
 
   // Middleware to check API key
   const checkApiKey = (req, res, next) => {
-    console.log("Request Headers:", req.headers);
 
-    const apiKey = req.headers.authorization; 
-    const validApiKey = process.env.API_KEY; 
-    console.log('api from front :',apiKey, 'local api', validApiKey); // Log apiKey and validApiKey
+    const apiKey = req.headers.authorization;
+    const validApiKey = process.env.API_KEY;
     if (apiKey && apiKey === validApiKey) {
       next(); // API key is valid, proceed to the next middleware
     } else {
@@ -63,7 +53,6 @@ function createApp() {
     res.send("Hello, World!");
   });
 
-
   return app;
 }
 
@@ -76,4 +65,3 @@ if (process.env.NODE_ENV !== "test") {
   });
 }
 module.exports = createApp;
-
