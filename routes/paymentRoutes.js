@@ -1,10 +1,9 @@
-
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const paymentController = require('../controllers/handlePaymentControllers');
-const errorHandlingMiddleware = require('../middlewares/errorHandlingMiddleware');
+const paymentController = require("../controllers/handlePaymentControllers");
+const errorHandlingMiddleware = require("../middlewares/errorHandlingMiddleware");
 
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     await paymentController.payment(req, res);
   } catch (error) {
@@ -12,7 +11,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     await paymentController.payment(req, res);
   } catch (error) {
@@ -20,7 +19,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// Error handling middleware
+
 router.use(errorHandlingMiddleware);
 
 module.exports = router;
