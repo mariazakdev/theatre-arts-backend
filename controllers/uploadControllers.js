@@ -272,3 +272,35 @@ exports.activateAllContestants = async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+exports.submitVideo = async (req, res, next) => {
+  const actorId = req.params.actorId;
+  const { videoUrl } = req.body;
+
+  try {
+    // Your logic to handle video submission (e.g., update contestant's video URL)
+    // Example:
+    await knex("contestants").where({ id: actorId }).update({ url_video: videoUrl });
+
+    res.status(200).json({ message: "Video submitted successfully" });
+  } catch (error) {
+    console.error("Error submitting video:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.updateRound = async (req, res, next) => {
+  const actorId = req.params.actorId;
+  const { round } = req.body;
+
+  try {
+    // Your logic to update round (e.g., update contestant's round)
+    // Example:
+    await knex("contestants").where({ id: actorId }).update({ round });
+
+    res.status(200).json({ message: "Round updated successfully" });
+  } catch (error) {
+    console.error("Error updating round:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

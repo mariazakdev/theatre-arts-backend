@@ -3,6 +3,7 @@ const router = express.Router();
 const uploadController = require('../controllers/uploadControllers');
 const errorHandlingMiddleware = require('../middlewares/errorHandlingMiddleware');
 
+
 router.post('/', async (req, res, next) => {
   try {  
     await uploadController.newContestant(req, res);
@@ -84,6 +85,8 @@ router.put('/activate-all', async (req, res, next) => {
   }
 });
 
+router.post("/:actorId/submit-video", uploadController.submitVideo);
+router.put("/:actorId/update-round", uploadController.updateRound);
 
 router.use(errorHandlingMiddleware);
 
