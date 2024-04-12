@@ -6,9 +6,6 @@ const knex = require("knex")(require("./knexfile"));
 const errorMiddleware = require("./middlewares/errorHandlingMiddleware");
 
 const URL = process.env.CORS_ORIGIN;
-const HOST = process.env.CLIENT_URL;
-
-
 
 function createApp() {
   const app = express();
