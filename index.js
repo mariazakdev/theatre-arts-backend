@@ -35,7 +35,7 @@ function createApp() {
     const apiKey = req.headers.authorization;
     const validApiKey = process.env.API_KEY;
     if (apiKey && apiKey === validApiKey) {
-      next(); // API key is valid, proceed to the next middleware
+      next(); // move to the next middleware
     } else {
       res.status(401).json({ error: "Unauthorized" });
     }
@@ -45,10 +45,6 @@ function createApp() {
   app.use("/payment", checkApiKey, paymentRoutes);
   app.use("/sun-king", sunKingRoutes);
   app.use("/votes", checkApiKey, votesRoutes);
-
-  app.get("/", (req, res) => {
-    res.send("Hello, World!");
-  });
 
   return app;
 }
