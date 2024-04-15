@@ -155,7 +155,7 @@ exports.castVote = async (req, res, next) => {
       console.log(`User ${userId} attempted to cast vote before cooldown expiration for castVote.`);
       return res.status(400).json({
         error: "User has a cooldown",
-        message: "User can only cast vote in one type at a time",
+        message: "You can vote once every 24 hours.",
       });
     }
 
@@ -193,7 +193,7 @@ exports.castExtraVote = async (req, res, next) => {
       console.log(`User ${userId} attempted to cast vote before cooldown expiration for castExtraVote.`);
       return res.status(400).json({
         error: "User has a cooldown",
-        message: "User can only cast vote in one type at a time",
+        message: "You can add multiple votes once every 3 days.",
       });
     }
 
