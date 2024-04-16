@@ -160,7 +160,9 @@ exports.castVote = async (req, res, next) => {
     }
 
     // Set the cooldown time for castVote to 24 hours from now
-    const castVoteCooldown = Date.now() + (24 * 60 * 60 * 1000);
+    // const castVoteCooldown = Date.now() + (24 * 60 * 60 * 1000);
+    const castVoteCooldown = Date.now() +  ( 5 * 60 * 1000);
+
     const userCooldown = userCooldowns.get(userId) || {};
     userCooldown.castVote = castVoteCooldown;
     userCooldowns.set(userId, userCooldown);
@@ -198,7 +200,9 @@ exports.castExtraVote = async (req, res, next) => {
     }
 
     // Set the cooldown time for castExtraVote to 3 days from now
-    const castExtraVoteCooldown = Date.now() + (3 * 24 * 60 * 60 * 1000);
+    // const castExtraVoteCooldown = Date.now() + (3 * 24 * 60 * 60 * 1000);
+    const castExtraVoteCooldown = Date.now() + (10 * 60 * 60 * 1000);
+
     const userCooldown = userCooldowns.get(userId) || {};
     userCooldown.castExtraVote = castExtraVoteCooldown;
     userCooldowns.set(userId, userCooldown);
