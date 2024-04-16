@@ -94,8 +94,8 @@ exports.castExtraVote = async (req, res, next) => {
     }
 
     // Reset user's expiration time to 24 hours from now
-    // const expirationTime = Date.now() + (24 * 60 * 60 * 1000); // 24 hours in milliseconds
-    const expirationTime = Date.now() + (10 * 60 * 1000); // 10 minutes in milliseconds // Temporarily set to 10 minutes for testing
+    const expirationTime = Date.now() + (24 * 60 * 60 * 1000); // 24 hours in milliseconds
+    // const expirationTime = Date.now() + (10 * 60 * 1000); // 10 minutes in milliseconds // Temporarily set to 10 minutes for testing
 
     userExpirations.set(userId, expirationTime);
 
@@ -137,5 +137,5 @@ setInterval(() => {
         });
     }
   }
-// }, 3 * 24 * 60 * 60 * 1000); // Run every 3 days to clean up expired votes
-}, 10 * 60 * 1000); // Run every 10 minutes to clean up expired votes  // Temporarily set to 10 minutes for testing
+}, 3 * 24 * 60 * 60 * 1000); // Run every 3 days to clean up expired votes
+// }, 10 * 60 * 1000); // Run every 10 minutes to clean up expired votes  // Temporarily set to 10 minutes for testing
