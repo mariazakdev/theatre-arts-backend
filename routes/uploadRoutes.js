@@ -34,6 +34,15 @@ router.post("/vote/:actorId", async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+router.post("/vote-extra/:actorId", async (req, res, next) => {
+  try {
+    await uploadController.recordExtraVote(req, res);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
 router.put("/reset-votes/:actorId", async (req, res, next) => {
   try {
     await uploadController.resetVotes(req, res);

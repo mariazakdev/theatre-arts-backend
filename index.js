@@ -18,7 +18,7 @@ function createApp() {
   const usersFBRoutes = require("./routes/usersFirabaseRoutes");
   const sunKingRoutes = require("./routes/sunKingRoutes");
   const votesRoutes = require("./routes/votesRoutes");
-const votesExtraRoutes = require("./routes/votesExtraRoutes");
+// const votesExtraRoutes = require("./routes/votesExtraRoutes");
   app.use(
     cors({
       origin: URL,
@@ -45,7 +45,7 @@ const votesExtraRoutes = require("./routes/votesExtraRoutes");
   app.use("/payment", checkApiKey, paymentRoutes);
   app.use("/sun-king", sunKingRoutes);
   app.use("/votes", checkApiKey, votesRoutes);
-  app.use("/votes-extra", checkApiKey, votesExtraRoutes);
+  // app.use("/votes-extra", checkApiKey, votesExtraRoutes);
 
 
   return app;
