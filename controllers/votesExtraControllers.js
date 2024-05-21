@@ -8,7 +8,7 @@ exports.castVote = async (req, res, next) => {
     const { userId, contestantId, numberOfVotes } = req.body;
 
     // Check if the user has already voted and their vote is expired
-    const existingVote = await knex("votes")
+    const existingVote = await knex("votes_extra")
       .where({ user_id: userId })
       .first();
 
@@ -36,7 +36,7 @@ exports.castVote = async (req, res, next) => {
       contestant_id: contestantId,
     }));
 
-    await knex("votes").insert(votesToInsert);
+    await knex("votes_extra").insert(votesToInsert);
 
     console.log(`User ${userId} cast ${numberOfVotes} vote(s) for contestant ${contestantId}.`);
     res.status(201).json({ message: "Votes cast successfully" });
@@ -57,7 +57,7 @@ setInterval(() => {
       console.log(`Removing expired vote for user ${userId}.`);
       userExpirations.delete(userId);
       // Delete the user's vote from the database
-      knex("votes")
+      knex("votes_extra")
         .where({ user_id: userId })
         .del()
         .then(() => {
