@@ -1,27 +1,34 @@
 const knex = require("knex")(require("../knexfile"));
 
-// Store a map of user IDs to cooldown expiration times for each type of vote
-const userCooldowns = new Map();
+// Store a map of user IDs to expiration times
+const userExpirations = new Map();
 
-exports.castExtraVote = async (req, res, next) => {
+exports.castVote = async (req, res, next) => {
   try {
     const { userId, contestantId, numberOfVotes } = req.body;
 
-    // Check if the user has a cooldown for castVote
-    if (userCooldowns.has(userId) && userCooldowns.get(userId).castVote > Date.now()) {
-      // If the cooldown for castVote is active, return error
-      console.log(`User ${userId} attempted to cast vote before cooldown expiration for castVote.`);
-      return res.status(400).json({
-        error: "User has a cooldown",
-        message: "You can vote once every 15 min .",
-      });
+    // Check if the user has already voted and their vote is expired
+    const existingVote = await knex("votes")
+      .where({ user_id: userId })
+      .first();
+
+    if (existingVote && userExpirations.has(userId)) {
+      const expirationTime = userExpirations.get(userId);
+      if (expirationTime > Date.now()) {
+        // If the vote is not expired, return error
+        console.log(`User ${userId} attempted to vote again before expiration.`);
+        return res.status(400).json({
+          error: "User has already voted",
+          message: "User can only vote once per 24 hours (10 min extra for testing).",
+        });
+      }
     }
 
-    // Set the cooldown time for castVote to 24 hours from now
-    const castVoteCooldown = Date.now() + ( 15 * 60 * 1000);
-    const userCooldown = userCooldowns.get(userId) || {};
-    userCooldown.castVote = castVoteCooldown;
-    userCooldowns.set(userId, userCooldown);
+    // Reset user's expiration time to 24 hours from now
+    // const expirationTime = Date.now() + (24 * 60 * 60 * 1000); // 24 hours in milliseconds
+    const expirationTime = Date.now() + (10 * 60 * 1000); // 10 minutes in milliseconds // Temporarily set to 10 minutes for testing
+
+    userExpirations.set(userId, expirationTime);
 
     // Insert a new vote record for each vote
     const votesToInsert = Array.from({ length: numberOfVotes }, () => ({
@@ -31,7 +38,7 @@ exports.castExtraVote = async (req, res, next) => {
 
     await knex("votes").insert(votesToInsert);
 
-    console.log(`User ${userId} cast ${numberOfVotes} vote(s) for contestant ${contestantId} in castVote.`);
+    console.log(`User ${userId} cast ${numberOfVotes} vote(s) for contestant ${contestantId}.`);
     res.status(201).json({ message: "Votes cast successfully" });
   } catch (error) {
     console.error(`Error in castVote controller: ${error.message}`, {
@@ -41,23 +48,25 @@ exports.castExtraVote = async (req, res, next) => {
   }
 };
 
-// Periodically clean up expired cooldowns
+// Periodically clean up expired votes
 setInterval(() => {
   const now = Date.now();
-  for (const [userId, cooldowns] of userCooldowns.entries()) {
-
-    if (cooldowns.castExtraVote && cooldowns.castExtraVote <= now) {
-      // If the castExtraVote cooldown has expired, remove it
-      console.log(`Removing expired cooldown for castExtraVote for user ${userId}.`);
-      delete cooldowns.castExtraVote;
-    }
-    // If no more cooldowns exist for this user, remove the user from userCooldowns
-    if (Object.keys(cooldowns).length === 0) {
-      userCooldowns.delete(userId);
+  for (const [userId, expirationTime] of userExpirations.entries()) {
+    if (expirationTime <= now) {
+      // If the expiration time has passed, remove the user ID
+      console.log(`Removing expired vote for user ${userId}.`);
+      userExpirations.delete(userId);
+      // Delete the user's vote from the database
+      knex("votes")
+        .where({ user_id: userId })
+        .del()
+        .then(() => {
+          console.log(`Expired vote for user ${userId} deleted from the database.`);
+        })
+        .catch(error => {
+          console.error(`Error deleting expired vote for user ${userId}: ${error.message}`);
+        });
     }
   }
-}, 10 * 60 * 1000); // Run every 10 minutes to clean up expired cooldowns
-
-
-
-
+// }, 24 * 60 * 60 * 1000); // Run every 24 hours to clean up expired votes
+}, 10 * 60 * 1000); // Run every 10 minutes to clean up expired votes  // Temporarily set to 10 minutes for testing

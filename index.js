@@ -18,7 +18,7 @@ function createApp() {
   const usersFBRoutes = require("./routes/usersFirabaseRoutes");
   const sunKingRoutes = require("./routes/sunKingRoutes");
   const votesRoutes = require("./routes/votesRoutes");
-// const votesExtraRoutes = require("./routes/votesExtraRoutes");
+const votesExtraRoutes = require("./routes/votesExtraRoutes");
   app.use(
     cors({
       origin: URL,
@@ -40,18 +40,19 @@ function createApp() {
       res.status(401).json({ error: "Unauthorized" });
     }
   };
-  // app.use("/users", checkApiKey, usersFBRoutes);
-  // app.use("/contestants", checkApiKey, uploadRoutes);
-  // app.use("/payment", checkApiKey, paymentRoutes);
-  // app.use("/sun-king", sunKingRoutes);
-  // app.use("/votes", checkApiKey, votesRoutes);
-
-  app.use("/users",  usersFBRoutes);
-  app.use("/contestants",  uploadRoutes);
-  app.use("/payment", paymentRoutes);
+  app.use("/users", checkApiKey, usersFBRoutes);
+  app.use("/contestants", checkApiKey, uploadRoutes);
+  app.use("/payment", checkApiKey, paymentRoutes);
   app.use("/sun-king", sunKingRoutes);
-  app.use("/votes", votesRoutes);
-  // app.use("/votes-extra", checkApiKey, votesExtraRoutes);
+  app.use("/votes", checkApiKey, votesRoutes);
+  app.use("/votes-extra", checkApiKey, votesExtraRoutes);
+
+
+  // app.use("/users",  usersFBRoutes);
+  // app.use("/contestants",  uploadRoutes);
+  // app.use("/payment", paymentRoutes);
+  // app.use("/sun-king", sunKingRoutes);
+  // app.use("/votes", votesRoutes);
 
 
   return app;
