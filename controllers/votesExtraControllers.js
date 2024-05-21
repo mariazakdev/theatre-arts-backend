@@ -3,7 +3,7 @@ const knex = require("knex")(require("../knexfile"));
 // Store a map of user IDs to expiration times
 const userExpirations = new Map();
 
-exports.castVote = async (req, res, next) => {
+exports.castExtraVote = async (req, res, next) => {
   try {
     const { userId, contestantId, numberOfVotes } = req.body;
 
