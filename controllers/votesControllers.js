@@ -1,6 +1,7 @@
-const knex = require("knex")(require("../knexfile"));
 
 // Store a map of user IDs to expiration times
+const knex = require("knex")(require("../knexfile"));
+
 const userExpirations = new Map();
 
 exports.castVote = async (req, res, next) => {
@@ -19,14 +20,13 @@ exports.castVote = async (req, res, next) => {
         console.log(`User ${userId} attempted to vote again before expiration.`);
         return res.status(400).json({
           error: "User has already voted",
-          message: "User can only vote once per 24 hours (10 minutes for testing).",
+          message: "User can only vote once per 24 hours (10 min free extra for testing).",
         });
       }
     }
 
     // Reset user's expiration time to 24 hours from now
-    // const expirationTime = Date.now() + (24 * 60 * 60 * 1000); // 24 hours in milliseconds
-    const expirationTime = Date.now() + (10 * 60 * 1000); // 10 minutes in milliseconds // Temporarily set to 10 minutes for testing
+    const expirationTime = Date.now() + (10 * 60 * 1000); // 10 minutes in milliseconds for testing
 
     userExpirations.set(userId, expirationTime);
 
@@ -51,11 +51,13 @@ exports.castVote = async (req, res, next) => {
 // Periodically clean up expired votes
 setInterval(() => {
   const now = Date.now();
+  console.log("Running cleanup interval", { now });
+
   for (const [userId, expirationTime] of userExpirations.entries()) {
     if (expirationTime <= now) {
-      // If the expiration time has passed, remove the user ID
       console.log(`Removing expired vote for user ${userId}.`);
       userExpirations.delete(userId);
+
       // Delete the user's vote from the database
       knex("votes")
         .where({ user_id: userId })
@@ -63,10 +65,9 @@ setInterval(() => {
         .then(() => {
           console.log(`Expired vote for user ${userId} deleted from the database.`);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(`Error deleting expired vote for user ${userId}: ${error.message}`);
         });
     }
   }
-// }, 24 * 60 * 60 * 1000); // Run every 24 hours to clean up expired votes
-}, 10 * 60 * 1000); // Run every 10 minutes to clean up expired votes  // Temporarily set to 10 minutes for testing
+}, 10 * 60 * 1000); // Run every 10 minutes to clean up expired votes (for testing)
