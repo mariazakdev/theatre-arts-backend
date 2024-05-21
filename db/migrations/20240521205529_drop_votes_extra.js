@@ -1,6 +1,9 @@
-
 exports.up = async function(knex) {
     try {
+      // Drop the table if it exists
+      await knex.schema.dropTableIfExists('votes_extra');
+  
+      // Create the table again
       await knex.schema.createTable('votes_extra', table => {
         table.increments('id').primary();
         table.integer('user_id').unsigned().notNullable();
@@ -22,6 +25,7 @@ exports.up = async function(knex) {
   
   exports.down = async function(knex) {
     try {
+      // Drop the table if it exists
       await knex.schema.dropTableIfExists('votes_extra');
     } catch (error) {
       console.error('Error dropping votes table:', error);

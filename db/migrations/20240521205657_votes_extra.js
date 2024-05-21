@@ -1,4 +1,3 @@
-
 exports.up = async function(knex) {
     try {
       await knex.schema.createTable('votes_extra', table => {
