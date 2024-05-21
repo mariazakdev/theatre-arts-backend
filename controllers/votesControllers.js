@@ -40,6 +40,9 @@
 //     res.status(500).json({ message: "Internal server error." });
 //   }
 // };
+
+
+
 // exports.castExtraVote = async (req, res, next) => {
 //   try {
 //     const { userId, contestantId, numberOfVotes } = req.body;
@@ -292,24 +295,3 @@ exports.castExtraVote = async (req, res, next) => {
     res.status(500).json({ message: "Internal server error." });
   }
 };
-
-// Periodically clean up expired cooldowns
-setInterval(() => {
-  const now = Date.now();
-  for (const [userId, cooldowns] of userCooldowns.entries()) {
-    if (cooldowns.castVote && cooldowns.castVote <= now) {
-      // If the castVote cooldown has expired, remove it
-      console.log(`Removing expired cooldown for castVote for user ${userId}.`);
-      delete cooldowns.castVote;
-    }
-    if (cooldowns.castExtraVote && cooldowns.castExtraVote <= now) {
-      // If the castExtraVote cooldown has expired, remove it
-      console.log(`Removing expired cooldown for castExtraVote for user ${userId}.`);
-      delete cooldowns.castExtraVote;
-    }
-    // If no more cooldowns exist for this user, remove the user from userCooldowns
-    if (Object.keys(cooldowns).length === 0) {
-      userCooldowns.delete(userId);
-    }
-  }
-}, 1 * 60 * 1000); // Run every 1 minute to clean up expired cooldowns
