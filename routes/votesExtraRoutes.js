@@ -5,7 +5,7 @@ const errorHandlingMiddleware = require("../middlewares/errorHandlingMiddleware"
 
 router.post("/", async (req, res, next) => {
   try {
-    await votesController.castVote(req, res);
+    await votesController.castExtraVote(req, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error." });
