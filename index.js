@@ -19,6 +19,7 @@ function createApp() {
   const sunKingRoutes = require("./routes/sunKingRoutes");
   const votesRoutes = require("./routes/votesRoutes");
 const votesExtraRoutes = require("./routes/votesExtraRoutes");
+const votesTrackerRoutes = require("./routes/votesTrackerRoutes");
   app.use(
     cors({
       origin: URL,
@@ -46,6 +47,7 @@ const votesExtraRoutes = require("./routes/votesExtraRoutes");
   app.use("/sun-king", sunKingRoutes);
   app.use("/votes", checkApiKey, votesRoutes);
   app.use("/votes-extra", checkApiKey, votesExtraRoutes);
+  app.use("/votes-tracker",checkApiKey, votesTrackerRoutes);
 
 
   // app.use("/users",  usersFBRoutes);
