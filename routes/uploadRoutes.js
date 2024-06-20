@@ -43,14 +43,21 @@ router.post("/vote-extra/:actorId", async (req, res, next) => {
 });
 
 
-router.put("/reset-votes/:actorId", async (req, res, next) => {
+router.put("/reset-votes", async (req, res, next) => {
   try {
     await uploadController.resetVotes(req, res);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
+router.put("/update-round", async (req, res, next) => {
+  try {
+    await uploadController.updateRound(req, res);
+    (req, res);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 router.get("/:actorId", async (req, res, next) => {
   try {
     await uploadController.getContestantById(req, res);

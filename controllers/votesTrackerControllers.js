@@ -1,31 +1,7 @@
 const knex = require("knex")(require("../knexfile"));
 
-// exports.createVoteTracker = async (req, res) => {
-//   try {
-//     const { userId, contestantId, numberOfVotes, round, email } = req.body;
 
-//     // Validate input
-//     if (!userId || !contestantId || !numberOfVotes || !round || !email) {
-//       return res.status(400).json({ message: 'All fields are required' });
-//     }
-
-//     // Insert vote tracker data into the database
-//     await knex('votes_tracker').insert({
-//       user_id: userId,
-//       contestant_id: contestantId,
-//       votes_count: numberOfVotes,
-//       voting_round: round,
-//       email: email
-//     });
-
-//     res.status(201).json({ message: 'Vote tracker created successfully' });
-//   } catch (error) {
-//     console.error('Error creating vote tracker:', error);
-//     res.status(500).json({ message: 'Server error' });
-//   }
-// };
-
-exports.createVoteTracker = async (req, res) => {
+const createVoteTracker = async (req, res) => {
   try {
     const { userId, contestantId, numberOfVotes, round, email } = req.body;
 
@@ -34,39 +10,43 @@ exports.createVoteTracker = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Check if a vote tracker already exists for the user and contestant
-    const existingVoteTracker = await knex('votes_tracker')
-      .where({ user_id: userId, contestant_id: contestantId })
+    // Check for existing vote tracker entry
+    const existingVote = await knex('votes_tracker')
+      .where({
+        user_id: userId,
+        contestant_id: contestantId,
+        voting_round: round
+      })
       .first();
 
-    if (existingVoteTracker) {
-      // Update the existing vote tracker instead of creating a new one
+    if (existingVote) {
+      // Update the existing vote count
       await knex('votes_tracker')
-        .where({ user_id: userId, contestant_id: contestantId })
+        .where({ id: existingVote.id })
         .update({
-          votes_count: knex.raw('votes_count + ?', [numberOfVotes]), // Increment votes count
-          voting_round: round, // Update round if needed
-          email: email // Update email if needed
+          votes_count: existingVote.votes_count + numberOfVotes,
+          email: email // Optionally update the email if needed
         });
 
       return res.status(200).json({ message: 'Vote tracker updated successfully' });
+    } else {
+      // Insert new vote tracker data into the database
+      await knex('votes_tracker').insert({
+        user_id: userId,
+        contestant_id: contestantId,
+        votes_count: numberOfVotes,
+        voting_round: round,
+        email: email
+      });
+
+      return res.status(201).json({ message: 'Vote tracker created successfully' });
     }
-
-    // Insert vote tracker data into the database
-    await knex('votes_tracker').insert({
-      user_id: userId,
-      contestant_id: contestantId,
-      votes_count: numberOfVotes,
-      voting_round: round,
-      email: email
-    });
-
-    res.status(201).json({ message: 'Vote tracker created successfully' });
   } catch (error) {
-    console.error('Error creating/updating vote tracker:', error);
+    console.error('Error creating vote tracker:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };
+exports.createVoteTracker = createVoteTracker;
 
 exports.getVoteTrackers = async (req, res) => {
   try {
@@ -74,7 +54,7 @@ exports.getVoteTrackers = async (req, res) => {
     const voteTrackers = await knex('votes_tracker').select('*');
     res.status(200).json(voteTrackers);
   } catch (error) {
-    console.error('Error retrieving vote trackers:', error);
+    console.error('Error retrieving vote trackers:', error);  
     res.status(500).json({ message: 'Server error' });
   }
 };

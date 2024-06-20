@@ -159,27 +159,46 @@ exports.recordVote = async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 // Reset votes after rounds
 exports.resetVotes = async (req, res, next) => {
-  const actorId = req.params.actorId;
+  const { actorId } = req.params;
 
   try {
-    // Check if actorId is provided
+    // Reset votes for all active contestants if no actorId is provided
     if (!actorId) {
-      return res.status(400).json({ error: "No actorId provided" });
+      await knex("contestants").where({ active: 1 }).update({ votes: 0 });
+    } else {
+      // Reset votes for the specific contestant with the provided actorId
+      await knex("contestants").where({ id: actorId }).update({ votes: 0 });
     }
-
-    // Reset votes for the contestant with the provided actorId
-    await knex("contestants").where({ id: actorId }).update({ votes: 0 });
 
     res.status(200).json({ message: "Votes reset successfully" });
   } catch (error) {
-    logger.error(`Error in resetVotes controller: ${error.message}`, {
+    console.error(`Error in resetVotes controller: ${error.message}`, {
       stack: error.stack,
     });
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+// Reset rounds 
+exports.updateRound = async (req, res, next) => {
+  try {
+    // Increment the round for all active contestants
+    await knex('contestants')
+      .where({ active: 1 })
+      .increment('round', 1);
+
+    res.status(200).json({ message: 'Round updated successfully for all active contestants' });
+  } catch (error) {
+    console.error(`Error in updateRound controller: ${error.message}`, {
+      stack: error.stack,
+    });
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
 
 exports.getContestantById = async (req, res, next) => {
   try {
@@ -285,22 +304,6 @@ exports.submitVideo = async (req, res, next) => {
     res.status(200).json({ message: "Video submitted successfully" });
   } catch (error) {
     console.error("Error submitting video:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-exports.updateRound = async (req, res, next) => {
-  const actorId = req.params.actorId;
-  const { round } = req.body;
-
-  try {
-    // Your logic to update round (e.g., update contestant's round)
-    // Example:
-    await knex("contestants").where({ id: actorId }).update({ round });
-
-    res.status(200).json({ message: "Round updated successfully" });
-  } catch (error) {
-    console.error("Error updating round:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

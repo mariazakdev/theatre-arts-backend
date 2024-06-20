@@ -79,6 +79,8 @@ exports.deleteUserByFirebaseId = async (req, res, next) => {
       // Respond with a 404 status if the user is not found
       return res.status(404).json({ error: "User not found" });
     }
+    await knex("contestants").where({ user_id: user.id }).del();
+    await knex('votes_tracker').where({ user_id: user.id }).del();
 
     // Delete the user by their ID
     await knex("users").where({ id: user.id }).del();
@@ -86,7 +88,7 @@ exports.deleteUserByFirebaseId = async (req, res, next) => {
     // Respond with a 200 status and a message indicating successful deletion
     return res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
-    logger.error(
+    console.error(
       `Error in deleteUserByFirebaseId controller: ${error.message}`,
       { stack: error.stack }
     );
