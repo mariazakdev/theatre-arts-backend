@@ -78,9 +78,11 @@ exports.deleteUserByFirebaseId = async (req, res, next) => {
     if (!user) {
       // Respond with a 404 status if the user is not found
       return res.status(404).json({ error: "User not found" });
-    }
-    await knex("contestants").where({ user_id: user.id }).del();
+    } 
+    
     await knex('votes_tracker').where({ user_id: user.id }).del();
+    await knex("contestants").where({ user_id: user.id }).del();
+   
 
     // Delete the user by their ID
     await knex("users").where({ id: user.id }).del();
