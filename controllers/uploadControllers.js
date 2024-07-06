@@ -327,28 +327,6 @@ exports.updateContestantActiveStatus = async (req, res, next) => {
   }
 };
 
-// exports.deleteContestant = async (req, res, next) => {
-//   const actorId = req.params.actorId;
-//   const transaction = await knex.transaction();
-//   try {
-//     const rowsAffected = await knex("contestants")
-//       .transacting(transaction)
-//       .where({ id: actorId })
-//       .del();
-
-//     if (rowsAffected === 0) {
-//       return res.status(404).json({ error: "Contestant not found" });
-//     }
-//     await transaction.commit();
-//     res.status(200).json({ message: "Contestant deleted successfully" });
-//   } catch (error) {
-//     await transaction.rollback();
-//     logger.error(`Error in deleteContestant controller: ${error.message}`, {
-//       stack: error.stack,
-//     });
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
 exports.deleteContestant = async (req, res, next) => {
   const { contestantId } = req.params;
 
@@ -377,21 +355,53 @@ exports.deleteContestant = async (req, res, next) => {
 
     console.log(`Deleting related entries for contestant ID: ${contestantId}`); // Add logging
 
-    // First, delete related entries in the votes_tracker table
+    // Delete related entries in the votes_tracker table
     await knex("votes_tracker")
       .transacting(transaction)
       .where({ contestant_id: contestantId })
       .del();
 
-    console.log(`Deleted related entries for contestant ID: ${contestantId}`); // Add logging
+    console.log(`Deleted related entries in votes_tracker for contestant ID: ${contestantId}`); // Add logging
 
-    // Then, delete the contestant
+    // Delete related entries in the votes table
+    await knex("votes")
+      .transacting(transaction)
+      .where({ contestant_id: contestantId })
+      .del();
+
+    console.log(`Deleted related entries in votes for contestant ID: ${contestantId}`); // Add logging
+
+    // Delete related entries in the votes_extra table by contestant_id
+    await knex("votes_extra")
+      .transacting(transaction)
+      .where({ contestant_id: contestantId })
+      .del();
+
+    console.log(`Deleted related entries in votes_extra for contestant ID: ${contestantId}`); // Add logging
+
+    // Delete the contestant
     await knex("contestants")
       .transacting(transaction)
       .where({ id: contestantId })
       .del();
 
     console.log(`Deleted contestant with ID: ${contestantId}`); // Add logging
+
+    // Delete related entries in the votes_extra table by user_id
+    await knex("votes_extra")
+      .transacting(transaction)
+      .where({ user_id: userId })
+      .del();
+
+    console.log(`Deleted related entries in votes_extra for user ID: ${userId}`); // Add logging
+
+    // Delete related entries in the votes table that reference the user_id
+    await knex("votes")
+      .transacting(transaction)
+      .where({ user_id: userId })
+      .del();
+
+    console.log(`Deleted related entries in votes for user ID: ${userId}`); // Add logging
 
     // Finally, delete the user
     await knex("users")
