@@ -75,7 +75,7 @@ router.put("/active/:actorId", async (req, res, next) => {
   }
 });
 
-router.delete("/:actorId", async (req, res, next) => {
+router.delete("/:contestantId", async (req, res, next) => {
   try {
     await uploadController.deleteContestant(req, res);
   } catch (error) {
@@ -96,6 +96,14 @@ router.put("/activate-all", async (req, res, next) => {
 
 router.post("/:actorId/submit-video", uploadController.submitVideo);
 router.put("/:actorId/update-round", uploadController.updateRound);
+
+router.put("/update-groups", async (req, res, next) => {
+  try {
+    await uploadController.updateGroups(req, res);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 router.use(errorHandlingMiddleware);
 
