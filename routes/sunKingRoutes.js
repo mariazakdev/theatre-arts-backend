@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// PUT (Update) Sun King data
+// Update Sun King data
 router.put('/', async (req, res) => {
   try {
     const { newData } = req.body;

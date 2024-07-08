@@ -1,0 +1,533 @@
+[33mcommit 3c03df734d9414e2735d694c0ea39b025d17c319[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jul 6 13:03:50 2024 -0400
+
+    complete delete actor
+
+[33mcommit 2669c31968229f323674273b6623c45f4f1b52db[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jul 6 12:50:58 2024 -0400
+
+    updated delete actor
+
+[33mcommit fcb48c837118a6a294da3b9669b975ad701d7ce8[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Jun 24 20:10:26 2024 -0400
+
+    delete user updated
+
+[33mcommit 57af0675f7977bd568c96b2d50bec2be6933892a[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Wed Jun 19 20:40:02 2024 -0400
+
+    remove user
+
+[33mcommit ccc79d4e45b075785dbdb5707438301684b9042e[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun May 26 21:16:57 2024 -0400
+
+    tracker table added
+
+[33mcommit aad8dbd043ceda0e5f91744657be6351da734371[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Wed May 22 06:38:46 2024 -0400
+
+    timer 10m both votes, works locally
+
+[33mcommit 341a26b9242e04bebd2ec4e74c804158cfb8fd5f[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue May 21 17:36:22 2024 -0400
+
+    fixing votes
+
+[33mcommit 69e53f1152fc8ca96488ee06b59d5406b5a26b01[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue May 21 17:10:37 2024 -0400
+
+    fixing extra votes controller
+
+[33mcommit 30278855ae668594e97ec5572bad616300dd184d[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue May 21 16:58:58 2024 -0400
+
+    fixing votes_extra
+
+[33mcommit e17efc8bb1573b79dba13022e46079504a390cd6[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue May 21 16:45:56 2024 -0400
+
+    hoping to clear votes
+
+[33mcommit cb46e240784bd9675be53ffc992e7fc344ad30b6[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue May 21 16:29:06 2024 -0400
+
+    added votes_extra table
+
+[33mcommit 01f447a01b4b99cfe2d6de38f21d70097bce3db1[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue May 21 16:18:47 2024 -0400
+
+    added extra vote route
+
+[33mcommit de877d7c2c99e1f0dfc1921fa6a9d464cebd1552[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue May 21 16:07:08 2024 -0400
+
+    testing just free vote
+
+[33mcommit 94f1f2d2b1cdbdbe7c2789cec92d91f3b0c702f5[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue May 21 15:53:48 2024 -0400
+
+    dropped votes
+
+[33mcommit 1e32b46265c7294e7fec1cbf098a905574db7f55[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue May 21 12:23:17 2024 -0400
+
+    vote and vote extra in one route. Added duplicate testing
+
+[33mcommit aecd1cde366f827e8f66771da8043b0329a96fdf[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue May 21 11:30:48 2024 -0400
+
+    error catch duplicate in cast vote
+
+[33mcommit 5862e28556ce14890e92bc927c66e78d9e6b295e[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon May 20 09:00:34 2024 -0400
+
+    All votes in one controller. votes/extra
+
+[33mcommit 460ab796abef7a116d309692b5367ec406573cdf[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun May 19 15:21:54 2024 -0400
+
+    testing vote times
+
+[33mcommit efb3c2d7fb90c90f8b31dbbedf2028bff4c0814f[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Fri May 17 17:37:05 2024 -0400
+
+    3 days
+
+[33mcommit c6802230542d3e6e30a03aa7d13b0119193ad7ff[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Wed May 15 17:41:47 2024 -0400
+
+    changed times
+
+[33mcommit 1606a6d9690fdeb481512acfde115017f40f404b[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Apr 15 20:43:08 2024 -0400
+
+    return castvote
+
+[33mcommit 716f7668cd2df45194ad09c3e2b9a96f78bab2dd[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Apr 15 20:37:55 2024 -0400
+
+    return castvote
+
+[33mcommit 3bd3ada05af9d47d3a635ebaaf0986b8885ce7cf[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Apr 15 20:35:42 2024 -0400
+
+    testing time
+
+[33mcommit cc6ffc0b6c3df61cff7aaeb0278c2a47f8713e8a[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Apr 15 20:24:32 2024 -0400
+
+    testing time
+
+[33mcommit 2586d1babae53a42a6baa990c70acbc9f99b8cba[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Apr 15 20:17:02 2024 -0400
+
+    testing time
+
+[33mcommit 91454ce890f06f694bb0f225b54cf3429d671c32[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Apr 15 20:09:29 2024 -0400
+
+    testing time
+
+[33mcommit a3c6dbac590bc1bbb8312d9e00abe9cea4240296[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Apr 14 20:51:56 2024 -0400
+
+    votes
+
+[33mcommit 04a37f1dfae9ca9e9a6d69bd60659f2fe0a3a0be[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Apr 14 20:43:56 2024 -0400
+
+    votes
+
+[33mcommit 45acdfd08c18fa510d97fed045340f108c37c6f0[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Apr 14 13:38:51 2024 -0400
+
+    votes
+
+[33mcommit 7bc80429e41d874e79a635c63df30faabcdd1190[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Apr 14 13:07:44 2024 -0400
+
+    free vote
+
+[33mcommit 3e2da5f58384a34f753bbc9118b6eab3abfe0e0d[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Fri Apr 12 19:40:47 2024 -0400
+
+    updates
+
+[33mcommit 9a7f8041e1097ab3b35b1f76d4e22fcbf3267f67[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Fri Apr 12 19:16:03 2024 -0400
+
+    updates
+
+[33mcommit cbcd46d7a347a36a7d2ec7bfbef37c0e628125b1[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Fri Apr 12 17:35:22 2024 -0400
+
+    backend
+
+[33mcommit e0c80b370b8f09f006811c66a6bbf0fa3bb1f6bb[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue Apr 9 19:56:19 2024 -0400
+
+    fixed uplaod errors
+
+[33mcommit fd995165739ae0416eee70cd137276ddbb5cf7da[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Apr 1 13:56:02 2024 -0400
+
+    fixed auth
+
+[33mcommit 1e34328309fdebbb5f0d8c682a97e88fb4485e96[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Apr 1 12:51:02 2024 -0400
+
+    env fix error
+
+[33mcommit 423b38c053ee97bd71ee1633b3e113cdcd203f9c[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Mar 31 07:58:40 2024 -0400
+
+    key
+
+[33mcommit 6520147b4f413efa43616b4816d3b3c08bc532b5[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Wed Mar 6 06:42:56 2024 -0500
+
+    reset votes
+
+[33mcommit 2c6b247999f6dd344766416087dcd07796bde77c[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Mar 3 15:28:46 2024 -0500
+
+    check email exists user
+
+[33mcommit 895505bb9b312ba513a88119f7b34c7b2354052f[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Feb 17 19:22:10 2024 -0500
+
+    backend
+
+[33mcommit 404892ce33855ce7683a9b9e617234887516197f[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Wed Feb 14 17:14:17 2024 -0500
+
+    24 hours
+
+[33mcommit 79f74bc4876959312a10204aff6496606c13c621[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Feb 11 07:36:56 2024 -0500
+
+    active route
+
+[33mcommit ea08d10f83336d2f9aa3de7871f74d69c11752ab[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Wed Feb 7 07:07:10 2024 -0500
+
+    added time zone. timer has bugs
+
+[33mcommit f7eb1dfefe12eb5db4f0963fc0ca7abec6a9ea49[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jan 20 18:25:24 2024 -0500
+
+    Final Deploy
+
+[33mcommit 890625d0c430fab81b928d6f22c8a53f83e68522[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jan 20 17:53:04 2024 -0500
+
+    corssssss
+
+[33mcommit aed46ef80628e968f78a7eec4df1cadb285ed96e[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jan 20 16:22:21 2024 -0500
+
+    cors
+
+[33mcommit 66e76a1aa7363e2607fb5f84421446f876b64eaa[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jan 20 09:49:10 2024 -0500
+
+    cors
+
+[33mcommit e86d9e22b52c2234b9d1b551aed00fd5d7647845[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jan 20 08:29:12 2024 -0500
+
+    wildcard
+
+[33mcommit 5b78f4890e0704b356106842a65c92388b6c913b[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jan 20 07:14:46 2024 -0500
+
+    updated cors
+
+[33mcommit 47db167e5ee7c72bc05a2194b8196efc99c8b17f[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Thu Jan 18 18:59:04 2024 -0500
+
+    ENV
+
+[33mcommit 629f642c763292c102b018fbc434626eeeb64a6d[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Jan 15 20:37:05 2024 -0500
+
+    BACKEND DEPLOYMENT SUCCESSFUL
+
+[33mcommit 275d2f2ca64a6aa04bd27b760a9ed8f91093d2fe[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Jan 15 20:19:32 2024 -0500
+
+    errors
+
+[33mcommit 04a09d9f9a453d725770202bfa42c48d37219455[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Jan 14 10:42:22 2024 -0500
+
+    env
+
+[33mcommit f3c02e2b6debeb0e661fc2e9d3b3070a51dda941[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Jan 14 10:32:30 2024 -0500
+
+    error next
+
+[33mcommit 7ac1a2b64be7b8464babb30e9f2a8f79663f6dcb[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Jan 14 10:24:11 2024 -0500
+
+    new port
+
+[33mcommit 050f201fe44261683e99d8b9b271d0bbe096f066[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Jan 14 10:16:44 2024 -0500
+
+    Added mysql railway env
+
+[33mcommit ced275475341444e49d0af92ec6b04c58c2504e8[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Jan 14 09:08:09 2024 -0500
+
+    mysql2
+
+[33mcommit fa91de4315d0ed9079d4170b6bc9b41c0de63dd7[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jan 13 19:12:09 2024 -0500
+
+    mysql errors
+
+[33mcommit 24f7643236247295ac8cd63320baf079f38ec080[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jan 13 14:26:22 2024 -0500
+
+    mysql
+
+[33mcommit 8a0ec78e5951cab2d9a9916b0c2bcab96624829a[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jan 13 14:06:08 2024 -0500
+
+    mysql error
+
+[33mcommit 13e0526849b3ec36348043e2926d1033ed4f9c6c[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jan 13 12:31:07 2024 -0500
+
+    logger error
+
+[33mcommit 893e44b52a96a898248f6e34a150d13065c02c29[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jan 13 10:22:55 2024 -0500
+
+    logger update to firebase users
+
+[33mcommit 941cf8d12a84d24b12f9d873bc4cdc1620e7cbc3[m[33m ([m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Jan 13 08:57:37 2024 -0500
+
+    cleaned up
+
+[33mcommit 167e3076aef6eaff7f248eb5e484e8df919814ff[m[33m ([m[1;31morigin/errors[m[33m, [m[1;32merrors[m[33m)[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Fri Jan 12 20:44:17 2024 -0500
+
+    tests
+
+[33mcommit 149039d4b8f35a6ccc87074badf26728384d2365[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Thu Jan 11 18:24:10 2024 -0500
+
+    changed users object
+
+[33mcommit 94a59ada695b7928fcb7cf2b6e19a5b20c788011[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Jan 7 13:50:00 2024 -0500
+
+    Sprint 1 complete with seeds
+
+[33mcommit 5590e84bef661ebdc72b9dc843d1bc0ed636c8c3[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Jan 1 15:41:02 2024 -0500
+
+    get route by firebase id
+
+[33mcommit ce7b78c51bb9e5430c982bd391a213c15d822f6d[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Jan 1 14:00:16 2024 -0500
+
+    return route works
+
+[33mcommit 5e1b3861bd6705af5806b71abe30ed140917928e[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Jan 1 10:18:12 2024 -0500
+
+    working loginuser route
+
+[33mcommit 46c7191f733ef67be99bebdf041e513e666b7612[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Dec 30 12:06:01 2023 -0500
+
+     all routes -dashboard pass
+
+[33mcommit f5ac26c0d510c66b5ea37818e5ee8a04a050a2d2[m[33m ([m[1;31morigin/stripe[m[33m, [m[1;32mstripe[m[33m)[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Fri Dec 29 18:31:22 2023 -0500
+
+    added error handler to routes
+
+[33mcommit 8b8531a9c8ecbc783f88592cfda9933d2a7b22e3[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue Dec 26 18:30:00 2023 -0500
+
+    error handling transactions in controllers
+
+[33mcommit 8453599ea6570ebb42a7f92eab5145b5ad852e39[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Dec 24 08:47:49 2023 -0500
+
+    Error Handle 500 middleware
+
+[33mcommit d46188210a07238e44db0df9bc45673ee5afcc9f[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Dec 4 17:34:13 2023 -0500
+
+    paymentvote route
+
+[33mcommit 2dca766bdf5fce1e54ea2eaddf9c076a503dc7ea[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Fri Nov 24 20:36:17 2023 -0500
+
+    stripe
+
+[33mcommit 2f9172e37ebcd19aa2a9917c240a030b6229d131[m[33m ([m[1;31morigin/feature-api[m[33m, [m[1;32mfeature-api[m[33m)[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sat Nov 18 16:37:02 2023 -0500
+
+    votes, contestant routes
+
+[33mcommit bedc41b08c42c37d97cdd52f89e3c30dfac9813a[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Wed Nov 15 07:14:11 2023 -0500
+
+    actors list page
+
+[33mcommit 7657c16fb91690f37d40b0675a549265d0b54aee[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Nov 13 20:38:43 2023 -0500
+
+    fixed dashbaord
+
+[33mcommit f0c2384e9c8f4ca4d6f48c213af6bdbbb791e237[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Nov 13 18:36:09 2023 -0500
+
+    fixed upload
+
+[33mcommit 142a8c5374c7e2e1f3c2d74eee845a4accdae8f6[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Nov 12 09:43:08 2023 -0500
+
+    fixed payment route bug hopefully
+
+[33mcommit bc4cb9e38c23e8c79db14f876380478e70c9ac6c[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Wed Nov 8 18:44:47 2023 -0500
+
+    upload new contestant postman post works
+
+[33mcommit 9d0ffa37ff4a5fa2bd6d87c80758aefba375f083[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Wed Nov 8 06:40:25 2023 -0500
+
+    Fixed get users contestants. still working on post contestants
+
+[33mcommit fe0fbcf9d66fa108e038b1f0a6b5d2ffa9985450[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Mon Oct 30 19:25:27 2023 -0400
+
+    Photo uplaod works in AWS, still needs to be coded more to create user
+
+[33mcommit d6cd0d21006e040ea9c096f03961c840fff4b44b[m[33m ([m[1;31morigin/feature-routes[m[33m, [m[1;32mfeature-routes[m[33m)[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Oct 22 20:33:59 2023 -0400
+
+    Stripe payment route
+
+[33mcommit be36748e62971e2e8b7feaafd2777ab8af792fef[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue Oct 17 12:53:48 2023 -0400
+
+    Finalized route upload
+
+[33mcommit fa919e2281f38e0a0172aa2bbf201c7ece99930b[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue Oct 17 12:49:56 2023 -0400
+
+    Fixed controller
+
+[33mcommit d8a74cddf262637f04d1a084fa174ebc49b35031[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Tue Oct 17 12:40:25 2023 -0400
+
+    Added route for upload
+
+[33mcommit 68c4a1321ce86f9e6c89a135d3f5b495ea25c0ad[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Oct 15 14:48:35 2023 -0400
+
+    first commit
+
+[33mcommit 23620609e4eb939f8b06d9060ce12548f258df92[m
+Author: Maria Zak <mzakart@gmail.com>
+Date:   Sun Oct 15 14:46:21 2023 -0400
+
+    first commit
