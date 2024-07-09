@@ -6,6 +6,7 @@ const knex = require("knex")(require("./knexfile"));
 const errorMiddleware = require("./middlewares/errorHandlingMiddleware");
 
 const URL = process.env.CORS_ORIGIN;
+const PORT = process.env.MYSQLPORT;
 
 function createApp() {
   const app = express();
