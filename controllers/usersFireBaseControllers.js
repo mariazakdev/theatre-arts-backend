@@ -1,3 +1,5 @@
+const { Console } = require("console");
+
 const knex = require("knex")(require("../knexfile"));
 
 exports.loginUser = async (req, res, next) => {
@@ -59,7 +61,7 @@ exports.getUserById = async (req, res, next) => {
     // Respond with a 200 status and user details along with the associated contestant on success
     return res.status(200).json(responseData);
   } catch (error) {
-    logger.error(`Error in loginUser controller: ${error.message}`, {
+    console.error(`Error in loginUser controller: ${error.message}`, {
       stack: error.stack,
     });
     return res.status(500).json({ message: "Internal server error." });

@@ -256,23 +256,81 @@ exports.resetVotes = async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-// Reset rounds 
+
+
+// Increment the round for all active contestants and update groups
 exports.updateRound = async (req, res, next) => {
+  const transaction = await knex.transaction();
+
   try {
     // Increment the round for all active contestants
     await knex('contestants')
+      .transacting(transaction)
       .where({ active: 1 })
       .increment('round', 1);
 
-    res.status(200).json({ message: 'Round updated successfully for all active contestants' });
+    // Fetch all active contestants, sorted by their group number and votes
+    const activeContestants = await knex('contestants')
+      .where({ active: 1 })
+      .orderBy('group_number')
+      .orderBy('votes', 'desc');
+
+    // Group contestants by group_number
+    const groupsMap = {};
+    activeContestants.forEach(contestant => {
+      if (!groupsMap[contestant.group_number]) {
+        groupsMap[contestant.group_number] = [];
+      }
+      groupsMap[contestant.group_number].push(contestant);
+    });
+
+    // Determine the top 3 in each group and mark the rest inactive
+    const updatedContestants = [];
+    Object.values(groupsMap).forEach(group => {
+      group.forEach((contestant, index) => {
+        if (index < 3) {
+          // Top 3 contestants remain active
+          updatedContestants.push(contestant);
+        } else {
+          // Others become inactive
+          contestant.active = 0;
+          updatedContestants.push(contestant);
+        }
+      });
+    });
+
+    // Regroup the remaining active contestants
+    let groupNumber = 1;
+    let groupCounter = 0;
+    for (const contestant of updatedContestants) {
+      if (contestant.active === 1) {
+        if (groupCounter >= 10) {
+          groupNumber++;
+          groupCounter = 0;
+        }
+        contestant.group_number = groupNumber;
+        groupCounter++;
+      }
+
+      await knex('contestants')
+        .transacting(transaction)
+        .where({ id: contestant.id })
+        .update({
+          group_number: contestant.group_number,
+          active: contestant.active,
+        });
+    }
+
+    await transaction.commit();
+    res.status(200).json({ message: 'Round updated and groups reset successfully' });
   } catch (error) {
+    await transaction.rollback();
     console.error(`Error in updateRound controller: ${error.message}`, {
       stack: error.stack,
     });
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
 
 
 exports.getContestantById = async (req, res, next) => {
@@ -455,38 +513,133 @@ exports.submitVideo = async (req, res, next) => {
   }
 };
 
-exports.updateGroups = async (req, res, next) => {
-  const { groupedContestants } = req.body;
+// Changing round number manually
+exports.updateRoundNumberManually = async (req, res, next) => {
+  const { roundNumber } = req.body;
 
-  if (!groupedContestants || !Array.isArray(groupedContestants)) {
-    return res.status(400).json({ error: "Invalid input data" });
+  if (!roundNumber || isNaN(roundNumber)) {
+    return res.status(400).json({ error: "Invalid round number" });
   }
 
   const transaction = await knex.transaction();
 
   try {
-    for (const group of groupedContestants) {
-      const { groupId, contestantIds } = group;
-      if (!groupId || !Array.isArray(contestantIds)) {
-        return res.status(400).json({ error: "Invalid group data" });
-      }
-
-      // Update group number for each contestant in the group
-      for (const id of contestantIds) {
-        await knex('contestants')
-          .transacting(transaction)
-          .where({ id })
-          .update({ group: groupId });
-      }
-    }
+    // Update the round number for all active contestants
+    await knex('contestants')
+      .transacting(transaction)
+      .where({ active: 1 })
+      .update({ round: roundNumber });
 
     await transaction.commit();
-    res.status(200).json({ message: "Groups updated successfully" });
+    res.status(200).json({ message: `Round number updated to ${roundNumber} successfully` });
   } catch (error) {
     await transaction.rollback();
-    logger.error(`Error in updateGroups controller: ${error.message}`, {
+    console.error(`Error in updateRoundNumberManually controller: ${error.message}`, {
       stack: error.stack,
     });
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+//  changes groups
+
+exports.updateGroupNumberManually = async (req, res, next) => {
+  const { groupNumber } = req.body;
+
+  if (!groupNumber || isNaN(groupNumber)) {
+    return res.status(400).json({ error: "Invalid group number" });
+  }
+
+  const transaction = await knex.transaction();
+
+  try {
+    // Update the group number for all active contestants
+    await knex('contestants')
+      .transacting(transaction)
+      .where({ active: 1 })
+      .update({ group_number: groupNumber });
+
+    await transaction.commit();
+    res.status(200).json({ message: `Group number updated to ${groupNumber} successfully` });
+  } catch (error) {
+    await transaction.rollback();
+    console.error(`Error in updateGroupNumberManually controller: ${error.message}`, {
+      stack: error.stack,
+    });
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+//  increment the round, deactivate contestants, and regroup remaining contestants
+
+exports.incrementRoundAndRegroup = async (req, res, next) => {
+  const transaction = await knex.transaction();
+
+  try {
+    // Increment the round for all active contestants
+    await knex('contestants')
+      .transacting(transaction)
+      .where({ active: 1 })
+      .increment('round', 1);
+
+    // Fetch all active contestants, sorted by their group number and votes
+    const activeContestants = await knex('contestants')
+      .where({ active: 1 })
+      .orderBy('group_number')
+      .orderBy('votes', 'desc');
+
+    // Group contestants by group_number
+    const groupsMap = {};
+    activeContestants.forEach(contestant => {
+      if (!groupsMap[contestant.group_number]) {
+        groupsMap[contestant.group_number] = [];
+      }
+      groupsMap[contestant.group_number].push(contestant);
+    });
+
+    // Determine the top 3 in each group and mark the rest inactive
+    const updatedContestants = [];
+    Object.values(groupsMap).forEach(group => {
+      group.forEach((contestant, index) => {
+        if (index < 3) {
+          // Top 3 contestants remain active
+          updatedContestants.push(contestant);
+        } else {
+          // Others become inactive
+          contestant.active = 0;
+          updatedContestants.push(contestant);
+        }
+      });
+    });
+
+    // Regroup the remaining active contestants
+    let groupNumber = 1;
+    let groupCounter = 0;
+    for (const contestant of updatedContestants) {
+      if (contestant.active === 1) {
+        if (groupCounter >= 10) {
+          groupNumber++;
+          groupCounter = 0;
+        }
+        contestant.group_number = groupNumber;
+        groupCounter++;
+      }
+
+      await knex('contestants')
+        .transacting(transaction)
+        .where({ id: contestant.id })
+        .update({
+          group_number: contestant.group_number,
+          active: contestant.active,
+        });
+    }
+
+    await transaction.commit();
+    res.status(200).json({ message: 'Round updated and groups reset successfully' });
+  } catch (error) {
+    await transaction.rollback();
+    console.error(`Error in incrementRoundAndRegroup controller: ${error.message}`, {
+      stack: error.stack,
+    });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };

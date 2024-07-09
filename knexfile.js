@@ -12,12 +12,15 @@ module.exports = {
     password: process.env.MYSQLPASSWORD,
     charset: process.env.DB_CHARSET,
     port: process.env.MYSQLPORT,
+    waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
   },
   
   migrations: {
-    directory: './db/migrations',
+    directory: 'migrations',
   },
   seeds: {
-    directory: './db/seeds', 
+    directory: 'seeds', 
   },
 };

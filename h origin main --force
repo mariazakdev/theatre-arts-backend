@@ -362,13 +362,13 @@ Date:   Sat Jan 13 14:06:08 2024 -0500
 Author: Maria Zak <mzakart@gmail.com>
 Date:   Sat Jan 13 12:31:07 2024 -0500
 
-    logger error
+    console error
 
 [33mcommit 893e44b52a96a898248f6e34a150d13065c02c29[m
 Author: Maria Zak <mzakart@gmail.com>
 Date:   Sat Jan 13 10:22:55 2024 -0500
 
-    logger update to firebase users
+    console update to firebase users
 
 [33mcommit 941cf8d12a84d24b12f9d873bc4cdc1620e7cbc3[m[33m ([m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m
 Author: Maria Zak <mzakart@gmail.com>

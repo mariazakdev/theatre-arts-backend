@@ -10,6 +10,62 @@ const s3Client = new S3Client({ region: process.env.REGION });
 const BUCKET_NAME = process.env.S3_BUCKET_NAME;
 
 // From upload form
+// exports.newContestant = async (req, res, next) => {
+//   const transaction = await knex.transaction();
+
+//   try {
+//     const { firebaseId, photoUrl, videoUrl, description, name } = req.body;
+
+//     // Input Validation
+//     if (!firebaseId || !photoUrl || !videoUrl || !description || !name) {
+//       return res.status(400).json({ error: "Missing required fields" });
+//     }
+
+//     // Retrieve the user from the database
+//     const [user] = await knex("users").where({ firebase_auth_id: firebaseId });
+//     console.log("User:", user);
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+
+//     // Check if a contestant with the same user_id already exists
+//     const existingContestant = await knex("contestants")
+//       .where({ user_id: user.id })
+//       .first();
+//     console.log("A contestant was added. Good luck");
+//     if (existingContestant) {
+//       return res
+//         .status(409)
+//         .json({ error: "Contestant already exists for this user" });
+//     }
+
+//     // Insert contestant information into the database
+//     const [insertedId] = await knex("contestants")
+//       .transacting(transaction)
+//       .insert({
+//         user_id: user.id,
+//         name,
+//         url_photo: photoUrl,
+//         url_video: videoUrl,
+//         description,
+//         votes: 0,
+//       });
+//     await transaction.commit();
+
+//     res.status(201).json({
+//       contestantId: insertedId,
+//       message: "Contestant created successfully",
+//     });
+//   } catch (error) {
+//     await transaction.rollback();
+//     logger.error(`Error in newContestant controller: ${error.message}`, {
+//       stack: error.stack,
+//     });
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
+//New contestant in groups
 exports.newContestant = async (req, res, next) => {
   const transaction = await knex.transaction();
 
@@ -23,7 +79,6 @@ exports.newContestant = async (req, res, next) => {
 
     // Retrieve the user from the database
     const [user] = await knex("users").where({ firebase_auth_id: firebaseId });
-    console.log("User:", user);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -32,11 +87,29 @@ exports.newContestant = async (req, res, next) => {
     const existingContestant = await knex("contestants")
       .where({ user_id: user.id })
       .first();
-    console.log("A contestant was added. Good luck");
     if (existingContestant) {
       return res
         .status(409)
         .json({ error: "Contestant already exists for this user" });
+    }
+
+    // Determine the group number for the new contestant
+    const [lastGroup] = await knex("contestants")
+      .select("group_number")
+      .orderBy("group_number", "desc")
+      .limit(1);
+
+    let groupNumber = 1; // Default group number
+    if (lastGroup && lastGroup.group_number) {
+      const [currentGroupCount] = await knex("contestants")
+        .count("id as count")
+        .where({ group_number: lastGroup.group_number });
+
+      if (currentGroupCount.count >= 10) {
+        groupNumber = lastGroup.group_number + 1;
+      } else {
+        groupNumber = lastGroup.group_number;
+      }
     }
 
     // Insert contestant information into the database
@@ -49,6 +122,7 @@ exports.newContestant = async (req, res, next) => {
         url_video: videoUrl,
         description,
         votes: 0,
+        group_number: groupNumber,
       });
     await transaction.commit();
 
@@ -64,6 +138,7 @@ exports.newContestant = async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 // Retrieve all contestants with their signed photo URLs
 exports.getAllContestants = async (req, res, next) => {
@@ -160,28 +235,45 @@ exports.recordVote = async (req, res, next) => {
   }
 };
 
-
 // Reset votes after rounds
 exports.resetVotes = async (req, res, next) => {
-  const actorId = req.params.actorId;
+  const { actorId } = req.params;
 
   try {
-    // Check if actorId is provided
+    // Reset votes for all active contestants if no actorId is provided
     if (!actorId) {
-      return res.status(400).json({ error: "No actorId provided" });
+      await knex("contestants").where({ active: 1 }).update({ votes: 0 });
+    } else {
+      // Reset votes for the specific contestant with the provided actorId
+      await knex("contestants").where({ id: actorId }).update({ votes: 0 });
     }
-
-    // Reset votes for the contestant with the provided actorId
-    await knex("contestants").where({ id: actorId }).update({ votes: 0 });
 
     res.status(200).json({ message: "Votes reset successfully" });
   } catch (error) {
-    logger.error(`Error in resetVotes controller: ${error.message}`, {
+    console.error(`Error in resetVotes controller: ${error.message}`, {
       stack: error.stack,
     });
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+// Reset rounds 
+exports.updateRound = async (req, res, next) => {
+  try {
+    // Increment the round for all active contestants
+    await knex('contestants')
+      .where({ active: 1 })
+      .increment('round', 1);
+
+    res.status(200).json({ message: 'Round updated successfully for all active contestants' });
+  } catch (error) {
+    console.error(`Error in updateRound controller: ${error.message}`, {
+      stack: error.stack,
+    });
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
 
 exports.getContestantById = async (req, res, next) => {
   try {
@@ -236,27 +328,99 @@ exports.updateContestantActiveStatus = async (req, res, next) => {
 };
 
 exports.deleteContestant = async (req, res, next) => {
-  const actorId = req.params.actorId;
+  const { contestantId } = req.params;
+
+  console.log(`Received request to delete contestant with ID: ${contestantId}`); // Add logging
+
+  if (!contestantId) {
+    console.log("Contestant ID is missing"); // Add logging
+    return res.status(400).json({ error: "Contestant ID is required" });
+  }
+
   const transaction = await knex.transaction();
   try {
-    const rowsAffected = await knex("contestants")
+    // Find the user_id related to the contestant
+    const [contestant] = await knex("contestants")
       .transacting(transaction)
-      .where({ id: actorId })
-      .del();
+      .where({ id: contestantId })
+      .select("user_id");
 
-    if (rowsAffected === 0) {
+    if (!contestant) {
+      await transaction.rollback();
+      console.log(`Contestant with ID ${contestantId} not found`); // Add logging
       return res.status(404).json({ error: "Contestant not found" });
     }
+
+    const userId = contestant.user_id;
+
+    console.log(`Deleting related entries for contestant ID: ${contestantId}`); // Add logging
+
+    // Delete related entries in the votes_tracker table
+    await knex("votes_tracker")
+      .transacting(transaction)
+      .where({ contestant_id: contestantId })
+      .del();
+
+    console.log(`Deleted related entries in votes_tracker for contestant ID: ${contestantId}`); // Add logging
+
+    // Delete related entries in the votes table
+    await knex("votes")
+      .transacting(transaction)
+      .where({ contestant_id: contestantId })
+      .del();
+
+    console.log(`Deleted related entries in votes for contestant ID: ${contestantId}`); // Add logging
+
+    // Delete related entries in the votes_extra table by contestant_id
+    await knex("votes_extra")
+      .transacting(transaction)
+      .where({ contestant_id: contestantId })
+      .del();
+
+    console.log(`Deleted related entries in votes_extra for contestant ID: ${contestantId}`); // Add logging
+
+    // Delete the contestant
+    await knex("contestants")
+      .transacting(transaction)
+      .where({ id: contestantId })
+      .del();
+
+    console.log(`Deleted contestant with ID: ${contestantId}`); // Add logging
+
+    // Delete related entries in the votes_extra table by user_id
+    await knex("votes_extra")
+      .transacting(transaction)
+      .where({ user_id: userId })
+      .del();
+
+    console.log(`Deleted related entries in votes_extra for user ID: ${userId}`); // Add logging
+
+    // Delete related entries in the votes table that reference the user_id
+    await knex("votes")
+      .transacting(transaction)
+      .where({ user_id: userId })
+      .del();
+
+    console.log(`Deleted related entries in votes for user ID: ${userId}`); // Add logging
+
+    // Finally, delete the user
+    await knex("users")
+      .transacting(transaction)
+      .where({ id: userId })
+      .del();
+
     await transaction.commit();
-    res.status(200).json({ message: "Contestant deleted successfully" });
+
+    console.log(`Deleted user with ID: ${userId}`); // Add logging
+    res.status(200).json({ message: "Contestant and user deleted successfully" });
   } catch (error) {
     await transaction.rollback();
-    logger.error(`Error in deleteContestant controller: ${error.message}`, {
-      stack: error.stack,
-    });
+    console.error("Error deleting contestant:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+
 exports.activateAllContestants = async (req, res, next) => {
   try {
     // Update active status for all contestants to 1
@@ -291,18 +455,38 @@ exports.submitVideo = async (req, res, next) => {
   }
 };
 
-exports.updateRound = async (req, res, next) => {
-  const actorId = req.params.actorId;
-  const { round } = req.body;
+exports.updateGroups = async (req, res, next) => {
+  const { groupedContestants } = req.body;
+
+  if (!groupedContestants || !Array.isArray(groupedContestants)) {
+    return res.status(400).json({ error: "Invalid input data" });
+  }
+
+  const transaction = await knex.transaction();
 
   try {
-    // Your logic to update round (e.g., update contestant's round)
-    // Example:
-    await knex("contestants").where({ id: actorId }).update({ round });
+    for (const group of groupedContestants) {
+      const { groupId, contestantIds } = group;
+      if (!groupId || !Array.isArray(contestantIds)) {
+        return res.status(400).json({ error: "Invalid group data" });
+      }
 
-    res.status(200).json({ message: "Round updated successfully" });
+      // Update group number for each contestant in the group
+      for (const id of contestantIds) {
+        await knex('contestants')
+          .transacting(transaction)
+          .where({ id })
+          .update({ group: groupId });
+      }
+    }
+
+    await transaction.commit();
+    res.status(200).json({ message: "Groups updated successfully" });
   } catch (error) {
-    console.error("Error updating round:", error);
+    await transaction.rollback();
+    logger.error(`Error in updateGroups controller: ${error.message}`, {
+      stack: error.stack,
+    });
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

@@ -34,6 +34,8 @@ router.post("/vote/:actorId", async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+
 router.post("/vote-extra/:actorId", async (req, res, next) => {
   try {
     await uploadController.recordExtraVote(req, res);
@@ -50,6 +52,7 @@ router.put("/reset-votes", async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 router.put("/update-round", async (req, res, next) => {
   try {
     await uploadController.updateRound(req, res);
@@ -58,8 +61,6 @@ router.put("/update-round", async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-
 router.get("/:actorId", async (req, res, next) => {
   try {
     await uploadController.getContestantById(req, res);
@@ -99,31 +100,60 @@ router.put("/activate-all", async (req, res, next) => {
 router.post("/:actorId/submit-video", uploadController.submitVideo);
 router.put("/:actorId/update-round", uploadController.updateRound);
 
-router.put("/update-round-manually", async (req, res, next) => {
+router.put("/update-groups", async (req, res, next) => {
   try {
-    await uploadController.updateRoundNumberManually(req, res);
+    await uploadController.updateGroups(req, res);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 
-router.put("/update-group-manually", async (req, res, next) => {
+router.put("/update-groups", async (req, res, next) => {
   try {
-    await uploadController.updateGroupNumberManually(req, res);
+    await uploadController.updateGroups(req, res);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// router.put("/update-groups", async (req, res, next) => {
-//   try {
-//     await uploadController.updateGroups(req, res);
-//   } catch (error) {
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
-router.post('/regroup', uploadController.incrementRoundAndRegroup);
+// Update contestant groups
+exports.updateGroups = async (req, res, next) => {
+  const { groupedContestants } = req.body;
+
+  if (!groupedContestants || !Array.isArray(groupedContestants)) {
+    return res.status(400).json({ error: "Invalid input data" });
+  }
+
+  const transaction = await knex.transaction();
+
+  try {
+    for (const group of groupedContestants) {
+      const { groupId, contestantIds } = group;
+      if (!groupId || !Array.isArray(contestantIds)) {
+        return res.status(400).json({ error: "Invalid group data" });
+      }
+
+      // Update group number for each contestant in the group
+      for (const id of contestantIds) {
+        await knex('contestants')
+          .transacting(transaction)
+          .where({ id })
+          .update({ group: groupId });
+      }
+    }
+
+    await transaction.commit();
+    res.status(200).json({ message: "Groups updated successfully" });
+  } catch (error) {
+    await transaction.rollback();
+    logger.error(`Error in updateGroups controller: ${error.message}`, {
+      stack: error.stack,
+    });
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 
 
 router.use(errorHandlingMiddleware);
