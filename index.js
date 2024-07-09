@@ -42,20 +42,22 @@ const votesTrackerRoutes = require("./routes/votesTrackerRoutes");
       res.status(401).json({ error: "Unauthorized" });
     }
   };
-  app.use("/users", checkApiKey, usersFBRoutes);
-  app.use("/contestants", checkApiKey, uploadRoutes);
-  app.use("/payment", checkApiKey, paymentRoutes);
-  app.use("/sun-king", sunKingRoutes);
-  app.use("/votes", checkApiKey, votesRoutes);
-  app.use("/votes-extra", checkApiKey, votesExtraRoutes);
-  app.use("/votes-tracker",checkApiKey, votesTrackerRoutes);
-
-
-  // app.use("/users",  usersFBRoutes);
-  // app.use("/contestants",  uploadRoutes);
-  // app.use("/payment", paymentRoutes);
+  // app.use("/users", checkApiKey, usersFBRoutes);
+  // app.use("/contestants", checkApiKey, uploadRoutes);
+  // app.use("/payment", checkApiKey, paymentRoutes);
   // app.use("/sun-king", sunKingRoutes);
-  // app.use("/votes", votesRoutes);
+  // app.use("/votes", checkApiKey, votesRoutes);
+  // app.use("/votes-extra", checkApiKey, votesExtraRoutes);
+  // app.use("/votes-tracker",checkApiKey, votesTrackerRoutes);
+
+
+  app.use("/users",  usersFBRoutes);
+  app.use("/contestants",  uploadRoutes);
+  app.use("/payment", paymentRoutes);
+  app.use("/sun-king", sunKingRoutes);
+  app.use("/votes", votesRoutes);
+  app.use("/votes-extra",  votesExtraRoutes);
+  app.use("/votes-tracker" votesTrackerRoutes);
 
 
   return app;
