@@ -1,5 +1,7 @@
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY; 
 const stripe = require("stripe")(stripeSecretKey);
+const logger = require("../logger");
+
 
 exports.payment = async (req, res, next) => {
     try {
@@ -16,6 +18,7 @@ exports.payment = async (req, res, next) => {
           enabled: true,
         },
       });
+
   
       // If successful, you can customize the response as needed
       res.json({ success: true, clientSecret: paymentIntent.client_secret });

@@ -1,4 +1,4 @@
-const { Console } = require("console");
+const { Console } = require("logger");
 
 const knex = require("knex")(require("../knexfile"));
 
@@ -118,7 +118,7 @@ exports.createUser = async (req, res, next) => {
       .status(201)
       .json({ userId: userId, message: "User created successfully" });
   } catch (error) {
-    logger.error(`Error in createUser: ${error.message}`, {
+    console.error(`Error in createUser: ${error.message}`, {
       stack: error.stack,
       requestId: req.id,
     });
@@ -132,7 +132,7 @@ exports.getAllUsers = async (req, res, next) => {
     const users = await knex("users").select("*");
     res.status(200).json(users);
   } catch (error) {
-    logger.error(`Error in getAllUsers: ${error.message}`, {
+   console.error(`Error in getAllUsers: ${error.message}`, {
       stack: error.stack,
       requestId: req.id,
     });
