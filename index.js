@@ -57,7 +57,7 @@ const votesTrackerRoutes = require("./routes/votesTrackerRoutes");
   app.use("/sun-king", sunKingRoutes);
   app.use("/votes", votesRoutes);
   app.use("/votes-extra",  votesExtraRoutes);
-  app.use("/votes-tracker" votesTrackerRoutes);
+  app.use("/votes-tracker", votesTrackerRoutes);
 
 
   return app;
