@@ -43,22 +43,6 @@ router.post("/vote-extra/:actorId", async (req, res, next) => {
 });
 
 
-router.put("/reset-votes", async (req, res, next) => {
-  try {
-    await uploadController.resetVotes(req, res);
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-router.put("/update-round", async (req, res, next) => {
-  try {
-    await uploadController.updateRound(req, res);
-    (req, res);
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 
 router.get("/:actorId", async (req, res, next) => {
   try {
@@ -97,17 +81,6 @@ router.put("/activate-all", async (req, res, next) => {
 });
 
 router.post("/:actorId/submit-video", uploadController.submitVideo);
-// router.put("/:actorId/update-round", uploadController.updateRound);
-// router.put("/:actorId/update-group", uploadController.updateGroup);
-
-
-// router.put("/:actorId/update-group", async (req, res, next) => {
-//   try {
-//     await uploadController.updateGroupNumberManually(req, res);
-//   } catch (error) {
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
 
 router.put("/:actorId/update-round", async (req, res, next) => {
   try {
@@ -124,7 +97,60 @@ router.put("/:actorId/update-group", async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-router.post('/regroup', uploadController.incrementRoundAndRegroup);
+
+
+//////// IT Tech Routes ////////////
+
+// Deactivate all contestants except the top 3 in each group
+// STEP 1 towards the end 
+router.put('/deactivate-non-ranked', async (req, res, next) => {
+  try {
+    await uploadController.deactivateNonTopThree(req, res);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Remove all votes. Start at zero
+// STEP 2 towards the end
+router.put("/reset-votes", async (req, res, next) => {
+  try {
+    await uploadController.resetVotes(req, res);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+// Regroup new set of active contestants
+// STEP 3 towards the end
+router.put('/regroup-contestants', async (req, res, next) => {
+  try {
+    await uploadController.regroupActiveContestants(req, res);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// New round
+// STEP 4 towards the end
+router.put('/update-round', async (req, res, next) => {
+  try {
+    await uploadController.updateRoundForActiveContestants(req, res);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+// Update votes for testing only
+
+router.put('/:contestantId/update-votes', async (req, res, next) => {
+  try {
+    await uploadController.updateVotesForContestant(req, res);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 
 
 router.use(errorHandlingMiddleware);
