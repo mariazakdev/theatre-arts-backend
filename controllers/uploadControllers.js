@@ -4,66 +4,11 @@ const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { Router } = require("express");
 const logger = require("../logger");
+const { group } = require("console");
 
 // Configure the S3 client with your AWS credentials and set up earlier in your code
 const s3Client = new S3Client({ region: process.env.REGION });
 const BUCKET_NAME = process.env.S3_BUCKET_NAME;
-
-// From upload form
-// exports.newContestant = async (req, res, next) => {
-//   const transaction = await knex.transaction();
-
-//   try {
-//     const { firebaseId, photoUrl, videoUrl, description, name } = req.body;
-
-//     // Input Validation
-//     if (!firebaseId || !photoUrl || !videoUrl || !description || !name) {
-//       return res.status(400).json({ error: "Missing required fields" });
-//     }
-
-//     // Retrieve the user from the database
-//     const [user] = await knex("users").where({ firebase_auth_id: firebaseId });
-//     console.log("User:", user);
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
-
-//     // Check if a contestant with the same user_id already exists
-//     const existingContestant = await knex("contestants")
-//       .where({ user_id: user.id })
-//       .first();
-//     console.log("A contestant was added. Good luck");
-//     if (existingContestant) {
-//       return res
-//         .status(409)
-//         .json({ error: "Contestant already exists for this user" });
-//     }
-
-//     // Insert contestant information into the database
-//     const [insertedId] = await knex("contestants")
-//       .transacting(transaction)
-//       .insert({
-//         user_id: user.id,
-//         name,
-//         url_photo: photoUrl,
-//         url_video: videoUrl,
-//         description,
-//         votes: 0,
-//       });
-//     await transaction.commit();
-
-//     res.status(201).json({
-//       contestantId: insertedId,
-//       message: "Contestant created successfully",
-//     });
-//   } catch (error) {
-//     await transaction.rollback();
-//     logger.error(`Error in newContestant controller: ${error.message}`, {
-//       stack: error.stack,
-//     });
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
 
 //New contestant in groups
 exports.newContestant = async (req, res, next) => {
@@ -513,8 +458,9 @@ exports.submitVideo = async (req, res, next) => {
   }
 };
 
-// Changing round number manually
+// Controller for updating round number manually
 exports.updateRoundNumberManually = async (req, res, next) => {
+  const { actorId } = req.params;
   const { roundNumber } = req.body;
 
   if (!roundNumber || isNaN(roundNumber)) {
@@ -524,10 +470,10 @@ exports.updateRoundNumberManually = async (req, res, next) => {
   const transaction = await knex.transaction();
 
   try {
-    // Update the round number for all active contestants
+    // Update the round number for the specific actor
     await knex('contestants')
       .transacting(transaction)
-      .where({ active: 1 })
+      .where({ id: actorId, active: 1 })
       .update({ round: roundNumber });
 
     await transaction.commit();
@@ -540,9 +486,10 @@ exports.updateRoundNumberManually = async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-//  changes groups
 
+// Controller for updating group number manually
 exports.updateGroupNumberManually = async (req, res, next) => {
+  const { actorId } = req.params;
   const { groupNumber } = req.body;
 
   if (!groupNumber || isNaN(groupNumber)) {
@@ -552,10 +499,10 @@ exports.updateGroupNumberManually = async (req, res, next) => {
   const transaction = await knex.transaction();
 
   try {
-    // Update the group number for all active contestants
+    // Update the group number for the specific actor
     await knex('contestants')
       .transacting(transaction)
-      .where({ active: 1 })
+      .where({ id: actorId, active: 1 })
       .update({ group_number: groupNumber });
 
     await transaction.commit();
@@ -569,8 +516,39 @@ exports.updateGroupNumberManually = async (req, res, next) => {
   }
 };
 
-//  increment the round, deactivate contestants, and regroup remaining contestants
+// // Controller for updating group number for a contestant
+// exports.updateGroupNumberForContestant = async (req, res, next) => {
+//   const { groupNumber } = req.body;
 
+//   console.log("Contestant ID:", actorId);
+//   console.log("Group Number:", groupNumber);
+
+//   if (!newRoundNumber || isNaN(groupNumber)) {
+//     return res.status(400).json({ error: "Invalid group number" });
+//   }
+
+//   try {
+//     // Update the group number for the specified contestant
+//     const result = await knex('contestants')
+//       .where({ id: actorId })
+//       .update({ group_number: groupNumber });
+
+//     console.log("Result:", result);
+
+//     if (result === 0) {
+//       return res.status(404).json({ error: "Contestant not found" });
+//     }
+
+//     res.status(200).json({ message: `Group number updated to ${groupNumber} successfully for contestant ID: ${actorId}` });
+//   } catch (error) {
+//     console.error(`Error in updateGroupNumberForContestant controller: ${error.message}`, {
+//       stack: error.stack,
+//     });
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
+//  increment the round, deactivate contestants, and regroup remaining contestants
 exports.incrementRoundAndRegroup = async (req, res, next) => {
   const transaction = await knex.transaction();
 

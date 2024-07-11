@@ -97,9 +97,19 @@ router.put("/activate-all", async (req, res, next) => {
 });
 
 router.post("/:actorId/submit-video", uploadController.submitVideo);
-router.put("/:actorId/update-round", uploadController.updateRound);
+// router.put("/:actorId/update-round", uploadController.updateRound);
+// router.put("/:actorId/update-group", uploadController.updateGroup);
 
-router.put("/update-round-manually", async (req, res, next) => {
+
+// router.put("/:actorId/update-group", async (req, res, next) => {
+//   try {
+//     await uploadController.updateGroupNumberManually(req, res);
+//   } catch (error) {
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
+
+router.put("/:actorId/update-round", async (req, res, next) => {
   try {
     await uploadController.updateRoundNumberManually(req, res);
   } catch (error) {
@@ -107,22 +117,13 @@ router.put("/update-round-manually", async (req, res, next) => {
   }
 });
 
-
-router.put("/update-group-manually", async (req, res, next) => {
+router.put("/:actorId/update-group", async (req, res, next) => {
   try {
     await uploadController.updateGroupNumberManually(req, res);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-// router.put("/update-groups", async (req, res, next) => {
-//   try {
-//     await uploadController.updateGroups(req, res);
-//   } catch (error) {
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
 router.post('/regroup', uploadController.incrementRoundAndRegroup);
 
 

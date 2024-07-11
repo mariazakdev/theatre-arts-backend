@@ -1,4 +1,5 @@
 const { Console } = require("logger");
+const logger = require("../logger");
 
 const knex = require("knex")(require("../knexfile"));
 
