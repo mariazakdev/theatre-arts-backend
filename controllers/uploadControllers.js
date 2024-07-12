@@ -357,6 +357,95 @@ exports.submitVideo = async (req, res, next) => {
   }
 };
 
+//////// Admin Tech small updates /////////////////////
+
+// Update photo URL of a contestant
+exports.updatePhoto = async (req, res, next) => {
+  const { actorId } = req.params;
+  const { photoUrl } = req.body;
+
+  if (!photoUrl) {
+    return res.status(400).json({ error: "Photo URL is required" });
+  }
+
+  try {
+    await knex("contestants")
+      .where({ id: actorId })
+      .update({ url_photo: photoUrl });
+
+    res.status(200).json({ message: "Photo updated successfully" });
+  } catch (error) {
+    console.error("Error updating photo:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// Update video URL of a contestant
+exports.updateVideo = async (req, res, next) => {
+  const { actorId } = req.params;
+  const { videoUrl } = req.body;
+
+  if (!videoUrl) {
+    return res.status(400).json({ error: "Video URL is required" });
+  }
+
+  try {
+    await knex("contestants")
+      .where({ id: actorId })
+      .update({ url_video: videoUrl });
+
+    res.status(200).json({ message: "Video updated successfully" });
+  } catch (error) {
+    console.error("Error updating video:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// Update description of a contestant
+exports.updateDescription = async (req, res, next) => {
+  const { actorId } = req.params;
+  const { description } = req.body;
+
+  if (!description) {
+    return res.status(400).json({ error: "Description is required" });
+  }
+
+  try {
+    await knex("contestants")
+      .where({ id: actorId })
+      .update({ description: description });
+
+    res.status(200).json({ message: "Description updated successfully" });
+  } catch (error) {
+    console.error("Error updating description:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+// Update name of a contestant
+exports.updateName = async (req, res, next) => {
+  const { actorId } = req.params;
+  const { name } = req.body;
+
+  if (!name) {
+    return res.status(400).json({ error: "Name is required" });
+  }
+
+  try {
+    await knex("contestants")
+      .where({ id: actorId })
+      .update({ name });
+
+    res.status(200).json({ message: "Name updated successfully" });
+  } catch (error) {
+    console.error("Error updating name:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+
 // Controller for updating round number of a specific contestant
 exports.updateRoundNumberManually = async (req, res, next) => {
   const { roundNumber } = req.body;

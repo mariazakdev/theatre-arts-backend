@@ -52,6 +52,18 @@ router.get("/:actorId", async (req, res, next) => {
   }
 });
 
+//////// Admin Tech small updates /////////////////////
+router.put("/:actorId/update-photo", uploadController.updatePhoto);
+router.put("/:actorId/update-video", uploadController.updateVideo);
+router.put("/:actorId/update-description", uploadController.updateDescription);
+router.put("/:actorId/update-name", async (req, res, next) => {
+  try {
+    await uploadController.updateName(req, res);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // New route for updating active status
 router.put("/active/:actorId", async (req, res, next) => {
   try {
@@ -68,6 +80,8 @@ router.delete("/:contestantId", async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+
 
 // Route to set active status of all users to 1
 router.put("/activate-all", async (req, res, next) => {
