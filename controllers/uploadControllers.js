@@ -357,28 +357,22 @@ exports.submitVideo = async (req, res, next) => {
   }
 };
 
-
-// Controller for updating round number manually
+// Controller for updating round number of a specific contestant
 exports.updateRoundNumberManually = async (req, res, next) => {
   const { roundNumber } = req.body;
+  const { actorId } = req.params;
 
   if (!roundNumber || isNaN(roundNumber)) {
     return res.status(400).json({ error: "Invalid round number" });
   }
 
-  const transaction = await knex.transaction();
-
   try {
-    // Update the round number for all active contestants
     await knex('contestants')
-      .transacting(transaction)
-      .where({ active: 1 })
+      .where({ id: actorId, active: 1 })
       .update({ round: roundNumber });
 
-    await transaction.commit();
     res.status(200).json({ message: `Round number updated to ${roundNumber} successfully` });
   } catch (error) {
-    await transaction.rollback();
     console.error(`Error in updateRoundNumberManually controller: ${error.message}`, {
       stack: error.stack,
     });
@@ -386,28 +380,23 @@ exports.updateRoundNumberManually = async (req, res, next) => {
   }
 };
 
-// Controller for updating round number manually
+// Controller for updating group number of a specific contestant
 exports.updateGroupNumberManually = async (req, res, next) => {
   const { groupNumber } = req.body;
+  const { actorId } = req.params;
 
   if (!groupNumber || isNaN(groupNumber)) {
-    return res.status(400).json({ error: "Invalid round number" });
+    return res.status(400).json({ error: "Invalid group number" });
   }
 
-  const transaction = await knex.transaction();
-
   try {
-    // Update the round number for all active contestants
     await knex('contestants')
-      .transacting(transaction)
-      .where({ active: 1 })
+      .where({ id: actorId, active: 1 })
       .update({ group_number: groupNumber });
 
-    await transaction.commit();
-    res.status(200).json({ message: `Round number updated to ${groupNumber} successfully` });
+    res.status(200).json({ message: `Group number updated to ${groupNumber} successfully` });
   } catch (error) {
-    await transaction.rollback();
-    console.error(`Error in updateRoundNumberManually controller: ${error.message}`, {
+    console.error(`Error in updateGroupNumberManually controller: ${error.message}`, {
       stack: error.stack,
     });
     res.status(500).json({ error: "Internal Server Error" });
