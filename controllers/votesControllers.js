@@ -21,7 +21,7 @@ exports.castVote = async (req, res, next) => {
         await trx.rollback();
         return res.status(400).json({
           error: "User has already voted",
-          message: "User can only vote once per 24 hours (10 min free extra for testing).",
+          message: "User can only vote once per 24 hours.",
         });
       } else {
         // Step 2: If the vote is expired, delete the old vote
@@ -33,7 +33,7 @@ exports.castVote = async (req, res, next) => {
     }
 
     // Step 3: Reset user's expiration time to 24 hours from now
-    const expirationTime = Date.now() + 10 * 60 * 1000; // 10 minutes in milliseconds for testing
+    const expirationTime = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
     userExpirations.set(userId, expirationTime);
 
     // Step 4: Insert a new vote record for each vote
@@ -76,4 +76,4 @@ setInterval(async () => {
       }
     }
   }
-}, 10 * 60 * 1000); // Run every 10 minutes to clean up expired votes (for testing)
+}, 24 * 60 * 60 * 1000); // Run every 24 hours to clean up expired votes
