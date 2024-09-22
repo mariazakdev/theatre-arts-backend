@@ -74,9 +74,33 @@ exports.deleteUserByFirebaseId = async (req, res, next) => {
   }
 };
 
+// exports.createUser = async (req, res, next) => {
+//   try {
+//     const { email, firebaseAuthId, isContestant } = req.body;
+//     const newUser = {
+//       firebase_auth_id: firebaseAuthId,
+//       email: email,
+//       is_contestant: isContestant,
+//     };
+
+//     const [userId] = await knex("users").insert(newUser);
+
+//     res.status(201).json({ userId: userId, message: "User created successfully" });
+//   } catch (error) {
+//     logger.error(`Error in createUser: ${error.message}`, { stack: error.stack, requestId: req.id });
+//     next(error);
+//   }
+// };
 exports.createUser = async (req, res, next) => {
   try {
     const { email, firebaseAuthId, isContestant } = req.body;
+
+    // Check if user already exists
+    const existingUser = await knex("users").where({ email }).first();
+    if (existingUser) {
+      return res.status(409).json({ message: "User with this email already exists." });
+    }
+
     const newUser = {
       firebase_auth_id: firebaseAuthId,
       email: email,
