@@ -58,7 +58,6 @@ const votesTrackerRoutes = require("./routes/votesTrackerRoutes");
   // app.use("/votes-extra",  votesExtraRoutes);
   // app.use("/votes-tracker", votesTrackerRoutes);
 
-
   return app;
 }
 
