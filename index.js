@@ -6,6 +6,7 @@ const knex = require("knex")(require("./knexfile"));
 const errorMiddleware = require("./middlewares/errorHandlingMiddleware");
 
 const URL = process.env.CORS_ORIGIN;
+const URL_DOMAIN = process.env.CORS_ORIGIN_DOMAIN;
 
 function createApp() {
   const app = express();
@@ -22,7 +23,7 @@ const votesExtraRoutes = require("./routes/votesExtraRoutes");
 const votesTrackerRoutes = require("./routes/votesTrackerRoutes");
   app.use(
     cors({
-      origin: URL,
+      origin: [URL,URL_DOMAIN],
       methods: "GET, POST, PUT, DELETE",
       credentials: true,
     })
@@ -48,15 +49,6 @@ const votesTrackerRoutes = require("./routes/votesTrackerRoutes");
   app.use("/votes", checkApiKey, votesRoutes);
   app.use("/votes-extra", checkApiKey, votesExtraRoutes);
   app.use("/votes-tracker",checkApiKey, votesTrackerRoutes);
-
-
-  // app.use("/users",  usersFBRoutes);
-  // app.use("/contestants",  uploadRoutes);
-  // app.use("/payment", paymentRoutes);
-  // app.use("/sun-king", sunKingRoutes);
-  // app.use("/votes", votesRoutes);
-  // app.use("/votes-extra",  votesExtraRoutes);
-  // app.use("/votes-tracker", votesTrackerRoutes);
 
   return app;
 }
