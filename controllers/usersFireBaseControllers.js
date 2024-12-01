@@ -63,7 +63,12 @@ exports.deleteUserByFirebaseId = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    await knex('votes_tracker').where({ user_id: user.id }).del();
+    const placeholderUserId = 1; // Ensure this ID exists in the `users` table
+
+
+    await knex("votes_tracker")
+    .where({ user_id: user.id })
+    .update({ user_id: placeholderUserId });
     await knex("contestants").where({ user_id: user.id }).del();
     await knex("users").where({ id: user.id }).del();
 
@@ -74,23 +79,7 @@ exports.deleteUserByFirebaseId = async (req, res, next) => {
   }
 };
 
-// exports.createUser = async (req, res, next) => {
-//   try {
-//     const { email, firebaseAuthId, isContestant } = req.body;
-//     const newUser = {
-//       firebase_auth_id: firebaseAuthId,
-//       email: email,
-//       is_contestant: isContestant,
-//     };
 
-//     const [userId] = await knex("users").insert(newUser);
-
-//     res.status(201).json({ userId: userId, message: "User created successfully" });
-//   } catch (error) {
-//     logger.error(`Error in createUser: ${error.message}`, { stack: error.stack, requestId: req.id });
-//     next(error);
-//   }
-// };
 exports.createUser = async (req, res, next) => {
   try {
     const { email, firebaseAuthId, isContestant } = req.body;
