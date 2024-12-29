@@ -1,7 +1,25 @@
 const logger = require("../logger");
 const knex = require("knex")(require("../knexfile"));
 
-exports.loginUser = async (req, res, next) => {
+// exports.loginUser = async (req, res, next) => {
+//   try {
+//     const { email, firebaseId } = req.body;
+
+//     const user = await knex("users")
+//       .where({ email, firebase_auth_id: firebaseId })
+//       .first();
+
+//     if (user) {
+//       res.status(200).json({ userId: user.id, message: "User logged in successfully" });
+//     } else {
+//       res.status(404).json({ error: "User not found" });
+//     }
+//   } catch (error) {
+//     logger.error(`Error in loginUser controller: ${error.message}`, { stack: error.stack });
+//     res.status(500).json({ message: "Internal server error." });
+//   }
+// };
+exports.loginUser = async (req, res) => {
   try {
     const { email, firebaseId } = req.body;
 
@@ -15,7 +33,13 @@ exports.loginUser = async (req, res, next) => {
       res.status(404).json({ error: "User not found" });
     }
   } catch (error) {
-    logger.error(`Error in loginUser controller: ${error.message}`, { stack: error.stack });
+    console.error('Database error in loginUser:', error.message);
+
+    // Handle connection errors
+    if (error.code === 'ECONNRESET') {
+      return res.status(503).json({ message: "Connection was reset. Please try again later." });
+    }
+
     res.status(500).json({ message: "Internal server error." });
   }
 };
@@ -52,9 +76,9 @@ exports.getUserById = async (req, res, next) => {
   }
 };
 
-exports.deleteUserByFirebaseId = async (req, res, next) => {
+exports.getUserById = async (req, res) => {
   try {
-    const firebaseUid = req.params.firebaseId;
+    const firebaseUid = req.params.userId;
 
     const user = await knex("users")
       .where({ firebase_auth_id: firebaseUid })
@@ -63,21 +87,103 @@ exports.deleteUserByFirebaseId = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    const placeholderUserId = 1; // Ensure this ID exists in the `users` table
 
+    const contestant = await knex("contestants")
+      .where({ user_id: user.id })
+      .first();
 
-    await knex("votes_tracker")
-    .where({ user_id: user.id })
-    .update({ user_id: placeholderUserId });
-    await knex("contestants").where({ user_id: user.id }).del();
-    await knex("users").where({ id: user.id }).del();
+    if (!contestant) {
+      return res.status(200).json({ message: "User is not a contestant", user });
+    }
 
-    return res.status(200).json({ message: "User deleted successfully" });
+    return res.status(200).json({ contestant, user });
   } catch (error) {
-    logger.error(`Error in deleteUserByFirebaseId controller: ${error.message}`, { stack: error.stack });
+    console.error('Database error in getUserById:', error.message);
+
+    if (error.code === 'ECONNRESET') {
+      return res.status(503).json({ message: "Database connection was reset. Please try again later." });
+    }
+
     return res.status(500).json({ message: "Internal server error." });
   }
 };
+
+
+
+
+// exports.deleteUserByFirebaseId = async (req, res, next) => {
+
+
+//   try {
+//     const firebaseUid = req.params.firebaseId;
+
+//     const user = await knex("users")
+//       .where({ firebase_auth_id: firebaseUid })
+//       .first();
+
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+//     const placeholderUserId = 1; // Ensure this ID exists in the `users` table
+
+
+//     await knex("votes_tracker")
+//     .where({ user_id: user.id })
+//     .update({ user_id: placeholderUserId });
+//     await knex("contestants").where({ user_id: user.id }).del();
+//     await knex("users").where({ id: user.id }).del();
+
+//     return res.status(200).json({ message: "User deleted successfully" });
+//   } catch (error) {
+//     logger.error(`Error in deleteUserByFirebaseId controller: ${error.message}`, { stack: error.stack });
+//     return res.status(500).json({ message: "Internal server error." });
+//   }
+// };
+
+exports.deleteUserByFirebaseId = async (req, res) => {
+  const trx = await knex.transaction();
+
+  try {
+    const firebaseUid = req.params.firebaseId;
+
+    const user = await trx("users")
+      .where({ firebase_auth_id: firebaseUid })
+      .first();
+
+    if (!user) {
+      await trx.rollback();
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const placeholderUserId = 1; // Ensure this ID exists in the `users` table
+
+    // Update votes and delete user in a transaction
+    await trx("votes_tracker")
+      .where({ user_id: user.id })
+      .update({ user_id: placeholderUserId });
+
+    await trx("contestants")
+      .where({ user_id: user.id })
+      .del();
+
+    await trx("users")
+      .where({ id: user.id })
+      .del();
+
+    await trx.commit();
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    await trx.rollback();
+    console.error('Error in deleteUserByFirebaseId:', error.message);
+
+    if (error.code === 'ECONNRESET') {
+      return res.status(503).json({ message: "Database connection was reset. Please try again later." });
+    }
+
+    res.status(500).json({ message: "Internal server error." });
+  }
+};
+
 
 
 exports.createUser = async (req, res, next) => {

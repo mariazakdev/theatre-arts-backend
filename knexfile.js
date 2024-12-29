@@ -1,11 +1,8 @@
-
 require('dotenv').config();
 
 module.exports = {
   client: "mysql2",
-  connection: 
-  
-  {
+  connection: {
     host: process.env.MYSQLHOST,
     database: process.env.MYSQLDATABASE,
     user: process.env.MYSQLUSER,
@@ -13,14 +10,17 @@ module.exports = {
     charset: process.env.DB_CHARSET,
     port: process.env.MYSQLPORT,
     waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
   },
-  
+  pool: {
+    min: 2, 
+    max: 10, 
+    acquireTimeoutMillis: 10000, 
+    idleTimeoutMillis: 30000, 
+  },
   migrations: {
     directory: 'migrations',
   },
   seeds: {
-    directory: 'seeds', 
+    directory: 'seeds',
   },
 };
