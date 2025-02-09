@@ -49,7 +49,7 @@ router.post("/check-vote-eligibility", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   try {
     console.log("Received request to /votes with data:", req.body);
-    await votesController.castVote(req, res);
+    await votesController.castExtraVote(req, res);
     console.log("Response sent successfully for /votes");
   } catch (error) {
     console.error("Error in /votes:", error);

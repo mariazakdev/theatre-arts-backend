@@ -73,3 +73,17 @@ exports.getVotesForContestant = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+//Reset votes tracking in each round
+exports.resetVoteTrackerHistory = async (req, res) => {
+  try {
+    // Clear the votes_tracker table
+    await knex('votes_tracker').truncate();
+
+    res.status(200).json({ message: 'Vote tracker history cleared successfully' });
+  } catch (error) {
+    console.error('Error clearing vote tracker history:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+

@@ -46,9 +46,9 @@ const votesTrackerRoutes = require("./routes/votesTrackerRoutes");
   app.use("/contestants", checkApiKey, uploadRoutes);
   app.use("/payment", checkApiKey, paymentRoutes);
   app.use("/sun-king", sunKingRoutes);
-  app.use("/votes", checkApiKey, votesRoutes);
-  app.use("/votes-extra", checkApiKey, votesExtraRoutes);
-  app.use("/votes-tracker",checkApiKey, votesTrackerRoutes);
+  app.use("/votes", checkApiKey, votesRoutes);// For timer only
+  app.use("/votes-extra", checkApiKey, votesExtraRoutes); // For timer only
+  app.use("/votes-tracker",checkApiKey, votesTrackerRoutes); // For tracker only
 
   return app;
 }
