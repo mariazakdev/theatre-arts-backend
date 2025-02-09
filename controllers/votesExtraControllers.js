@@ -4,8 +4,8 @@ const knex = require("knex")(require("../knexfile"));
 const checkVoteEligibility = async (userId) => {
     console.log(`[checkVoteEligibility] Checking eligibility for userId: ${userId}`);
 
-    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-    console.log(`[checkVoteEligibility] Five minutes ago timestamp: ${fiveMinutesAgo}`);
+    const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000); // 3 days ago
+    console.log(`[checkVoteEligibility] Three days ago timestamp: ${threeDaysAgo}`);
 
     try {
         const lastVote = await knex("votes_extra")
@@ -15,12 +15,10 @@ const checkVoteEligibility = async (userId) => {
 
         console.log(`[checkVoteEligibility] Last vote record:`, lastVote);
 
-        if (lastVote && new Date(lastVote.last_voted_at) > fiveMinutesAgo) {
-            console.log(`[checkVoteEligibility] User is NOT eligible. Last vote was at: ${lastVote.last_voted_at}`);
-            return { eligible: false, message: `You must wait before voting again.` };
+        if (lastVote && new Date(lastVote.last_voted_at) > threeDaysAgo) {
+            return { eligible: false, message: `You must wait 3 days before voting again.` };
         }
 
-        console.log(`[checkVoteEligibility] User is eligible.`);
         return { eligible: true };
 
     } catch (error) {
@@ -29,19 +27,20 @@ const checkVoteEligibility = async (userId) => {
     }
 };
 
+
 // ✅ Route: Check if the user is eligible to vote before payment
 exports.checkVoteEligibility = async (req, res) => {
     const { userId } = req.body;
-    console.log(`[checkVoteEligibility Route] Received request with userId: ${userId}`);
+    // console.log(`[checkVoteEligibility Route] Received request with userId: ${userId}`);
 
     if (!userId) {
-        console.log("[checkVoteEligibility Route] Missing userId in request.");
+        // console.log("[checkVoteEligibility Route] Missing userId in request.");
         return res.status(400).json({ message: "User ID is required." });
     }
 
     try {
         const eligibility = await checkVoteEligibility(userId);
-        console.log(`[checkVoteEligibility Route] Eligibility response:`, eligibility);
+        // console.log(`[checkVoteEligibility Route] Eligibility response:`, eligibility);
 
         if (!eligibility.eligible) {
             return res.status(400).json({ message: eligibility.message });
