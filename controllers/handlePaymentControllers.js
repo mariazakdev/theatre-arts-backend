@@ -20,7 +20,6 @@ exports.payment = async (req, res, next) => {
       });
 
   
-      // If successful, you can customize the response as needed
       res.json({ success: true, clientSecret: paymentIntent.client_secret });
     } catch (error) {
       if (error.type === "StripeCardError") {
