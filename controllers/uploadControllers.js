@@ -176,26 +176,6 @@ exports.recordVote = async (req, res, next) => {
   }
 };
 
-
-exports.getContestantById = async (req, res, next) => {
-  try {
-    const actorId = req.params.actorId;
-
-    const contestant = await knex("contestants").where({ id: actorId }).first();
-
-    if (!contestant) {
-      return res.status(404).json({ error: "Contestant not found" });
-    }
-
-    res.json(contestant);
-  } catch (error) {
-    logger.error(`Error in getContestantById controller: ${error.message}`, {
-      stack: error.stack,
-    });
-    next(error);
-  }
-};
-
 exports.getContestantThankYouInfo = async (req, res, next) => {
   const { actorId } = req.params;
 
@@ -219,6 +199,27 @@ exports.getContestantThankYouInfo = async (req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+
+exports.getContestantById = async (req, res, next) => {
+  try {
+    const actorId = req.params.actorId;
+
+    const contestant = await knex("contestants").where({ id: actorId }).first();
+
+    if (!contestant) {
+      return res.status(404).json({ error: "Contestant not found" });
+    }
+
+    res.json(contestant);
+  } catch (error) {
+    logger.error(`Error in getContestantById controller: ${error.message}`, {
+      stack: error.stack,
+    });
+    next(error);
+  }
+};
+
 
 
 exports.updateContestantActiveStatus = async (req, res, next) => {
