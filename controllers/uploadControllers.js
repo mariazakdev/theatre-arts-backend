@@ -196,6 +196,31 @@ exports.getContestantById = async (req, res, next) => {
   }
 };
 
+exports.getContestantThankYouInfo = async (req, res, next) => {
+  const { actorId } = req.params;
+
+  try {
+    const contestant = await knex("contestants")
+      .where("contestants.id", actorId)
+      .join("users", "contestants.user_id", "users.id")
+      .select("contestants.name", "users.email as actor_email")
+      .first();
+
+    if (!contestant) {
+      return res.status(404).json({ error: "Contestant not found" });
+    }
+
+    res.status(200).json({
+      actorName: contestant.name,
+      actorEmail: contestant.actor_email,
+    });
+  } catch (error) {
+    console.error("Error in getContestantThankYouInfo:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
 exports.updateContestantActiveStatus = async (req, res, next) => {
   const actorId = req.params.actorId;
   const { active } = req.body;
