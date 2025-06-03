@@ -19,6 +19,15 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/contestants/:actorId/thankyou", async (req, res, next) => {
+  try {
+    await uploadController.getContestantThankYouInfo(req, res);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
 router.post("/:actorId", async (req, res, next) => {
   try {
     await uploadController.updateContestant(req, res);
@@ -27,13 +36,6 @@ router.post("/:actorId", async (req, res, next) => {
   }
 });
 
-router.get("/contestants/:actorId/thankyou", async (req, res, next) => {
-  try {
-    await uploadController.getContestantThankYouInfo(req, res);
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
 
 
 
