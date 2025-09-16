@@ -42,10 +42,10 @@ const votesTrackerRoutes = require("./routes/votesTrackerRoutes");
       res.status(401).json({ error: "Unauthorized" });
     }
   };
-  // app.use("/users", checkApiKey, usersFBRoutes);
-  app.use("/users", usersFBRoutes);
+  app.use("/users", checkApiKey, usersFBRoutes);
+  // app.use("/users", usersFBRoutes);
 
-  app.use("/contestants", uploadRoutes);
+  app.use("/contestants", checkApiKey, uploadRoutes);
   app.use("/payment", checkApiKey, paymentRoutes);
   app.use("/sun-king", sunKingRoutes);
   app.use("/votes", checkApiKey, votesRoutes);// For timer only
