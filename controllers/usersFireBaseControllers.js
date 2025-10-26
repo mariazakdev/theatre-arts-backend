@@ -1,7 +1,7 @@
 const logger = require("../logger");
 const knex = require("knex")(require("../knexfile"));
 
-// exports.loginUser = async (req, res, next) => {
+// exports.loginUser = async (req, res) => {
 //   try {
 //     const { email, firebaseId } = req.body;
 
@@ -15,66 +15,97 @@ const knex = require("knex")(require("../knexfile"));
 //       res.status(404).json({ error: "User not found" });
 //     }
 //   } catch (error) {
-//     logger.error(`Error in loginUser controller: ${error.message}`, { stack: error.stack });
+//     console.error('Database error in loginUser:', error.message);
+
+//     // Handle connection errors
+//     if (error.code === 'ECONNRESET') {
+//       return res.status(503).json({ message: "Connection was reset. Please try again later." });
+//     }
+
 //     res.status(500).json({ message: "Internal server error." });
 //   }
 // };
+
 exports.loginUser = async (req, res) => {
   try {
-    const { email, firebaseId } = req.body;
+    // minimal normalization
+    const email = String(req.body.email || "").trim().toLowerCase();
+    const firebaseId = req.body.firebaseId;
 
-    const user = await knex("users")
-      .where({ email, firebase_auth_id: firebaseId })
+    if (!email || !firebaseId) {
+      return res.status(400).json({ message: "email and firebaseId are required" });
+    }
+
+    // 1) Try by UID first (fast path)
+    let user = await knex("users")
+      .where({ firebase_auth_id: firebaseId })
       .first();
+
+    // 2) Fallback for legacy rows: find by email, then backfill UID
+    if (!user) {
+      const byEmail = await knex("users").where({ email }).first();
+      if (byEmail) {
+        await knex("users")
+          .where({ id: byEmail.id })
+          .update({ firebase_auth_id: firebaseId });
+        user = { ...byEmail, firebase_auth_id: firebaseId };
+      }
+    }
 
     if (user) {
-      res.status(200).json({ userId: user.id, message: "User logged in successfully" });
-    } else {
-      res.status(404).json({ error: "User not found" });
+      return res
+        .status(200)
+        .json({ userId: user.id, message: "User logged in successfully" });
     }
+
+    // keep your old contract (404) to avoid breaking callers
+    return res.status(404).json({ error: "User not found" });
   } catch (error) {
-    console.error('Database error in loginUser:', error.message);
-
-    // Handle connection errors
-    if (error.code === 'ECONNRESET') {
-      return res.status(503).json({ message: "Connection was reset. Please try again later." });
+    console.error("Database error in loginUser:", error.message);
+    if (error.code === "ECONNRESET") {
+      return res
+        .status(503)
+        .json({ message: "Connection was reset. Please try again later." });
     }
-
-    res.status(500).json({ message: "Internal server error." });
-  }
-};
-
-exports.getUserById = async (req, res, next) => {
-  try {
-    const firebaseUid = req.params.userId;
-
-    const user = await knex("users")
-      .where({ firebase_auth_id: firebaseUid })
-      .first();
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    const contestant = await knex("contestants")
-      .where({ user_id: user.id })
-      .first();
-
-    if (!contestant) {
-      return res.status(200).json({ message: "User is not a contestant", user });
-    }
-
-    const responseData = {
-      contestant,
-      user,
-    };
-
-    return res.status(200).json(responseData);
-  } catch (error) {
-    logger.error(`Error in getUserById controller: ${error.message}`, { stack: error.stack });
     return res.status(500).json({ message: "Internal server error." });
   }
 };
+
+
+exports.createUser = async (req, res) => {
+  try {
+    const email = String(req.body.email || "").trim().toLowerCase();
+    const firebaseAuthId = req.body.firebaseAuthId || req.body.firebaseId;
+
+    if (!email || !firebaseAuthId) {
+      return res.status(400).json({ message: "email and firebaseAuthId are required" });
+    }
+
+    const existingByEmail = await knex("users").where({ email }).first();
+    if (existingByEmail) {
+      // If they exist but were missing firebase_auth_id, fix it
+      if (!existingByEmail.firebase_auth_id) {
+        await knex("users")
+          .where({ id: existingByEmail.id })
+          .update({ firebase_auth_id: firebaseAuthId });
+        return res.status(200).json({ userId: existingByEmail.id, message: "User updated with firebase_auth_id" });
+      }
+      return res.status(409).json({ message: "User with this email already exists." });
+    }
+
+    const [userId] = await knex("users").insert({
+      firebase_auth_id: firebaseAuthId,
+      email,
+      is_contestant: !!req.body.isContestant
+    });
+
+    return res.status(201).json({ userId, message: "User created successfully" });
+  } catch (error) {
+    console.error("Error in createUser:", error);
+    return res.status(500).json({ message: "Internal server error." });
+  }
+};
+
 
 exports.getUserById = async (req, res) => {
   try {
@@ -107,38 +138,6 @@ exports.getUserById = async (req, res) => {
     return res.status(500).json({ message: "Internal server error." });
   }
 };
-
-
-
-
-// exports.deleteUserByFirebaseId = async (req, res, next) => {
-
-
-//   try {
-//     const firebaseUid = req.params.firebaseId;
-
-//     const user = await knex("users")
-//       .where({ firebase_auth_id: firebaseUid })
-//       .first();
-
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
-//     const placeholderUserId = 1; // Ensure this ID exists in the `users` table
-
-
-//     await knex("votes_tracker")
-//     .where({ user_id: user.id })
-//     .update({ user_id: placeholderUserId });
-//     await knex("contestants").where({ user_id: user.id }).del();
-//     await knex("users").where({ id: user.id }).del();
-
-//     return res.status(200).json({ message: "User deleted successfully" });
-//   } catch (error) {
-//     logger.error(`Error in deleteUserByFirebaseId controller: ${error.message}`, { stack: error.stack });
-//     return res.status(500).json({ message: "Internal server error." });
-//   }
-// };
 
 exports.deleteUserByFirebaseId = async (req, res) => {
   const trx = await knex.transaction();
@@ -181,33 +180,6 @@ exports.deleteUserByFirebaseId = async (req, res) => {
     }
 
     res.status(500).json({ message: "Internal server error." });
-  }
-};
-
-
-
-exports.createUser = async (req, res, next) => {
-  try {
-    const { email, firebaseAuthId, isContestant } = req.body;
-
-    // Check if user already exists
-    const existingUser = await knex("users").where({ email }).first();
-    if (existingUser) {
-      return res.status(409).json({ message: "User with this email already exists." });
-    }
-
-    const newUser = {
-      firebase_auth_id: firebaseAuthId,
-      email: email,
-      is_contestant: isContestant,
-    };
-
-    const [userId] = await knex("users").insert(newUser);
-
-    res.status(201).json({ userId: userId, message: "User created successfully" });
-  } catch (error) {
-    logger.error(`Error in createUser: ${error.message}`, { stack: error.stack, requestId: req.id });
-    next(error);
   }
 };
 
